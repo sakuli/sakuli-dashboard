@@ -1,0 +1,1 @@
+export DASHBOARD_CONFIG="{ \"displays\": [ { \"index\": 1, \"url\":\"https://consol.de\" }, { \"index\": 2, \"url\":\"https://consol.de\" } ] }"

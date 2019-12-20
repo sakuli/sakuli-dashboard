@@ -1,4 +1,7 @@
-export type DisplaysResponse = Display[]
+export interface DashboardResponse {
+  displays: Display[]
+}
+
 export interface Display {
   index: number
   url: string
