@@ -25,6 +25,7 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "concurrently": "^5.0.2"
+    "concurrently": "^5.0.2",
+    "lerna": "^3.19.0"
   }
 }
