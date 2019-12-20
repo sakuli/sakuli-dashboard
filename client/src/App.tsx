@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Iframe from 'react-iframe';
-import { DisplaysResponse } from "../../server/src/displays-response.interface";
+import { DisplaysResponse } from "../../server/src/api/displays-response.interface";
 
 const App: React.FC = () => {
   const [displays, setDisplays] = useState<DisplaysResponse>([]);

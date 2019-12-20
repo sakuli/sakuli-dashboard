@@ -1,6 +1,6 @@
 import express from 'express'
 import { join } from 'path'
-import { DisplaysResponse } from "./displays-response.interface";
+import { DisplaysResponse } from "./api/displays-response.interface";
 
 const app = express();
 
