@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
-import Iframe from 'react-iframe';
-import { DisplaysResponse } from "../../server/src/api/displays-response.interface";
+import Displays from "./Displays";
 
 const App: React.FC = () => {
-  const [displays, setDisplays] = useState<DisplaysResponse>([]);
-
-  useEffect(() => {
-    fetch('/api/displays')
-      .then(r => r.json())
-      .then(d => setDisplays(d))
-  }, []);
 
   return (
-    <div className="App">
-      {displays.map(display => (
-        <Iframe
-          url={display.url}
-          width="49%" height="1000"
-          display={"inline"}
-        />
-      ))}
-    </div>
+      <div className="App">
+        <Displays/>
+      </div>
   );
 };
 
