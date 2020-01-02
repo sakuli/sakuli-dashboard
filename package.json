@@ -16,11 +16,6 @@
   ],
   "license": "ISC",
   "scripts": {
-    "server:start": "(cd server; npm start)",
-    "client:start": "(cd client; npm start)",
-    "server:build": "(cd server; npm run build)",
-    "client:build": "(cd client; npm run build)",
-    "start": "concurrently \"npm run server:start\" \"npm run client:start\"",
     "build": "npm run clean && npm run server:build && npm run client:build",
     "clean": "rm -rf dist"
   },

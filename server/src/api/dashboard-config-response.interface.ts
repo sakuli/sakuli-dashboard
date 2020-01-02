@@ -1,4 +1,4 @@
-export interface DashboardResponse {
+export interface DashboardConfigResponse {
   displays: Display[]
 }
 
@@ -7,4 +7,5 @@ export interface Display {
   url: string
   width: string
   height: string
+  actionIdentifier: string
 }

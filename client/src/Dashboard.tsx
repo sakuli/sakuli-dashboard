@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Display } from "../../server/src/api/dashboard-response.interface";
+import { Display } from "../../server/src/api/dashboard-config-response.interface";
 import background from './static/bg.png';
 import './Dashboard.css';
-import Displays from "./Displays";
+import DashboardDisplays from "./DashboardDisplays";
+import { getDashboardConfig } from "./DashboardBackendService";
 
 const Dashboard: React.FC = () => {
 
     const [displays, setDisplays] = useState<Display[]>([]);
 
     useEffect(() => {
-        fetch('/api/dashboard')
-            .then(r => r.json())
+        getDashboardConfig()
             .then(d => setDisplays(d.displays))
     }, []);
 
     if(displays){
-        return (
-            <div>
-                <Displays {...displays}/>
-            </div>);
+        return <DashboardDisplays displays={displays}/>;
     }else{
         return (
             <div className={"no-config"}>
