@@ -17,7 +17,8 @@
   "license": "ISC",
   "scripts": {
     "build": "npm run clean && npm run server:build && npm run client:build",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "start": "lerna run start --stream"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",
