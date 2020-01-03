@@ -1,12 +1,12 @@
 import React from 'react';
 import './Dashboard.css';
 import button from './static/button.png';
-import { invokeAction } from "./DashboardBackendService";
+import { invokeAction } from "./dashboard-backend.service";
 
 interface ActionButtonProps {
     actionIdentifier: string
 }
-const ActionButton: React.FC<ActionButtonProps> = ({actionIdentifier}) => {
+const ActionButtonComponent: React.FC<ActionButtonProps> = ({actionIdentifier}) => {
 
     function handleButtonClick(actionIdentifier: string) {
         const request = {
@@ -31,4 +31,4 @@ const ActionButton: React.FC<ActionButtonProps> = ({actionIdentifier}) => {
 
     return renderButton();
 };
-export default ActionButton;
+export default ActionButtonComponent;

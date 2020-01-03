@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import Dashboard from "./Dashboard";
+import DashboardComponent from "./dashboard.component";
 
 const App: React.FC = () => {
 
   return (
       <div className="App">
-        <Dashboard/>
+        <DashboardComponent/>
       </div>
   );
 };

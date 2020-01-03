@@ -2,13 +2,13 @@ import React from 'react';
 import { Display } from "../../server/src/api/dashboard-config-response.interface";
 import Iframe from "react-iframe";
 import './Dashboard.css';
-import ActionButton from "./ActionButton";
+import ActionButton from "./action-button.component";
 import 'bulma/css/bulma.css'
 
 interface DisplayProps {
     display: Display
 }
-const DashboardDisplay: React.FC<DisplayProps> = ({display}) => {
+const DashboardDisplayComponent: React.FC<DisplayProps> = ({display}) => {
 
     return(
         <div key={display.index} className={"column is-half"}>
@@ -22,4 +22,4 @@ const DashboardDisplay: React.FC<DisplayProps> = ({display}) => {
         </div>
     )
 };
-export default DashboardDisplay;
+export default DashboardDisplayComponent;
