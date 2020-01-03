@@ -1,2 +1,2 @@
 export DASHBOARD_CONFIG="{ \"displays\": [ { \"index\": 1, \"url\":\"https://consol.de\", \"actionIdentifier\": \"foo\" }, { \"index\": 2, \"url\":\"https://consol.de\" } ] }"
-export ACTION_CONFIG="{ \"actions\": [{\"actionIdentifier\": \"foo\", \"action\": \"bar\"}]}"
+export ACTION_CONFIG="{ \"actions\": [{\"actionIdentifier\": \"foo\", \"action\": \"bar\", \"displayUpdate\": {\"reloadDelay\": 500}}]}"
