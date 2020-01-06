@@ -5,7 +5,7 @@ const LoadingScreenComponent: React.FC = () => {
 
     return(
         <div>
-            <img style={{height: "200px"}} src={loading}/>
+            <img alt={"loading"} style={{height: "200px"}} src={loading}/>
         </div>);
 };
 export default LoadingScreenComponent;
