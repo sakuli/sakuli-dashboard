@@ -1,10 +1,9 @@
 import express from 'express'
 import { join } from 'path'
 import HttpStatusCode from "./api/HttpStatusCode";
-import { DashboardActionRequest } from "./api/dashboard-action-request.interface";
-import { ClusterAction, DashboardActionsConfig } from './config/dashboard-actions.config';
 import { getDashboardConfig } from "./service/dashboard-config.service";
 import { executeAction } from "./service/action.service";
+import { DashboardConfigResponse } from "./api/dashboard-config-response.interface";
 
 const app = express();
 
@@ -12,12 +11,12 @@ app.use(express.static(join(__dirname, '../../dist')));
 app.use(express.json());
 
 app.get('/api/dashboard', (req, res) => {
-  res.send(getDashboardConfig());
+  res.send(<DashboardConfigResponse> getDashboardConfig());
 });
 
 app.post('/api/dashboard/action', (req, res) => {
   executeAction(req.body)
-      .then(action => res.status(HttpStatusCode.ACCEPTED).send(action))
+      .then(displayUpdate => res.status(HttpStatusCode.ACCEPTED).send(displayUpdate))
       .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(error));
 });
 

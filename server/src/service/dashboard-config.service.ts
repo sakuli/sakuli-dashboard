@@ -1,5 +1,5 @@
-import { DashboardConfigResponse } from "../api/dashboard-config-response.interface";
+import { DashboardConfig } from "../config/dashboard.config";
 
-export function getDashboardConfig(): DashboardConfigResponse {
+export function getDashboardConfig(): DashboardConfig {
     return JSON.parse(process.env.DASHBOARD_CONFIG || "{}");
 }

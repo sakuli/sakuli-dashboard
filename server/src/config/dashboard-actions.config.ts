@@ -1,10 +1,12 @@
+import { V1Pod } from "@kubernetes/client-node";
+
 export interface DashboardActionsConfig{
     actions: ClusterAction[]
 }
 
 export interface ClusterAction {
     actionIdentifier: string
-    action: string //Kubernetes YAML to execute
+    action: V1Pod
     displayUpdate?: DisplayUpdate
 }
 
