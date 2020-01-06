@@ -1,8 +1,9 @@
-import { CoreV1Api, KubeConfig, V1Status } from "@kubernetes/client-node";
+import { CoreV1Api } from "@kubernetes/client-node";
 import { K8sClusterConfig } from "../config/k8s-cluster.config";
 import isEmpty from "../functions/is-emtpy.function";
 import { ClusterAction } from "../config/dashboard-actions.config";
 import * as http from "http";
+
 const k8s = require('@kubernetes/client-node');
 
 const clusterConfig = <K8sClusterConfig>JSON.parse(process.env.CLUSTER_CONFIG || "{}");
@@ -19,17 +20,7 @@ export function k8sService(): K8sService{
             }
 
             const k8sCubeConfig = new k8s.KubeConfig();
-            k8sCubeConfig.loadFromOptions({
-                clusters: [clusterConfig.cluster],
-                users: [clusterConfig.user],
-                contexts: {
-                    cluster: clusterConfig.cluster.name,
-                    user: clusterConfig.user.name,
-                    name: "myContext"
-                },
-                currentContext: "myContext"
-            });
-
+            k8sCubeConfig.loadFromClusterAndUser(clusterConfig.cluster, clusterConfig.user);
             resolve(k8sCubeConfig.makeApiClient(k8s.CoreV1Api));
         });
 
@@ -43,7 +34,7 @@ export function k8sService(): K8sService{
                         clusterConfig.namespace,
                         clusterAction.action)})
                 .then(({response}) => resolve(response))
-                .catch(error => reject(`Could not apply action because of: ${error}.`));
+                .catch(error => reject(`Could not apply action because of: ${JSON.stringify(error)}.`));
         });
     }
 
