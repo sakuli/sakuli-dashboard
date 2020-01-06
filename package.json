@@ -16,7 +16,9 @@
   ],
   "license": "ISC",
   "scripts": {
-    "build": "npm run clean && npm run server:build && npm run client:build",
+    "rebuild": "npm run clean && npm run bootstrap && npm run build",
+    "build": "lerna run build",
+    "bootstrap": "lerna bootstrap",
     "clean": "rm -rf dist",
     "start": "lerna run start --stream"
   },
