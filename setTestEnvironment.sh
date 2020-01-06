@@ -3,7 +3,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
    "displays":[
       {
          "index":1,
-         "url":"http://pink-coffee-pink-coffee.paas.consol.de/vnc.html?password=vncpassword",
+         "url":"http://sakuli-myproject.192.168.99.113.nip.io/vnc.html?password=vncpassword",
          "actionIdentifier":"7890eab9-6c5e-4e40-b39c-163900ea4834"
       },
       {
@@ -21,11 +21,28 @@ export ACTION_CONFIG=$(cat <<EOF
       {
          "actionIdentifier":"7890eab9-6c5e-4e40-b39c-163900ea4834",
          "action": {
-            "discriminator": "Sakuli Pod",
-            "attributeTypeMap": []
+            "metadata": {
+              "labels": {
+                "app": "sakuli"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "name": "sakuli",
+                  "image": "docker-registry.default.svc:5000/myproject/sakuli",
+                  "env": [
+                    {
+                      "name": "SAKULI_LICENSE_KEY",
+                      "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJjYXRlZ29yeSI6MiwiaWF0IjoxNTY2MTk4MTUzLCJuYmYiOjE1NjYxOTgxNTMsImV4cCI6MTU5Nzc1NTc1MywiYXVkIjoiRG9ja2VyIiwiaXNzIjoic2FrdWxpLmlvIiwic3ViIjoic2FrdWxpX3VzZXIifQ.fkYXsV3aOj3C8X1PO8AKfeKHaaBGSiabDhzlOOPlseWHEYiXan-X6oP4WOkAUzFihhRFSFWHXzG7SYsWids8KQ"
+                    }
+                  ]
+                }
+              ]
+            }
          },
          "displayUpdate":{
-            "reloadDelay":500
+            "reloadDelay":2000
          }
       }
    ]
@@ -37,11 +54,12 @@ export CLUSTER_CONFIG=$(cat <<EOF
 {
    "cluster":{
       "name":"cluster",
-      "server":"kubernetes-default.192.168.99.113.nip.io",
+      "server":"https://192.168.99.113:8443",
       "skipTLSVerify":true
    },
    "user":{
       "name":"developer",
+      "username":"developer",
       "password":"sachIchNich"
    },
    "namespace":"myproject"
