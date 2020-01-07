@@ -24,7 +24,8 @@ export ACTION_CONFIG=$(cat <<EOF
             "metadata": {
               "labels": {
                 "app": "sakuli"
-              }
+              },
+              "generateName":"sakuli-"
             },
             "spec": {
               "containers": [
@@ -59,8 +60,7 @@ export CLUSTER_CONFIG=$(cat <<EOF
    },
    "user":{
       "name":"developer",
-      "username":"developer",
-      "password":"sachIchNich"
+      "token":"IcgX0FmSitF6uUYgq1_hPOtFDRwZ40ONJjvQJfuG-PA"
    },
    "namespace":"myproject"
 }
