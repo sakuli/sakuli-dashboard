@@ -23,7 +23,6 @@
     "start": "lerna run start --stream"
   },
   "devDependencies": {
-    "concurrently": "^5.0.2",
     "lerna": "^3.19.0"
   }
 }
