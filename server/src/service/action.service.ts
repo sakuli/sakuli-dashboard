@@ -22,7 +22,7 @@ export function executeAction(dashboardAction: DashboardActionRequest) : Promise
         if(actionToPerform){
             k8sService().apply(actionToPerform)
                 .then(httpResponse => {
-                    if(httpResponse.statusCode === 200){
+                    if(httpResponse.statusCode === 201){
                         resolve(actionToPerform.displayUpdate);
                     }
                     reject(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
