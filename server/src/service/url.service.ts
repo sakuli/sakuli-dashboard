@@ -1,7 +1,11 @@
+import fetch from 'node-fetch';
+
 export function checkUrl(url: string): Promise<number>{
-   return new Promise<number>(resolve => {
-       fetch(url)
-           .then(response => resolve(response.status))
-           .catch(() => resolve(500));
-   });
+  console.log(url)
+   return fetch(url)
+           .then(response => response.status)
+           .catch(e => {
+             console.log("catch", e);
+             return 500
+           });
 }

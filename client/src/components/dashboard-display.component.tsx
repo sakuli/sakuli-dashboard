@@ -20,20 +20,15 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     function urlNotAvailable(newUrl: string) : Promise<boolean>{
-        return new Promise<boolean>((async resolve => {
-            checkUrl({url: newUrl})
-                .then(response => response.status === 200 ? resolve(false) : resolve(true))
-                .catch(() => resolve(true));
-        }))
+        return checkUrl({url: newUrl})
+                .then(response => response.status !== 200)
+                .catch(() => true);
     }
 
-    function pageIsAvailable(newUrl: string, pollingInterval: number): Promise<void> {
-        return new Promise<void>((async resolve => {
-            while (await urlNotAvailable(newUrl)) {
-                await sleep(pollingInterval);
-            }
-            resolve();
-        }))
+    async function pageIsAvailable(newUrl: string, pollingInterval: number): Promise<void> {
+        while (await urlNotAvailable(newUrl)) {
+            await sleep(pollingInterval);
+        }
     }
 
     function handleResponse(resp: DashboardActionResponse){
