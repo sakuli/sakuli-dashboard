@@ -8,54 +8,52 @@ import { Display } from "../../../server/src/api/dashboard-config-response.inter
 import { DashboardActionResponse } from "../../../server/src/api/dashboard-action-response.interface";
 import { reloadUrl } from "../functions/reload-url.function";
 import { sleep } from "../functions/sleep.function";
+import { checkUrl } from "../services/dashboard-backend.service";
 
 
 interface DisplayProps {
-  display: Display
+    display: Display
 }
 const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
 
-  const [display, setDisplay] = useState(props.display);
-  const [isLoading, setIsLoading] = useState(false);
+    const [display, setDisplay] = useState(props.display);
+    const [isLoading, setIsLoading] = useState(false);
 
-  function urlNotAvailable(newUrl: string) : Promise<boolean>{
-    return new Promise<boolean>((async resolve => {
-      fetch(newUrl, {mode: "no-cors"})
-        .then(response => {
-          console.log(response.statusText);
-          response.status === 200 ? resolve(false) : resolve(true)
-        })
-        .catch(() => resolve(true));
-    }))
-  }
+    function urlNotAvailable(newUrl: string) : Promise<boolean>{
+        return new Promise<boolean>((async resolve => {
+            checkUrl({url: newUrl})
+                .then(response => response.status === 200 ? resolve(false) : resolve(true))
+                .catch(() => resolve(true));
+        }))
+    }
 
-  function pageIsAvailable(newUrl: string, pollingInterval: number): Promise<void> {
-    return new Promise<void>((async resolve => {
-      while (await urlNotAvailable(newUrl)) {
-        await sleep(pollingInterval);
-      }
-      resolve();
-    }))
-  }
+    function pageIsAvailable(newUrl: string, pollingInterval: number): Promise<void> {
+        return new Promise<void>((async resolve => {
+            while (await urlNotAvailable(newUrl)) {
+                await sleep(pollingInterval);
+            }
+            resolve();
+        }))
+    }
 
-  function handleResponse(resp: DashboardActionResponse){
-    const newUrl = resp.url || reloadUrl(display.url);
-    setIsLoading(true);
+    function handleResponse(resp: DashboardActionResponse){
+        const newUrl = resp.url || reloadUrl(display.url);
+        setIsLoading(true);
 
-    pageIsAvailable(newUrl, resp.pollingInterval || 1000)
-      .then(() => {
-        setDisplay({...display, url: newUrl});
-        setIsLoading(false);
-      })
-  }
+        pageIsAvailable(newUrl, resp.pollingInterval || 1000)
+            .then(() => {
+                setDisplay({...display, url: newUrl});
+                setIsLoading(false);
+            })
+    }
 
-  return(
-    <div className={"column is-half"}>
-      <div>
-        {isLoading ? <LoadingScreenComponent/> : <IFrameComponent display={display}/>}
-      </div>
-      <ActionButton onResponse={handleResponse} display={display}/>
-    </div>
-  )
+    return(
+        <div className={"column is-half"}>
+            <div>
+                {isLoading ? <LoadingScreenComponent/> : <IFrameComponent display={display}/>}
+            </div>
+            <ActionButton onResponse={handleResponse} display={display}/>
+        </div>
+    )
 };
 export default DashboardDisplayComponent;
