@@ -6,34 +6,56 @@ import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
 import { Display } from "../../../server/src/api/dashboard-config-response.interface";
 import { DashboardActionResponse } from "../../../server/src/api/dashboard-action-response.interface";
-import { sleep } from "../functions/sleep.function";
 import { reloadUrl } from "../functions/reload-url.function";
+import { sleep } from "../functions/sleep.function";
 
 
 interface DisplayProps {
-    display: Display
+  display: Display
 }
 const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
-    
-    const [display, setDisplay] = useState(props.display);
-    const [isLoading, setIsLoading] = useState(false);
 
-    function handleResponse(resp: DashboardActionResponse){
-        setIsLoading(true);
-        sleep(resp.reloadDelay || 0)
-            .then(() => {
-                setDisplay({...display, url: resp.url || reloadUrl(display.url)});
-                setIsLoading(false);
-            });
-    }
+  const [display, setDisplay] = useState(props.display);
+  const [isLoading, setIsLoading] = useState(false);
 
-    return(
-        <div className={"column is-half"}>
-            <div>
-                {isLoading ? <LoadingScreenComponent/> : <IFrameComponent display={display}/>}
-            </div>
-            <ActionButton onResponse={handleResponse} display={display}/>
-        </div>
-    )
+  function urlNotAvailable(newUrl: string) : Promise<boolean>{
+    return new Promise<boolean>((async resolve => {
+      fetch(newUrl, {mode: "no-cors"})
+        .then(response => {
+          console.log(response.statusText);
+          response.status === 200 ? resolve(false) : resolve(true)
+        })
+        .catch(() => resolve(true));
+    }))
+  }
+
+  function pageIsAvailable(newUrl: string, pollingInterval: number): Promise<void> {
+    return new Promise<void>((async resolve => {
+      while (await urlNotAvailable(newUrl)) {
+        await sleep(pollingInterval);
+      }
+      resolve();
+    }))
+  }
+
+  function handleResponse(resp: DashboardActionResponse){
+    const newUrl = resp.url || reloadUrl(display.url);
+    setIsLoading(true);
+
+    pageIsAvailable(newUrl, resp.pollingInterval || 1000)
+      .then(() => {
+        setDisplay({...display, url: newUrl});
+        setIsLoading(false);
+      })
+  }
+
+  return(
+    <div className={"column is-half"}>
+      <div>
+        {isLoading ? <LoadingScreenComponent/> : <IFrameComponent display={display}/>}
+      </div>
+      <ActionButton onResponse={handleResponse} display={display}/>
+    </div>
+  )
 };
 export default DashboardDisplayComponent;

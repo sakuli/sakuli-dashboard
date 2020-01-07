@@ -12,5 +12,5 @@ export interface ClusterAction {
 
 export interface DisplayUpdate{
     url?: string
-    reloadDelay?: number
+    pollingInterval?: number
 }
