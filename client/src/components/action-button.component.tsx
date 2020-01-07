@@ -1,9 +1,10 @@
 import React from 'react';
 import './Dashboard.css';
-import button from './static/button.png';
-import { invokeAction } from "./dashboard-backend.service";
-import { Display } from "../../server/src/api/dashboard-config-response.interface";
-import { DashboardActionResponse } from "../../server/src/api/dashboard-action-response.interface";
+import button from '../static/button.png';
+import { Display } from "../../../server/src/api/dashboard-config-response.interface";
+import { DashboardActionResponse } from "../../../server/src/api/dashboard-action-response.interface";
+import { invokeAction } from "../services/dashboard-backend.service";
+
 
 interface ActionButtonProps {
     display: Display

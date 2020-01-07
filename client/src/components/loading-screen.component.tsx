@@ -1,5 +1,5 @@
 import React from "react";
-import loading from "./static/loading.gif";
+import loading from "../static/loading.gif";
 
 const LoadingScreenComponent: React.FC = () => {
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import './Dashboard.css';
-import { Display } from "../../server/src/api/dashboard-config-response.interface";
 import DashboardDisplayComponent from "./dashboard-display.component";
 import 'bulma/css/bulma.css'
+import { Display } from "../../../server/src/api/dashboard-config-response.interface";
 
 interface DisplaysProps {
     displays: Display[]

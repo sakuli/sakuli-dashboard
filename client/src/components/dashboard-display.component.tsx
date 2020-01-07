@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Display } from "../../server/src/api/dashboard-config-response.interface";
 import './Dashboard.css';
 import ActionButton from "./action-button.component";
 import 'bulma/css/bulma.css'
-import { DashboardActionResponse } from "../../server/src/api/dashboard-action-response.interface";
 import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
-import { sleep } from "./sleep.function";
-import { reloadUrl } from "./reload-url.function";
+import { Display } from "../../../server/src/api/dashboard-config-response.interface";
+import { DashboardActionResponse } from "../../../server/src/api/dashboard-action-response.interface";
+import { sleep } from "../functions/sleep.function";
+import { reloadUrl } from "../functions/reload-url.function";
+
 
 interface DisplayProps {
     display: Display

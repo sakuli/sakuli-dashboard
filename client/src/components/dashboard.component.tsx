@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Display } from "../../server/src/api/dashboard-config-response.interface";
-import background from './static/bg.png';
+import background from '../static/bg.png';
 import './Dashboard.css';
 import DashboardDisplaysComponent from "./dashboard-displays.component";
-import { getDashboardConfig } from "./dashboard-backend.service";
+import { getDashboardConfig } from "../services/dashboard-backend.service";
+import { Display } from "../../../server/src/api/dashboard-config-response.interface";
 
 const DashboardComponent: React.FC = () => {
 
