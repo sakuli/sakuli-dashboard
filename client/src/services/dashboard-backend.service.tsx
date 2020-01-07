@@ -15,7 +15,7 @@ export function invokeAction (request: DashboardActionRequest): Promise<Dashboar
 }
 
 export function checkUrl(request: CheckUrlRequest): Promise<CheckUrlResponse> {
-    return fetch ('api/dashboard/checkUrl', {
+    return fetch ('/api/dashboard/checkUrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

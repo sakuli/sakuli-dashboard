@@ -22,7 +22,7 @@ app.post('/api/dashboard/action', (req, res) => {
       .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(error));
 });
 
-app.post('api/dashboard/checkUrl', (req: CheckUrlRequest, res) => {
+app.post('/api/dashboard/checkUrl', (req: CheckUrlRequest, res) => {
   checkUrl(req.url)
       .then(status => res.status(200).send({status: status}));
 });
