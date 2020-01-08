@@ -21,7 +21,8 @@
     "build": "lerna run build",
     "bootstrap": "lerna bootstrap",
     "clean": "rm -rf dist",
-    "start": "lerna run start --stream"
+    "start": "lerna run start --stream",
+    "start:dev": "lerna run start:dev --stream"
   },
   "devDependencies": {
     "lerna": "^3.19.0"
