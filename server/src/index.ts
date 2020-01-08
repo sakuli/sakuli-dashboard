@@ -4,7 +4,7 @@ import HttpStatusCode from "./api/HttpStatusCode";
 import { getDashboardConfig } from "./service/dashboard-config.service";
 import { executeAction } from "./service/action.service";
 import { DashboardConfigResponse } from "./api/dashboard-config-response.interface";
-import { checkPod } from "./service/check-pod.service";
+import { k8sService } from "./service/k8s.service";
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.post('/api/dashboard/action', (req, res) => {
 });
 
 app.post('/api/dashboard/checkPod', (req, res) => {
-  checkPod(req.body.url)
+  k8sService().checkPod(req.body)
       .then(status => res.status(200).send({status: status}));
 });
 
