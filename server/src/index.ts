@@ -26,6 +26,6 @@ app.post('/api/dashboard/checkPod', (req, res) => {
       .then(status => res.status(200).send({status: status}));
 });
 
-const port = 5000;
+const port = 8080;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
