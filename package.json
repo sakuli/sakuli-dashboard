@@ -21,7 +21,7 @@
     "build": "lerna run build",
     "bootstrap": "lerna bootstrap",
     "clean": "rm -rf dist",
-    "start": "lerna run start --stream",
+    "start": "cd server && npm start",
     "start:dev": "lerna run start:dev --stream"
   },
   "devDependencies": {
