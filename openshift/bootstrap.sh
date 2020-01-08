@@ -32,4 +32,7 @@ oc create secret generic ${GITHUB_SOURCE_SECRET} \
     --from-file=ssh-privatekey=${GITHUB_SOURCE_SECRET_PATH} \
     --type=kubernetes.io/ssh-auth
 
-oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git#sakuli/pink-coffee#7/deploy-dashboard --source-secret=${GITHUB_SOURCE_SECRET}
+oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git#sakuli/pink-coffee#7/deploy-dashboard \
+    --source-secret=${GITHUB_SOURCE_SECRET}
+
+oc expose service ${SERVICE_NAME} -l router=public
