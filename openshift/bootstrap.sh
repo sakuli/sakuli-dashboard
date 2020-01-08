@@ -20,4 +20,9 @@ SERVICE_NAME="${3}"
 [[ -z "${NAMESPACE}" ]] && echo "ERROR: NAMESPACE is empty" && help && exit
 [[ -z "${SERVICE_NAME}" ]] && echo "ERROR: SERVICE_NAME is empty" && help && exit
 
-oc create-project ${NAMESPACE}
+oc projects | grep ${NAMESPACE}
+if [[ ${?} == 0 ]]; then
+  oc project ${NAMESPACE}
+else
+  oc create-project ${NAMESPACE}
+fi
