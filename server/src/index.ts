@@ -4,7 +4,7 @@ import HttpStatusCode from "./api/HttpStatusCode";
 import { getDashboardConfig } from "./service/dashboard-config.service";
 import { executeAction } from "./service/action.service";
 import { DashboardConfigResponse } from "./api/dashboard-config-response.interface";
-import { checkUrl } from "./service/url.service";
+import { checkPod } from "./service/check-pod.service";
 
 const app = express();
 
@@ -21,8 +21,8 @@ app.post('/api/dashboard/action', (req, res) => {
       .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(error));
 });
 
-app.post('/api/dashboard/checkUrl', (req, res) => {
-  checkUrl(req.body.url)
+app.post('/api/dashboard/checkPod', (req, res) => {
+  checkPod(req.body.url)
       .then(status => res.status(200).send({status: status}));
 });
 

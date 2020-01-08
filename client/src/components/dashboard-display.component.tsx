@@ -20,7 +20,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     function urlNotAvailable(newUrl: string) : Promise<boolean>{
-        return checkUrl({url: newUrl})
+        return checkUrl({healthEndpoint: newUrl})
                 .then(response => response.status !== 200)
                 .catch(() => true);
     }
