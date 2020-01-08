@@ -27,7 +27,9 @@ else
   oc create-project ${NAMESPACE}
 fi
 
-oc create secret generic github-sakuli-dashboard \
+GITHUB_SOURCE_SECRET="github-sakuli-dashboard"
+oc create secret generic ${GITHUB_SOURCE_SECRET} \
     --from-file=ssh-privatekey=${GITHUB_SOURCE_SECRET_PATH} \
     --type=kubernetes.io/ssh-auth
 
+oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git#sakuli/pink-coffee#7/deploy-dashboard --source-secret=${GITHUB_SOURCE_SECRET}
