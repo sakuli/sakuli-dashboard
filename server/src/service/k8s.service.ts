@@ -51,7 +51,7 @@ export function k8sService(): K8sService{
                 return response.status
             })
             .catch((e) => {
-                console.log("cloud not check pod.", e);
+                console.log("could not check pod.", e);
                 return HttpStatusCode.INTERNAL_SERVER_ERROR
             });
     }
