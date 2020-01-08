@@ -17,6 +17,7 @@
   "license": "ISC",
   "scripts": {
     "rebuild": "npm run clean && npm run bootstrap && npm run build",
+    "postinstall": "npm run bootstrap",
     "build": "lerna run build",
     "bootstrap": "lerna bootstrap",
     "clean": "rm -rf dist",
