@@ -26,3 +26,8 @@ if [[ ${?} == 0 ]]; then
 else
   oc create-project ${NAMESPACE}
 fi
+
+oc create secret generic github-sakuli-dashboard \
+    --from-file=ssh-privatekey=${GITHUB_SOURCE_SECRET_PATH} \
+    --type=kubernetes.io/ssh-auth
+
