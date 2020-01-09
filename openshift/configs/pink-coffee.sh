@@ -66,7 +66,7 @@ export CLUSTER_CONFIG=$(cat <<EOF
    },
    "user":{
       "name":"taadmin",
-      "token":"uf8RqRJV1Ghhod5L_XVnU1C6dvYALyE6wjOZe700CYU"
+      "token":"WueP47F9w7dTH9pZgr53YUF_zIMDTQFJdUpt99gAwCk"
    },
    "namespace":"pink-coffee"
 }
