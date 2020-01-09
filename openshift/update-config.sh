@@ -2,9 +2,9 @@ function help() {
     echo "Usage: sh update-config.sh <NAMESPACE> <SERVICE_NAME> <CONFIG_FILE>"
     echo ""
     echo "Parameters:"
-    echo "  NAMESPACE: Namespace to create and deploy the showcase in"
-    echo "  SERVICE_NAME: Name of the service which will be bootstrapped"
-    echo "  CONFIG_FILE: Name of the config file to be loaded (located in openshift/configs)."
+    echo "  NAMESPACE: Namespace where the dashboard is deployed."
+    echo "  SERVICE_NAME: Name of the dashboard service."
+    echo "  CONFIG_FILE: Name of the config file to be updated on the cluster (located in openshift/configs)."
 }
 
 oc status > /dev/null 2>&1

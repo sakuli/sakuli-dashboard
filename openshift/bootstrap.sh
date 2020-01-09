@@ -2,9 +2,9 @@ function help() {
     echo "Usage: sh bootstrap.sh <GITHUB_SOURCE_SECRET_PATH> <NAMESPACE> <SERVICE_NAME> <CONFIG_FILE>"
     echo ""
     echo "Parameters:"
-    echo "  GITHUB_SOURCE_SECRET_PATH: Path to the private key for the ssh github source secret"
-    echo "  NAMESPACE: Namespace to create and deploy the showcase in"
-    echo "  SERVICE_NAME: Name of the service which will be bootstrapped"
+    echo "  GITHUB_SOURCE_SECRET_PATH: Path to the private key for the ssh github source secret."
+    echo "  NAMESPACE: Namespace to create and deploy the dashboard in."
+    echo "  SERVICE_NAME: Name of the service which will be bootstrapped."
     echo "  CONFIG_FILE: Name of the config file to be loaded (located in openshift/configs)."
 }
 
