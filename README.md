@@ -35,7 +35,7 @@ variables as specified in the [configuration](#configuration) section.
 #### Bootstrapping
 ```shell script
 oc login <ClusterToBootstrapOn>
-sh openshift/bootstrap.sh ${GITHUB_SOURCE_SECRET_PATH} ${NAMESPACE} ${SERVICE_NAME} ${CONFIG_FILE}
+sh openshift/bootstrap.sh ${GITHUB_SOURCE_SECRET_PATH} ${NAMESPACE} ${SERVICE_NAME} ${CONFIG_FILE} [-an <ACTION_NAMESPACE>]
 ```
 | Parameter                 | Description                                                                                           |
 |---------------------------|-------------------------------------------------------------------------------------------------------|
@@ -43,6 +43,10 @@ sh openshift/bootstrap.sh ${GITHUB_SOURCE_SECRET_PATH} ${NAMESPACE} ${SERVICE_NA
 | NAMESPACE                 | Namespace to create and deploy the showcase in.                                                       |
 | SERVICE_NAME              | Name of the service which will be bootstrapped.                                                       |
 | CONFIG_FILE               | Name of the config file to be loaded e.g. `pink-coffee.sh` (must be located in `openshift/configs`).  | 
+
+| Option                    | Description                                                                                           |
+|---------------------------|-------------------------------------------------------------------------------------------------------|
+| -an ACTION_NAMESPACE      | Namespace to perform the dashboard actions in. default: <NAMESPACE>.                                  |
 
 #### Updating configuration
 ```shell script
@@ -54,3 +58,7 @@ sh openshift/update-config.sh ${NAMESPACE} ${SERVICE_NAME} ${CONFIG_FILE}
 | NAMESPACE    | Namespace where the dashboard is deployed.                                                                            |
 | SERVICE_NAME | Name of the dashboard service.                                                                                        |
 | CONFIG_FILE  | Name of the config file to be updated on the cluster e.g. `pink-coffee.sh` (must be located in `openshift/configs`).  |
+
+| Option                  | Description                                                                                                |
+|-------------------------|------------------------------------------------------------------------------------------------------------|
+| -an <ACTION_NAMESPACE>  | Namespace to perform the dashboard actions in. default: <NAMESPACE>.                                       |

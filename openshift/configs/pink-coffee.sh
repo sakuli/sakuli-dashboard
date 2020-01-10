@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export DASHBOARD_CONFIG=$(cat <<EOF
 {
    "displays":[
@@ -61,14 +62,14 @@ EOF
 export CLUSTER_CONFIG=$(cat <<EOF
 {
    "cluster":{
-      "name":"consol-ext",
-      "server":"https://master.ext1.ocp.consol.de:8443"
+      "name":"$(oc whoami --show-context=true)",
+      "server":"$(oc whoami --show-server=true)"
    },
    "user":{
-      "name":"taadmin",
-      "token":"WueP47F9w7dTH9pZgr53YUF_zIMDTQFJdUpt99gAwCk"
+      "name":"${SERVICE_NAME}",
+      "token":"${LOGIN_TOKEN}"
    },
-   "namespace":"pink-coffee"
+   "namespace":"${ACTION_NAMESPACE}"
 }
 EOF
 )
