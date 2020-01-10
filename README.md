@@ -10,9 +10,11 @@ A small and simple dashboard application to show sakuli VNC-views and monitoring
 A k8s API is necessary in order to perform e2e-tests.
 
 1. `npm i && npm run rebuild`
-2. Alter test environment configuration in `setTestEnvironment.sh`
-3. `source setTestEnvironment.sh`
-4. `npm start`
+1. Alter test environment configuration in `setTestEnvironment.sh`
+1. Load configuration  
+    1. `source setTestEnvironment.sh` for test environment config - depends on local setup.  
+    1. `source openshift/configs/<CONFIG_FILE>` to load prod configuration
+1. `npm start`
 
 (#configuration)
 ## Configuration
