@@ -2,24 +2,24 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec node -r ts-node/register --inspect src/index.ts"
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@kubernetes/client-node": "^0.11.0",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
+  },
   "devDependencies": {
     "@types/express": "^4.17.2",
     "@types/node": "^12.12.21",
+    "@types/node-fetch": "^2.5.4",
     "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
-  },
-  "dependencies": {
-    "@kubernetes/client-node": "^0.11.0",
-    "@types/node-fetch": "^2.5.4",
-    "express": "^4.17.1",
-    "node-fetch": "^2.6.0"
   }
 }

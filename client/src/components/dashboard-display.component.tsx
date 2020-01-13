@@ -4,8 +4,7 @@ import ActionButton from "./action-button.component";
 import 'bulma/css/bulma.css'
 import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
-import { Display } from "../../../server/src/api/dashboard-config-response.interface";
-import { DashboardActionResponse } from "../../../server/src/api/dashboard-action-response.interface";
+import { DashboardActionResponse, Display } from "server";
 import { reloadUrl } from "../functions/reload-url.function";
 import { pageIsAvailable } from "../functions/page-is-available.function";
 

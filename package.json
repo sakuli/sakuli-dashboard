@@ -19,7 +19,7 @@
     "rebuild": "npm run clean && npm run bootstrap && npm run build",
     "build": "lerna run build",
     "bootstrap": "lerna bootstrap",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && rm -rf server/dist && rm -rf client/dist",
     "start": "lerna run start --stream"
   },
   "devDependencies": {
