@@ -1,8 +1,7 @@
 import React from 'react';
 import './Dashboard.css';
-import { DashboardActionResponse, Display } from "server";
+import { Display } from "server";
 import button from '../static/button.png';
-import { invokeAction } from "../services/dashboard-backend.service";
 
 
 interface ActionButtonProps {
