@@ -44,7 +44,7 @@ oc policy add-role-to-user edit -n "${ACTION_NAMESPACE}" -z "${SERVICE_NAME}"
 LOGIN_TOKEN=$(sh $DIR/utils/get-login-token.sh "${SERVICE_NAME}" "${ACTION_NAMESPACE}")
 source ${CONFIG_FILE_PATH} #Update config with received login token
 
-oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git#sakuli/pink-coffee#7/deploy-dashboard \
+oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git \
     --source-secret=${GITHUB_SOURCE_SECRET} \
     -e DASHBOARD_CONFIG="${DASHBOARD_CONFIG}" \
     -e ACTION_CONFIG="${ACTION_CONFIG}" \
