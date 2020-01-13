@@ -10,7 +10,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 oc status > /dev/null 2>&1
 if [[ ${?} != 0 ]]; then
-  echo "ERROR: Please login to a cluster first to deploy the Sakuli-Dashboard."
+  echo "ERROR: Please login to a cluster first to update the configuration."
   exit 1
 fi
 
