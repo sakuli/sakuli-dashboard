@@ -1,0 +1,10 @@
+:root {
+    --button-width: 100px
+}
+
+.floating-action-button {
+    position: absolute;
+    width: var(--button-width);
+    top: 50vh;
+    z-index: 100;
+}
