@@ -2,7 +2,7 @@ import React from 'react';
 import './Dashboard.css';
 import DashboardDisplayComponent from "./dashboard-display.component";
 import 'bulma/css/bulma.css'
-import { Display } from "../../../server/src/api/dashboard-config-response.interface";
+import { Display } from "server";
 
 interface DisplaysProps {
     displays: Display[]

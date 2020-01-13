@@ -6,6 +6,8 @@ import { executeAction } from "./service/action.service";
 import { DashboardConfigResponse } from "./api/dashboard-config-response.interface";
 import { k8sService } from "./service/k8s.service";
 
+export * from './api/rest-api';
+
 const app = express();
 
 app.use(express.static(join(__dirname, '../../dist')));
