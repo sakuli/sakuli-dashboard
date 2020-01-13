@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+
+export NAMESPACE="sakuli-dashboard-test"
+export SERVICE_NAME="sakuli-dashboard"
+export ACTION_NAMESPACE="pink-coffee"
+
 export DASHBOARD_CONFIG=$(cat <<EOF
 {
    "displays":[

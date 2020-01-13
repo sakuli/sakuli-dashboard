@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 function help() {
-    echo "Usage: sh update-config.sh <NAMESPACE> <SERVICE_NAME> <CONFIG_FILE> [-an [<ACTION_NAMESPACE>]]"
+    echo "Usage: sh update-config.sh <CONFIG_FILE>"
     echo ""
     echo "Parameters:"
-    echo "  NAMESPACE: Namespace where the dashboard is deployed."
-    echo "  SERVICE_NAME: Name of the dashboard service."
     echo "  CONFIG_FILE: Name of the config file to be updated on the cluster (located in openshift/configs)."
-    echo ""
-    echo "Options: "
-    echo "  -an <ACTION_NAMESPACE>: Namespace to perform the dashboard actions in. default: <NAMESPACE>."
 }
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 oc status > /dev/null 2>&1
 if [[ ${?} != 0 ]]; then
@@ -17,36 +14,18 @@ if [[ ${?} != 0 ]]; then
   exit 1
 fi
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+CONFIG_FILE=${1}
+CONFIG_FILE_PATH=${DIR}/configs/${CONFIG_FILE}
+[[ ! -f "${CONFIG_FILE_PATH}" ]] && echo "ERROR: CONFIG_FILE \"${CONFIG_FILE_PATH}\" does not exist" && help && exit 1
 
-NAMESPACE="${1}"
-SERVICE_NAME="${2}"
-CONFIG_FILE="${3}"
-
+source ${CONFIG_FILE_PATH}
 [[ -z "${NAMESPACE}" ]] && echo "ERROR: NAMESPACE is empty" && help && exit 1
 [[ -z "${SERVICE_NAME}" ]] && echo "ERROR: SERVICE_NAME is empty" && help && exit 1
-[[ -z "${CONFIG_FILE}" ]] && echo "ERROR: CONFIG_FILE is empty" && help && exit 1
-ACTION_NAMESPACE=${NAMESPACE}
-
-while [[ $# -gt 0 ]]
-do
-key="$1"
-
-case $key in
-    -an)
-      ACTION_NAMESPACE="$2"
-    shift
-    shift
-    ;;
-    *)
-    shift
-    ;;
-esac
-done
+[[ -z "${ACTION_NAMESPACE}" ]] && ACTION_NAMESPACE=${NAMESPACE}
 
 LOGIN_TOKEN=$(sh ${DIR}/utils/get-login-token.sh "${SERVICE_NAME}" "${ACTION_NAMESPACE}")
+source ${CONFIG_FILE_PATH} #Update config with received login token
 
-source openshift/configs/${CONFIG_FILE}
 oc set env dc/${SERVICE_NAME} \
     --overwrite \
     -e DASHBOARD_CONFIG="${DASHBOARD_CONFIG}" \

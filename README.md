@@ -16,8 +16,8 @@ A k8s API is necessary in order to perform e2e-tests.
     1. `source openshift/configs/<CONFIG_FILE>` to load prod configuration
 1. `npm start`
 
-(#configuration)
-## Configuration
+(#dashboard-configuration)
+## Dashboard configuration
 _Interface implementation_ can be found in `server/src/config`. 
 
 | Environment variable | description                                                                       | interface implementation      |
@@ -31,36 +31,33 @@ To use an available action in a display configuration, the corresponding `action
 ## Operations on OpenShift
 ### Configuration files
 Configurations for each deployment are stored in `openshift/configs`. The configuration scripts export environment
-variables as specified in the [configuration](#configuration) section.
+variables in order to configure the dashboard as specified in the [dashboard configuration](#dashboard-configuration)
+section.
+
+In addition, the following deployment relevant fields are specified in the config files. 
+
+| Prameter         | Mandatory | Description                                                          |
+|------------------|-----------|----------------------------------------------------------------------|
+| NAMESPACE        | YES       | Namespace to create and deploy the showcase in.                      |
+| SERVICE_NAME     | YES       | Name of the service which will be bootstrapped.                      |
+| ACTION_NAMESPACE | NO        | Namespace to perform the dashboard actions in. default: <NAMESPACE>. |
 
 ### Deployment
 #### Bootstrapping
 ```shell script
 oc login <ClusterToBootstrapOn>
-sh openshift/bootstrap.sh ${GITHUB_SOURCE_SECRET_PATH} ${NAMESPACE} ${SERVICE_NAME} ${CONFIG_FILE} [-an <ACTION_NAMESPACE>]
+sh openshift/bootstrap.sh ${GITHUB_SOURCE_SECRET_PATH} ${CONFIG_FILE}
 ```
 | Parameter                 | Description                                                                                           |
 |---------------------------|-------------------------------------------------------------------------------------------------------|
 | GITHUB_SOURCE_SECRET_PATH | Path to the private key for the ssh github source secret.                                             |
-| NAMESPACE                 | Namespace to create and deploy the showcase in.                                                       |
-| SERVICE_NAME              | Name of the service which will be bootstrapped.                                                       |
 | CONFIG_FILE               | Name of the config file to be loaded e.g. `pink-coffee.sh` (must be located in `openshift/configs`).  | 
-
-| Option                    | Description                                                                                           |
-|---------------------------|-------------------------------------------------------------------------------------------------------|
-| -an ACTION_NAMESPACE      | Namespace to perform the dashboard actions in. default: <NAMESPACE>.                                  |
 
 #### Updating configuration
 ```shell script
 oc login <ClusterToConfigureOn>
-sh openshift/update-config.sh ${NAMESPACE} ${SERVICE_NAME} ${CONFIG_FILE}
+sh openshift/update-config.sh ${CONFIG_FILE}
 ```
 | Parameter    | Description                                                                                                           |
 |--------------|-----------------------------------------------------------------------------------------------------------------------|
-| NAMESPACE    | Namespace where the dashboard is deployed.                                                                            |
-| SERVICE_NAME | Name of the dashboard service.                                                                                        |
 | CONFIG_FILE  | Name of the config file to be updated on the cluster e.g. `pink-coffee.sh` (must be located in `openshift/configs`).  |
-
-| Option                  | Description                                                                                                |
-|-------------------------|------------------------------------------------------------------------------------------------------------|
-| -an <ACTION_NAMESPACE>  | Namespace to perform the dashboard actions in. default: <NAMESPACE>.                                       |
