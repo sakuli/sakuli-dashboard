@@ -1,6 +1,7 @@
 import React from "react";
 import Iframe from "react-iframe";
 import { Display } from "server";
+import "./iframe.component.css";
 
 interface IframeComponentProps {
     display: Display
@@ -9,9 +10,8 @@ const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     return(
         <Iframe
+            className="fullscreen"
             url={display.url}
-            width={display.width || "100%"}
-            height={display.height || "1000px"}
         />
     );
 };
