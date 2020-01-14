@@ -14,7 +14,7 @@ A k8s API is necessary in order to perform e2e-tests.
 1. Load configuration  
     1. `source setTestEnvironment.sh` for test environment config - depends on local setup.  
     1. `source openshift/load-config.sh <CONFIG_FILE>` to load prod configuration. (Requires access to the prod cluster)
-1. `npm start`
+1. `npm start:dev`
 
 (#dashboard-configuration)
 ## Dashboard configuration
