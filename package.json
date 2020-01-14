@@ -2,7 +2,7 @@
   "name": "sakuli-dashboard",
   "version": "1.0.0",
   "description": "A small and simple dashboard application to show sakuli VNC-views and monitoring metrics.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "private": true,
   "repository": {
     "type": "git",
@@ -14,5 +14,15 @@
     "Sven Hettwer <sven.hettwer@consol.de>",
     "Cliff Le Van <cliff.le.van@consol.de>"
   ],
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "rebuild": "npm run clean && npm run bootstrap && npm run build",
+    "build": "lerna run build",
+    "bootstrap": "lerna bootstrap",
+    "clean": "rm -rf dist && rm -rf server/dist && rm -rf client/dist",
+    "start": "lerna run start --stream"
+  },
+  "devDependencies": {
+    "lerna": "^3.19.0"
+  }
 }
