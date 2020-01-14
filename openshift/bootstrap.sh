@@ -50,4 +50,5 @@ oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git \
     -e ACTION_CONFIG="${ACTION_CONFIG}" \
     -e CLUSTER_CONFIG="${CLUSTER_CONFIG}"
 
-oc expose service "${SERVICE_NAME}" -l router=public
+oc create route edge ${SERVICE_NAME} --service ${SERVICE_NAME}
+oc label --overwrite route ${SERVICE_NAME} router=public
