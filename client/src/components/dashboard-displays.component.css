@@ -1,11 +1,16 @@
 .dashboard-container {
-    width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    width: 99%;
+    height: 95%;
+    min-height: 90%;
 }
 
-@media(min-width: 1200px) {
+@media all and (min-width: 1200px) {
     .dashboard-container {
         flex-direction: row;
+        justify-content: space-between;
+        height: 90%;
     }
 }
