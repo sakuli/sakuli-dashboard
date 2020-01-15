@@ -1,3 +1,29 @@
 .display-container {
-    width: 100%;
+    width: 90%;
+    height: 95%;
+    margin: 2% 0 2% 5%;
+    background: #ffff;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    box-shadow: 6px 8px 8px 1px black;
+    padding: 0 0 2% 0;
+}
+
+@media all and (min-width: 1200px){
+    .display-container {
+        margin: 1% 0 0 1%;
+    }
+}
+
+.display-header {
+    background: #95c11f;
+    position: sticky;
+    top: 0;
+    padding: 10px;
+    box-shadow: 0 6px 5px 0 grey;
+    text-align: center;
+    font-weight: bold;
+    color: #523c3c;
 }

@@ -39,14 +39,16 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
     if (isLoading) {
         return(
             <div className={"display-container"}>
+                <div className={"display-header"}>Loading ...</div>
                 <LoadingScreenComponent/>
             </div>
         )
     } else {
         return(
             <div className={"display-container"}>
+                <div className={"display-header"}>Display Name</div>
                 <IFrameComponent display={display}/>
-                <ActionButton onClick={handleOnClick} display={display}/>
+                { display.actionIdentifier && <ActionButton onClick={handleOnClick}/> }
             </div>
         )
     }
