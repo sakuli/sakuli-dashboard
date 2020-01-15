@@ -1,11 +1,14 @@
 import React from "react";
-import loading from "../static/loading.gif";
+import "./loading-screen.component.css";
 
 const LoadingScreenComponent: React.FC = () => {
 
-    return(
-        <div>
-            <img alt={"loading"} style={{height: "200px"}} src={loading}/>
+    return (
+        <div className="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>);
 };
 export default LoadingScreenComponent;
