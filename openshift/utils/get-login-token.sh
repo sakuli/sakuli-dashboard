@@ -12,7 +12,7 @@ function help() {
 
 oc status > /dev/null 2>&1
 if [[ ${?} != 0 ]]; then
-  echo "ERROR: Please login to a cluster first to deploy the Sakuli-Dashboard."
+  echo "ERROR: Please login to a cluster first to obtain the requested login token."
   exit 1
 fi
 
