@@ -10,7 +10,7 @@ const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     return(
         <Iframe
-            className="fullscreen"
+            className={ (display.actionIdentifier) ? "frame-embed--with-action" : "frame-embed" }
             url={display.url}
         />
     );
