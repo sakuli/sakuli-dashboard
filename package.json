@@ -17,10 +17,12 @@
   "license": "ISC",
   "scripts": {
     "rebuild": "npm run clean && npm run bootstrap && npm run build",
+    "postinstall": "npm run bootstrap",
     "build": "lerna run build",
     "bootstrap": "lerna bootstrap",
     "clean": "rm -rf dist && rm -rf server/dist && rm -rf client/dist",
-    "start": "lerna run start --stream"
+    "start": "cd server && npm start",
+    "start:dev": "lerna run start:dev --stream --parallel"
   },
   "devDependencies": {
     "lerna": "^3.19.0"

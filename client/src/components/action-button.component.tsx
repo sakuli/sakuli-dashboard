@@ -1,24 +1,14 @@
 import React from 'react';
 import './Dashboard.css';
-import { DashboardActionResponse, Display } from "server";
+import { Display } from "server";
 import button from '../static/button.png';
-import { invokeAction } from "../services/dashboard-backend.service";
 
 
 interface ActionButtonProps {
     display: Display
-    onResponse: (resp: DashboardActionResponse) => void
+    onClick: () => void
 }
-const ActionButtonComponent: React.FC<ActionButtonProps> = ({display, onResponse}) => {
-
-    function handleButtonClick(actionIdentifier: string) {
-        const request = {
-            actionIdentifier: actionIdentifier
-        };
-        invokeAction(request)
-            .then(json => onResponse(json))
-            .catch(error => console.error(error));
-    }
+const ActionButtonComponent: React.FC<ActionButtonProps> = ({display, onClick}) => {
 
     function renderButton() {
         if(display.actionIdentifier){
@@ -26,7 +16,7 @@ const ActionButtonComponent: React.FC<ActionButtonProps> = ({display, onResponse
                           width={"100px"}
                           alt={"play"}
                           src={button}
-                          onClick={() => handleButtonClick(display.actionIdentifier)}/>;
+                          onClick={() => onClick()}/>;
         }
 
         return null;
