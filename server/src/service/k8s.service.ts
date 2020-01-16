@@ -62,10 +62,9 @@ export function k8sService(): K8sService{
         return new Promise((resolve, reject) => {
             createK8sClient()
                 .then(k8sApi => {
-                    return k8sApi.readNamespacedPodStatus(
-                        podName,
-                        clusterConfig.namespace
-                    )})
+                    console.debug(`Get pod status of ${podName} in namespace ${clusterConfig.namespace}`);
+                    return k8sApi.readNamespacedPodStatus(podName, clusterConfig.namespace)
+                })
                 .then(({body}) => resolve(body))
                 .catch(error => reject(`Could not get pod status of ${podName}: ${JSON.stringify(error)}.`));
         });
@@ -75,6 +74,7 @@ export function k8sService(): K8sService{
         return new Promise((resolve, reject) => {
             createK8sClient()
                 .then(k8sApi => {
+                    console.debug(`Deleting pod ${podName} in namespace ${clusterConfig.namespace}`);
                     return k8sApi.deleteNamespacedPod(podName, clusterConfig.namespace)
                 })
                 .then(({body}) => resolve(body))
