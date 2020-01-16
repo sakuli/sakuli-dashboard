@@ -1,39 +1,14 @@
 .action-button {
-    position: relative;
-    max-width: 150px;
     min-width: 100px;
-    height: 30px;
-    border-radius: 15px;
+    border-radius: 5px;
     background: #95c11f;
     font-size: 1rem;
-}
-
-@media all and (min-height: 600px) {
-    .action-button {
-        height: 40px;
-        border-radius: 20px;
-    }
-}
-
-@media all and (min-height: 700px) {
-    .action-button {
-        height: 50px;
-        border-radius: 25px;
-    }
+    margin-top: 1rem;
+    padding: 0.5rem;
 }
 
 @media all and (min-height: 800px) {
     .action-button {
-        top: 10px;
-        height: 50px;
-        border-radius: 25px;
-    }
-}
-
-@media all and (min-height: 1000px) {
-    .action-button {
-        margin-top: 20px;
-        height: 50px;
-        border-radius: 25px;
+        margin-top: 2rem;
     }
 }

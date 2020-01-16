@@ -11,7 +11,8 @@ const ActionButtonComponent: React.FC<ActionButtonProps> = ({onClick}) => {
     function renderButton() {
         return (
             <button className="action-button" onClick={() => onClick()}>
-                <FontAwesomeIcon icon={faPlayCircle}/>Start!
+                <FontAwesomeIcon icon={faPlayCircle}/>
+                <span style={{paddingLeft: "0.5rem"}}>Start!</span>
             </button>
         );
     }
