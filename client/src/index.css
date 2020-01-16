@@ -13,10 +13,10 @@ code {
 }
 
 .header {
-  background: #95c11f;
   position: sticky;
   top: 0;
   padding: 10px;
+  border-bottom: 2px solid #aadd226b;
   box-shadow: 0 6px 5px 0 grey;
   text-align: center;
   font-weight: bold;
