@@ -46,7 +46,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
     } else {
         return(
             <div className={"display-container"}>
-                <div className={"display-header"}>{display.description || ""}</div>
+                { display.description && <div className={"display-header"}>{display.description}</div> }
                 <IFrameComponent display={display}/>
                 { display.actionIdentifier && <ActionButton onClick={handleOnClick}/> }
             </div>
