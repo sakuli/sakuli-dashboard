@@ -1,0 +1,26 @@
+.frame-embed {
+    width: 95%;
+    height: 85%;
+    border: none;
+    margin: 2.5% 2.5% 0 2.5%;
+}
+
+.frame-embed--with-action {
+    width: 95%;
+    height: 70%;
+    border: none;
+    margin: 2.5% 2.5% 0 2.5%;
+}
+
+@media all and (min-width: 1200px) {
+    .frame-embed {
+        height: 95%;
+    }
+
+    .frame-embed--with-action {
+        width: 95%;
+        height: 85%;
+        border: none;
+        margin: 2.5% 2.5% 0 2.5%;
+    }
+}
