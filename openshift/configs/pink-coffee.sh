@@ -14,7 +14,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
       },
       {
          "index":2,
-         "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-1h&to=now"
+         "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-1h&to=now&kiosk=tv"
       }
    ]
 }
