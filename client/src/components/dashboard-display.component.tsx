@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import './Dashboard.css';
 import ActionButton from "./action-button.component";
-import 'bulma/css/bulma.css'
 import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
 import { DashboardActionResponse, Display } from "server";
 import { reloadUrl } from "../functions/reload-url.function";
 import { pageIsAvailable } from "../functions/page-is-available.function";
 import { invokeAction } from "../services/dashboard-backend.service";
+import "./dashboard-display.component.css";
 
 interface DisplayProps {
     display: Display
@@ -37,13 +36,22 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
             })
     }
 
-    return(
-        <div className={"column is-half"}>
-            <div>
-                {isLoading ? <LoadingScreenComponent/> : <IFrameComponent display={display}/>}
+    if (isLoading) {
+        return(
+            <div className={"display-container"}>
+                <div className={"display-header"}>Loading ...</div>
+                <LoadingScreenComponent/>
             </div>
-            <ActionButton onClick={handleOnClick} display={display}/>
-        </div>
-    )
+        )
+    } else {
+        return(
+            <div className={"display-container"}>
+                <div className={"display-header"}>Display Name</div>
+                <IFrameComponent display={display}/>
+                { display.actionIdentifier && <ActionButton onClick={handleOnClick}/> }
+            </div>
+        )
+    }
+
 };
 export default DashboardDisplayComponent;

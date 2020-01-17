@@ -1,8 +1,7 @@
 import React from 'react';
-import './Dashboard.css';
 import DashboardDisplayComponent from "./dashboard-display.component";
-import 'bulma/css/bulma.css'
 import { Display } from "server";
+import "./dashboard-displays.component.css";
 
 interface DisplaysProps {
     displays: Display[]
@@ -10,7 +9,7 @@ interface DisplaysProps {
 const DashboardDisplaysComponent: React.FC<DisplaysProps> = ({displays}) => {
 
     return (
-        <div className={"columns is-gapless is-multiline is-mobile"}>
+        <div className={"dashboard-container"}>
             {[...displays]
                 .sort((a, b) => a.index - b.index)
                 .map(display => <DashboardDisplayComponent key={display.index} display={display}/>)}

@@ -1,25 +1,20 @@
 import React from 'react';
-import './Dashboard.css';
-import { Display } from "server";
-import button from '../static/button.png';
-
+import "./action-button.component.css";
+import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ActionButtonProps {
-    display: Display
     onClick: () => void
 }
-const ActionButtonComponent: React.FC<ActionButtonProps> = ({display, onClick}) => {
 
+const ActionButtonComponent: React.FC<ActionButtonProps> = ({onClick}) => {
     function renderButton() {
-        if(display.actionIdentifier){
-            return <input type={"image"}
-                          width={"100px"}
-                          alt={"play"}
-                          src={button}
-                          onClick={() => onClick()}/>;
-        }
-
-        return null;
+        return (
+            <button className="action-button" onClick={() => onClick()}>
+                <FontAwesomeIcon icon={faPlayCircle}/>
+                <span style={{paddingLeft: "0.5rem"}}>Start!</span>
+            </button>
+        );
     }
 
     return renderButton();
