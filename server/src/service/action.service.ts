@@ -23,7 +23,7 @@ export function executeAction(dashboardAction: DashboardActionRequest): Promise<
         if (actionToPerform && actionToPerform.action.metadata) {
             if (await podIsDead(actionToPerform.action)) {
                 k8sService().deletePod(actionToPerform.action)
-                    .then(() => k8sService().apply(actionToPerform))
+                    .then(() => k8sService().apply(actionToPerform.action))
                     .then(httpResponse => {
                         if (httpResponse.statusCode !== 201) {
                             reject(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
