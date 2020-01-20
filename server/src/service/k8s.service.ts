@@ -14,7 +14,7 @@ export interface K8sService {
     apply: (clusterAction: ClusterAction) => Promise<http.IncomingMessage>
     checkPod: (checkPodRequest: CheckPodRequest) => Promise<number>
     getPodStatus: (podName: string) => Promise<V1Pod>
-    deletePod: (podName: string) => Promise<V1Status>
+    deletePod: (pod: V1Pod) => Promise<V1Status>
 }
 
 export function k8sService(): K8sService{
@@ -70,7 +70,11 @@ export function k8sService(): K8sService{
         });
     }
 
-    function deletePod(podName:string): Promise<V1Status> {
+    function deletePod(pod:V1Pod): Promise<V1Status> {
+        if(!pod.metadata?.name) {
+            return Promise.reject("Could not delete pod due to missing name");
+        }
+        const podName = pod.metadata.name;
         return new Promise((resolve, reject) => {
             createK8sClient()
                 .then(k8sApi => {

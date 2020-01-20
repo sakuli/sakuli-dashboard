@@ -9,7 +9,7 @@ export default function podIsDead(pod: V1Pod): Promise<boolean>{
 
     return k8sService().getPodStatus(podName)
         .then(clusterPod => {
-            if(!clusterPod.status || !clusterPod.status.phase) {
+            if(!clusterPod.status?.phase) {
                 return true;
             }
             return clusterPod.status.phase !== "Running" && clusterPod.status.phase !== "Pending";
