@@ -12,14 +12,15 @@ interface IframeComponentProps {
 const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     const [pageIsAvailable, setPageIsAvailable] = useState(false);
-    const [polling, setPolling] = useState(true);
+    const [lastPolling, setLastPolling] = useState(Date.now());
+    const pollingInterval = 2000;
 
     useEffect(() => {
         urlAvailable(display.url)
             .then(isUrlAvailable => setPageIsAvailable(isUrlAvailable))
-            .then(() => sleep(2000))
-            .then(() => setPolling(!polling));
-    }, [polling, display.url]);
+            .then(() => sleep(pollingInterval))
+            .then(() => setLastPolling(Date.now() - pollingInterval));
+    }, [lastPolling, display.url]);
 
     if(pageIsAvailable){
         return(
