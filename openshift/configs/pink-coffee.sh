@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export NAMESPACE="sakuli-dashboard-test"
-export SERVICE_NAME="sakuli-dashboard"
+export NAMESPACE="sakuli-dashboards"
+export SERVICE_NAME="pink-coffee-dashboard"
 export ACTION_NAMESPACE="pink-coffee"
 export DASHBOARD_HOSTNAME="sakuli-cm-demo.paas.consol.de"
 
@@ -17,7 +17,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
       {
          "index":2,
          "description": "Service Monitoring",
-         "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-1h&to=now&kiosk=tv"
+         "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-6h&to=now&kiosk=tv"
       }
    ]
 }
