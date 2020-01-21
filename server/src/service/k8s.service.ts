@@ -32,10 +32,14 @@ export function k8sService(): K8sService{
         return new Promise((resolve, reject) => {
             createK8sClient()
                 .then(k8sApi => {
+                    console.debug(`Creating pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace}`);
                     return k8sApi.createNamespacedPod(
                         clusterConfig.namespace,
                         pod)})
-                .then(({response}) => resolve(response))
+                .then(({response}) => {
+                    console.debug(`Pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace} created`);
+                    resolve(response)
+                })
                 .catch(error => reject(`Could not apply action because of: ${JSON.stringify(error)}.`));
         });
     }
@@ -67,8 +71,14 @@ export function k8sService(): K8sService{
                     console.debug(`Deleting pod ${podName} in namespace ${clusterConfig.namespace}`);
                     return k8sApi.deleteNamespacedPod(podName, clusterConfig.namespace)
                 })
-                .then(({body}) => resolve(body))
-                .catch(error => reject(`Could not delete pod ${podName}: ${JSON.stringify(error)}.`))
+                .then(({body}) => {
+                    console.debug(`Deleted pod ${podName} in namespace ${clusterConfig.namespace}`);
+                    resolve(body)
+                })
+                .catch(error => {
+                    console.log(`Could not delete pod ${podName}: ${JSON.stringify(error)}.`);
+                    resolve()
+                })
         })
     }
 
