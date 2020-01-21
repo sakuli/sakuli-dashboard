@@ -1,4 +1,4 @@
-import { CoreV1Api, V1Pod, V1Status } from "@kubernetes/client-node";
+import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
 import { K8sClusterConfig } from "../config/k8s-cluster.config";
 import isEmpty from "../functions/is-emtpy.function";
 import * as http from "http";
@@ -10,7 +10,7 @@ const clusterConfig = <K8sClusterConfig>JSON.parse(process.env.CLUSTER_CONFIG ||
 export interface K8sService {
     apply: (pod: V1Pod) => Promise<http.IncomingMessage>
     getPodStatus: (pod: V1Pod) => Promise<V1Pod>
-    deletePod: (pod: V1Pod) => Promise<V1Status>
+    deletePod: (pod: V1Pod) => Promise<void>
 }
 
 export function k8sService(): K8sService{
@@ -60,12 +60,16 @@ export function k8sService(): K8sService{
         });
     }
 
-    function deletePod(pod:V1Pod): Promise<V1Status> {
+    /**
+     * Deletes the given pod on the cluster. If the pod was not found, the promise resolves without any further action.
+     * @param pod Pod to be deleted.
+     */
+    function deletePod(pod:V1Pod): Promise<void> {
         if(!pod.metadata?.name) {
             return Promise.reject("Could not delete pod due to missing name");
         }
         const podName = pod.metadata.name;
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             createK8sClient()
                 .then(k8sApi => {
                     console.debug(`Deleting pod ${podName} in namespace ${clusterConfig.namespace}`);
@@ -73,10 +77,10 @@ export function k8sService(): K8sService{
                 })
                 .then(({body}) => {
                     console.debug(`Deleted pod ${podName} in namespace ${clusterConfig.namespace}`);
-                    resolve(body)
+                    resolve()
                 })
                 .catch(error => {
-                    console.log(`Could not delete pod ${podName}: ${JSON.stringify(error)}.`);
+                    console.log(`Could not delete pod ${podName}, because: ${JSON.stringify(error)}.`);
                     resolve()
                 })
         })
