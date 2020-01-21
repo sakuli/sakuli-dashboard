@@ -4,7 +4,7 @@ import HttpStatusCode from "./api/HttpStatusCode";
 import { getDashboardConfig } from "./service/dashboard-config.service";
 import { executeAction } from "./service/action.service";
 import { DashboardConfigResponse } from "./api/dashboard-config-response.interface";
-import { k8sService } from "./service/k8s.service";
+import { healthCheckService } from "./service/health-check.service";
 
 export * from './api/rest-api';
 
@@ -23,8 +23,8 @@ app.post('/api/dashboard/action', (req, res) => {
       .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(error));
 });
 
-app.post('/api/dashboard/checkPod', (req, res) => {
-  k8sService().checkPod(req.body)
+app.post('/api/dashboard/health-check', (req, res) => {
+  healthCheckService().checkUrl(req.body)
       .then(status => res.status(200).send({status: status}));
 });
 

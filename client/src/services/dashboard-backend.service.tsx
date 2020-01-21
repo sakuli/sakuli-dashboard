@@ -1,9 +1,9 @@
 import {
-    CheckPodRequest,
-    CheckPodResponse,
     DashboardActionRequest,
     DashboardActionResponse,
-    DashboardConfigResponse
+    DashboardConfigResponse,
+    HealthCheckRequest,
+    HealthCheckResponse
 } from "server";
 
 export function invokeAction (request: DashboardActionRequest): Promise<DashboardActionResponse> {
@@ -16,8 +16,8 @@ export function invokeAction (request: DashboardActionRequest): Promise<Dashboar
     }).then(response => response.json());
 }
 
-export function checkUrl(request: CheckPodRequest): Promise<CheckPodResponse> {
-    return fetch ('/api/dashboard/checkPod', {
+export function healthCheck(request: HealthCheckRequest): Promise<HealthCheckResponse> {
+    return fetch ('/api/dashboard/health-check', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
