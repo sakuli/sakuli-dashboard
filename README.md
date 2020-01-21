@@ -36,11 +36,12 @@ section.
 
 In addition, the following deployment relevant fields are specified in the config files. 
 
-| Prameter         | Mandatory | Description                                                          |
-|------------------|-----------|----------------------------------------------------------------------|
-| NAMESPACE        | YES       | Namespace to create and deploy the showcase in.                      |
-| SERVICE_NAME     | YES       | Name of the service which will be bootstrapped.                      |
-| ACTION_NAMESPACE | NO        | Namespace to perform the dashboard actions in. default: <NAMESPACE>. |
+| Parameter           | Mandatory | Description                                                                                                                         |
+|--------------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------|
+| NAMESPACE          | YES       | Namespace to create and deploy the showcase in.                                                                                     |
+| SERVICE_NAME       | YES       | Name of the service which will be bootstrapped.                                                                                     |
+| ACTION_NAMESPACE   | NO        | Namespace to perform the dashboard actions in. default: <NAMESPACE>.                                                                |
+| DASHBOARD_HOSTNAME | NO        | Full qualified hostname of the dashboard route e.g `sakuli-cm-demo.paas.consol.de` . Defaults to OpenShift namespace based Hostname |  
 
 ### Deployment
 #### Bootstrapping
