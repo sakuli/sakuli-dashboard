@@ -33,7 +33,7 @@ export ACTION_CONFIG=$(cat <<EOF
               "labels": {
                 "app": "pink-coffee"
               },
-              "generateName":"pink-coffee-"
+              "name":"pink-coffee"
             },
             "spec": {
               "containers": [
