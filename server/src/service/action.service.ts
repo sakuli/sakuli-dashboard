@@ -14,6 +14,11 @@ export function executeAction(dashboardAction: DashboardActionRequest): Promise<
     return new Promise(async (resolve, reject) => {
         if (isEmpty(actionConfig)) {
             reject("Environment variable 'ACTION_CONFIG' not set.");
+            return;
+        }
+        if(!actionConfig.actions) {
+            reject("No action in environment variable 'ACTION_CONFIG'");
+            return;
         }
 
         const actionToPerform: ClusterAction | undefined = actionConfig
