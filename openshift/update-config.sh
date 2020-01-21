@@ -23,6 +23,15 @@ source ${CONFIG_FILE_PATH}
 [[ -z "${SERVICE_NAME}" ]] && echo "ERROR: SERVICE_NAME is empty" && help && exit 1
 [[ -z "${ACTION_NAMESPACE}" ]] && ACTION_NAMESPACE=${NAMESPACE}
 
+oc projects | grep ${NAMESPACE}
+if [[ ${?} == 0 ]]; then
+  oc project ${NAMESPACE}
+else
+  echo "ERROR: Namepace ${NAMESPACE} not found on cluster."
+  exit 1
+fi
+
+
 LOGIN_TOKEN=$(sh ${DIR}/utils/get-login-token.sh "${SERVICE_NAME}" "${ACTION_NAMESPACE}")
 source ${CONFIG_FILE_PATH} #Update config with received login token
 
