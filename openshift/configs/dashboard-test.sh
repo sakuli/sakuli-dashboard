@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
 
-export NAMESPACE="sakuli-dashboards"
-export SERVICE_NAME="pink-coffee-dashboard"
+export NAMESPACE="sakuli-dashboard-test"
+export SERVICE_NAME="sakuli-dashboard"
 export ACTION_NAMESPACE="pink-coffee"
-export DASHBOARD_HOSTNAME="sakuli-cm-demo.paas.consol.de"
 
 export DASHBOARD_CONFIG=$(cat <<EOF
 {
    "displays":[
       {
          "index":1,
-         "description": "Lehnen Sie sich zurück, drücken Sie ggf. Start und sehen Sie Sakuli bei der Arbeit zu.",
+         "description": "Test Execution - VNC View",
          "url":"https://pink-coffee-pink-coffee.paas.consol.de?password=vncpassword&scale=local",
          "actionIdentifier":"7890eab9-6c5e-4e40-b39c-163900ea4834"
       },
       {
          "index":2,
-         "description": "Monitoring Daten: Erkennen von Mustern, Alerting und Screenshot Darstellung von Fehlern.",
+         "description": "Service Monitoring",
          "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-6h&to=now&kiosk=tv"
       }
    ]
