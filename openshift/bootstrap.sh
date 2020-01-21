@@ -51,7 +51,7 @@ oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git \
     -e ACTION_CONFIG="${ACTION_CONFIG}" \
     -e CLUSTER_CONFIG="${CLUSTER_CONFIG}"
 
-CREATE_ROUTE="oc create route edge ${SERVICE_NAME} --service ${SERVICE_NAME}"
+CREATE_ROUTE="oc create route edge ${SERVICE_NAME} --service ${SERVICE_NAME} --insecure-policy=Redirect"
 if [ -n "${DASHBOARD_HOSTNAME}" ]; then
   CREATE_ROUTE="${CREATE_ROUTE} --hostname=${DASHBOARD_HOSTNAME}"
 fi
