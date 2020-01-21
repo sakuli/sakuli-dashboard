@@ -4,9 +4,9 @@ import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
 import { DashboardActionResponse, Display } from "server";
 import { reloadUrl } from "../functions/reload-url.function";
-import { pageIsAvailable } from "../functions/page-is-available.function";
 import { invokeAction } from "../services/dashboard-backend.service";
 import "./dashboard-display.component.css";
+import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
 
 interface DisplayProps {
     display: Display
@@ -29,7 +29,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
     function handleResponse(resp: DashboardActionResponse){
         const newUrl = resp.url || reloadUrl(display.url);
 
-        pageIsAvailable(newUrl, resp.pollingInterval || 1000)
+        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
             .then(() => {
                 setDisplay({...display, url: newUrl});
                 setIsLoading(false);
