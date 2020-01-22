@@ -1,15 +1,15 @@
 .frame-embed {
     width: 95%;
-    height: 85%;
+    height: 85vh;
     border: none;
-    margin: 2.5% 2.5% 0 2.5%;
+    margin: 2%;
 }
 
 .frame-embed--with-action {
     width: 95%;
-    height: 70%;
+    height: 70vh;
     border: none;
-    margin: 2.5% 2.5% 0 2.5%;
+    margin: 2%;
 }
 
 .placeholder{
@@ -18,14 +18,11 @@
 }
 
 @media all and (min-width: 1200px) {
-    .frame-embed {
-        height: 95%;
+    .frame-embed--with-action {
+        height: 75vh;
     }
 
-    .frame-embed--with-action {
-        width: 95%;
-        height: 85%;
-        border: none;
-        margin: 2.5% 2.5% 0 2.5%;
+    .frame-embed {
+        height: 80vh;
     }
 }

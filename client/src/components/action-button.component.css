@@ -3,12 +3,5 @@
     border-radius: 5px;
     background: #95c11f;
     font-size: 1rem;
-    margin-top: 1rem;
     padding: 0.5rem;
-}
-
-@media all and (min-height: 800px) {
-    .action-button {
-        margin-top: 2rem;
-    }
 }
