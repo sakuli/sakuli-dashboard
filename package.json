@@ -1,6 +1,6 @@
 {
   "name": "sakuli-dashboard",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A small and simple dashboard application to show sakuli VNC-views and monitoring metrics.",
   "main": "dist/index.js",
   "private": true,
