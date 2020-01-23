@@ -10,7 +10,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
    "displays":[
       {
          "index":1,
-         "description": "Lehnen Sie sich zurück, drücken Sie ggf. Start und sehen Sie Sakuli bei der Arbeit zu.",
+         "description": "Drücken Sie auf Start, lehnen Sie sich zurück und sehen Sie Sakuli bei der Arbeit zu.",
          "url":"https://pink-coffee-pink-coffee.paas.consol.de?password=vncpassword&scale=local",
          "actionIdentifier":"7890eab9-6c5e-4e40-b39c-163900ea4834"
       },
