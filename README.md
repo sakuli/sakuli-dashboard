@@ -16,6 +16,10 @@ A k8s API is necessary in order to perform e2e-tests.
     1. `source openshift/load-config.sh <CONFIG_FILE>` to load prod configuration. (Requires access to the prod cluster)
 1. `npm start:dev`
 
+## Versioning
+Versioning is based on [SemVer](https://semver.org/) with the addition that config changes are also released and tagged
+as a patch release.
+
 (#dashboard-configuration)
 ## Dashboard configuration
 _Interface implementation_ can be found in `server/src/config`. 
