@@ -1,8 +1,9 @@
 import { DashboardActionRequest } from "..";
-import { ClusterAction, DashboardActionsConfig, DisplayUpdate } from "../config/dashboard-actions.config";
+import { DashboardActionsConfig, DisplayUpdate } from "../config/dashboard-actions.config";
 import { k8sService } from "./k8s.service";
 import isEmpty from "../functions/is-emtpy.function";
 import podIsDead from "../functions/pod-is-dead.function";
+import * as http from "http";
 
 const actionConfig = (<DashboardActionsConfig>JSON.parse(process.env.ACTION_CONFIG || "{}"));
 
@@ -10,35 +11,36 @@ function podCouldNotBeStarted(reason: string) {
     return `Pod could not be started because of: ${reason}`;
 }
 
-export function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
-    return new Promise(async (resolve, reject) => {
+const checkHttpResponse = (httpResponse: http.IncomingMessage) => {
+    if (httpResponse.statusCode !== 201) {
+        throw Error(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
+    }
+};
+
+export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
         if (isEmpty(actionConfig)) {
-            reject("Environment variable 'ACTION_CONFIG' not set.");
-            return;
+            throw Error ("Environment variable 'ACTION_CONFIG' not set.");
         }
         if(!actionConfig.actions) {
-            reject("No action in environment variable 'ACTION_CONFIG'");
-            return;
+            throw Error("No action in environment variable 'ACTION_CONFIG'");
         }
 
-        const actionToPerform: ClusterAction | undefined = actionConfig
+        const actionToPerform = actionConfig
             .actions
             .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
 
-        if (actionToPerform && actionToPerform.action.metadata) {
+        if (actionToPerform?.action.metadata) {
             if (await podIsDead(actionToPerform.action)) {
-                k8sService().deletePod(actionToPerform.action)
-                    .then(() => k8sService().apply(actionToPerform.action))
-                    .then(httpResponse => {
-                        if (httpResponse.statusCode !== 201) {
-                            reject(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
-                        }
-                    })
-                    .catch(error => reject(podCouldNotBeStarted(error)));
+                try {
+                    await k8sService().deletePod(actionToPerform.action);
+                    const httpResponse = await k8sService().apply(actionToPerform.action);
+                    checkHttpResponse(httpResponse);
+                } catch (error) {
+                    throw error;
+                }
             }
-            resolve(actionToPerform.displayUpdate || {});
+            return actionToPerform.displayUpdate || {};
         } else {
-            reject(`Requested action '${dashboardAction.actionIdentifier}' not found.`)
+            throw Error(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
         }
-    });
 }
