@@ -49,6 +49,7 @@ export function k8sService(): K8sService{
             const { body } = await k8sApi.readNamespacedPodStatus(podName, clusterConfig.namespace);
             return body
         } catch (error) {
+            console.log(`Could not get pod status of ${podName}: ${JSON.stringify(error)}`);
             throw error;
         }
     }
@@ -69,7 +70,7 @@ export function k8sService(): K8sService{
             await k8sApi.deleteNamespacedPod(podName, clusterConfig.namespace);
             console.debug(`Deleted pod ${podName} in namespace ${clusterConfig.namespace}`);
         } catch (error) {
-            throw error;
+            console.log(`Could not delete pod ${podName}: ${JSON.stringify(error)}`);
         }
     }
 
