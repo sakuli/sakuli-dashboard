@@ -20,7 +20,7 @@ app.get('/api/dashboard', (req, res) => {
 app.post('/api/dashboard/action', (req, res) => {
   executeAction(req.body)
       .then(displayUpdate => res.status(HttpStatusCode.ACCEPTED).send(displayUpdate))
-      .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(error));
+      .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(JSON.stringify(error)));
 });
 
 app.post('/api/dashboard/health-check', (req, res) => {

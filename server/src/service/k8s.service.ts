@@ -16,7 +16,7 @@ export interface K8sService {
 export function k8sService(): K8sService{
     async function createK8sClient (): Promise<CoreV1Api> {
             if (isEmpty(clusterConfig)) {
-                throw Error("Environment variable 'CLUSTER_CONFIG' not set or empty.");
+                throw "Environment variable 'CLUSTER_CONFIG' not set or empty.";
             }
 
             const k8sCubeConfig = new k8s.KubeConfig();
@@ -33,13 +33,13 @@ export function k8sService(): K8sService{
             return response;
         } catch (error) {
             console.log(`Could not apply action because of: ${JSON.stringify(error)}`);
-            throw error;
+            throw 'Could not apply action on cluster';
         }
     }
 
     async function getPodStatus(pod: V1Pod): Promise<V1Pod>{
         if(!pod.metadata?.name) {
-            throw Error("Could not get pod status due to missing name");
+            throw "Could not get pod status due to missing name";
         }
         const podName = pod.metadata.name;
 
@@ -50,7 +50,7 @@ export function k8sService(): K8sService{
             return body
         } catch (error) {
             console.log(`Could not get pod status of ${podName}: ${JSON.stringify(error)}`);
-            throw error;
+            throw 'Could not get pod status from cluster.';
         }
     }
 
@@ -60,7 +60,7 @@ export function k8sService(): K8sService{
      */
     async function deletePod(pod:V1Pod): Promise<void> {
         if(!pod.metadata?.name) {
-            throw Error("Could not delete pod due to missing name");
+            throw "Could not delete pod due to missing name";
         }
         const podName = pod.metadata.name;
 

@@ -13,16 +13,16 @@ function podCouldNotBeStarted(reason: string) {
 
 const checkHttpResponse = (httpResponse: http.IncomingMessage) => {
     if (httpResponse.statusCode !== 201) {
-        throw Error(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
+        throw podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason");
     }
 };
 
 export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
         if (isEmpty(actionConfig)) {
-            throw Error ("Environment variable 'ACTION_CONFIG' not set.");
+            throw "Environment variable 'ACTION_CONFIG' not set.";
         }
         if(!actionConfig.actions) {
-            throw Error("No action in environment variable 'ACTION_CONFIG'");
+            throw "No action in environment variable 'ACTION_CONFIG'";
         }
 
         const actionToPerform = actionConfig
@@ -41,6 +41,6 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
             }
             return actionToPerform.displayUpdate || {};
         } else {
-            throw Error(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
+            throw `Requested action '${dashboardAction.actionIdentifier}' not found.`;
         }
 }
