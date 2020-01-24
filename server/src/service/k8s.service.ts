@@ -2,6 +2,7 @@ import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
 import { K8sClusterConfig } from "../config/k8s-cluster.config";
 import isEmpty from "../functions/is-emtpy.function";
 import * as http from "http";
+import createBackendError from "../functions/create-backend-error.function";
 
 
 const k8s = require('@kubernetes/client-node');
@@ -16,7 +17,7 @@ export interface K8sService {
 export function k8sService(): K8sService{
     async function createK8sClient (): Promise<CoreV1Api> {
             if (isEmpty(clusterConfig)) {
-                throw "Environment variable 'CLUSTER_CONFIG' not set or empty.";
+                throw createBackendError("Environment variable 'CLUSTER_CONFIG' not set or empty.");
             }
 
             const k8sCubeConfig = new k8s.KubeConfig();
@@ -33,13 +34,13 @@ export function k8sService(): K8sService{
             return response;
         } catch (error) {
             console.log(`Could not apply action because of: ${JSON.stringify(error)}`);
-            throw 'Could not apply action on cluster';
+            throw createBackendError('Could not apply action on cluster');
         }
     }
 
     async function getPodStatus(pod: V1Pod): Promise<V1Pod>{
         if(!pod.metadata?.name) {
-            throw "Could not get pod status due to missing name";
+            throw createBackendError("Could not get pod status due to missing name");
         }
         const podName = pod.metadata.name;
 
@@ -50,7 +51,7 @@ export function k8sService(): K8sService{
             return body
         } catch (error) {
             console.log(`Could not get pod status of ${podName}: ${JSON.stringify(error)}`);
-            throw 'Could not get pod status from cluster.';
+            throw createBackendError('Could not get pod status from cluster.');
         }
     }
 
@@ -60,7 +61,7 @@ export function k8sService(): K8sService{
      */
     async function deletePod(pod:V1Pod): Promise<void> {
         if(!pod.metadata?.name) {
-            throw "Could not delete pod due to missing name";
+            throw createBackendError("Could not delete pod due to missing name");
         }
         const podName = pod.metadata.name;
 

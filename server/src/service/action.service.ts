@@ -4,6 +4,7 @@ import { k8sService } from "./k8s.service";
 import isEmpty from "../functions/is-emtpy.function";
 import podIsDead from "../functions/pod-is-dead.function";
 import * as http from "http";
+import createBackendError from "../functions/create-backend-error.function";
 
 const actionConfig = (<DashboardActionsConfig>JSON.parse(process.env.ACTION_CONFIG || "{}"));
 
@@ -13,16 +14,16 @@ function podCouldNotBeStarted(reason: string) {
 
 const checkHttpResponse = (httpResponse: http.IncomingMessage) => {
     if (httpResponse.statusCode !== 201) {
-        throw podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason");
+        throw createBackendError(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
     }
 };
 
 export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
         if (isEmpty(actionConfig)) {
-            throw "Environment variable 'ACTION_CONFIG' not set.";
+            throw createBackendError("Environment variable 'ACTION_CONFIG' not set.");
         }
         if(!actionConfig.actions) {
-            throw "No action in environment variable 'ACTION_CONFIG'";
+            throw createBackendError("No action in environment variable 'ACTION_CONFIG'");
         }
 
         const actionToPerform = actionConfig
@@ -41,6 +42,6 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
             }
             return actionToPerform.displayUpdate || {};
         } else {
-            throw `Requested action '${dashboardAction.actionIdentifier}' not found.`;
+            throw createBackendError(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
         }
 }
