@@ -1,4 +1,5 @@
 import {
+    BackendError,
     DashboardActionRequest,
     DashboardActionResponse,
     DashboardConfigResponse,
@@ -6,7 +7,7 @@ import {
     HealthCheckResponse
 } from "server";
 
-export function invokeAction (request: DashboardActionRequest): Promise<DashboardActionResponse> {
+export function invokeAction (request: DashboardActionRequest): Promise<DashboardActionResponse | BackendError> {
     return fetch('/api/dashboard/action', {
         method: 'POST',
         headers: {
