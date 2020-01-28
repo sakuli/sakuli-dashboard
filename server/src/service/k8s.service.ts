@@ -33,8 +33,8 @@ export function k8sService(): K8sService{
             console.debug(`Pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace} created`);
             return response;
         } catch (error) {
-            console.log(`Could not apply action because of: ${JSON.stringify(error)}`);
-            throw createBackendError('Could not apply action on cluster');
+            console.log(`Could not apply pod configuration because of: ${JSON.stringify(error)}`);
+            throw createBackendError('Could not apply pod configuration on cluster');
         }
     }
 

@@ -12,7 +12,7 @@ function podCouldNotBeStarted(reason: string) {
     return `Pod could not be started because of: ${reason}`;
 }
 
-const checkHttpResponse = (httpResponse: http.IncomingMessage) => {
+const validateHttpResponse = (httpResponse: http.IncomingMessage) => {
     if (httpResponse.statusCode !== 201) {
         throw createBackendError(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
     }
@@ -35,7 +35,7 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
                 try {
                     await k8sService().deletePod(actionToPerform.action);
                     const httpResponse = await k8sService().apply(actionToPerform.action);
-                    checkHttpResponse(httpResponse);
+                    validateHttpResponse(httpResponse);
                 } catch (error) {
                     throw error;
                 }
