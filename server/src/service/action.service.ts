@@ -19,29 +19,25 @@ const validateHttpResponse = (httpResponse: http.IncomingMessage) => {
 };
 
 export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
-        if (isEmpty(actionConfig)) {
-            throw createBackendError("Environment variable 'ACTION_CONFIG' not set.");
-        }
-        if(!actionConfig.actions) {
-            throw createBackendError("No action in environment variable 'ACTION_CONFIG'");
-        }
+    if (isEmpty(actionConfig)) {
+        throw createBackendError("Environment variable 'ACTION_CONFIG' not set.");
+    }
+    if (!actionConfig.actions) {
+        throw createBackendError("No action in environment variable 'ACTION_CONFIG'");
+    }
 
-        const actionToPerform = actionConfig
-            .actions
-            .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
+    const actionToPerform = actionConfig
+        .actions
+        .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
 
-        if (actionToPerform?.action.metadata) {
-            if (await podIsDead(actionToPerform.action)) {
-                try {
-                    await k8sService().deletePod(actionToPerform.action);
-                    const httpResponse = await k8sService().apply(actionToPerform.action);
-                    validateHttpResponse(httpResponse);
-                } catch (error) {
-                    throw error;
-                }
-            }
-            return actionToPerform.displayUpdate || {};
-        } else {
-            throw createBackendError(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
+    if (actionToPerform?.action.metadata) {
+        if (await podIsDead(actionToPerform.action)) {
+            await k8sService().deletePod(actionToPerform.action);
+            const httpResponse = await k8sService().apply(actionToPerform.action);
+            validateHttpResponse(httpResponse);
         }
+        return actionToPerform.displayUpdate || {};
+    } else {
+        throw createBackendError(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
+    }
 }
