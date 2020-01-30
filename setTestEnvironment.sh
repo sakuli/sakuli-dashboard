@@ -4,7 +4,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
       {
          "index":1,
          "description": "Test Execution - VNC View",
-         "url":"http://sakuli-myproject.192.168.99.113.nip.io/vnc.html?password=vncpassword",
+         "url":"http://sakuli-demo-sakuli-demo.192.168.99.107.nip.io/vnc.html?password=vncpassword",
          "actionIdentifier":"7890eab9-6c5e-4e40-b39c-163900ea4834"
       },
       {
@@ -25,15 +25,15 @@ export ACTION_CONFIG=$(cat <<EOF
          "action": {
             "metadata": {
               "labels": {
-                "app": "sakuli"
+                "app": "sakuli-demo"
               },
-              "generateName":"sakuli-"
+              "name":"sakuli-demo"
             },
             "spec": {
               "containers": [
                 {
-                  "name": "sakuli",
-                  "image": "docker-registry.default.svc:5000/myproject/sakuli",
+                  "name": "sakuli-demo",
+                  "image": "172.30.1.1:5000/sakuli-demo/sakuli-demo",
                   "env": [
                     {
                       "name": "SAKULI_LICENSE_KEY",
@@ -57,14 +57,14 @@ export CLUSTER_CONFIG=$(cat <<EOF
 {
    "cluster":{
       "name":"cluster",
-      "server":"https://192.168.99.113:8443",
+      "server":"https://192.168.99.107:8443",
       "skipTLSVerify":true
    },
    "user":{
       "name":"developer",
       "token":"IcgX0FmSitF6uUYgq1_hPOtFDRwZ40ONJjvQJfuG-PA"
    },
-   "namespace":"myproject"
+   "namespace":"sakuli-demo"
 }
 EOF
 )
