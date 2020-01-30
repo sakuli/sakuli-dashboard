@@ -1,5 +1,5 @@
-import { DashboardActionRequest } from "..";
-import { DashboardActionsConfig, DisplayUpdate } from "../config/dashboard-actions.config";
+import { DashboardActionRequest, DisplayUpdate } from "@sakuli-dashboard/api";
+import { DashboardActionsConfig } from "../config/dashboard-actions.config";
 import { k8sService } from "./k8s.service";
 import isEmpty from "../functions/is-emtpy.function";
 import podIsDead from "../functions/pod-is-dead.function";

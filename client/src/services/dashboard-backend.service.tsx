@@ -5,7 +5,7 @@ import {
     DashboardConfigResponse,
     HealthCheckRequest,
     HealthCheckResponse
-} from "server";
+} from "@sakuli-dashboard/api";
 
 export function invokeAction (request: DashboardActionRequest): Promise<DashboardActionResponse | BackendError> {
     return fetch('/api/dashboard/action', {

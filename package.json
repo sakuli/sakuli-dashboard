@@ -22,7 +22,7 @@
     "bootstrap": "lerna bootstrap",
     "clean": "rm -rf dist && rm -rf server/dist && rm -rf client/dist",
     "start": "cd server && npm start",
-    "start:dev": "lerna run start:dev --stream --parallel"
+    "start:dev": "lerna run start:dev --stream"
   },
   "devDependencies": {
     "lerna": "^3.19.0"

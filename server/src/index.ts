@@ -1,12 +1,9 @@
 import express from 'express'
 import { join } from 'path'
-import HttpStatusCode from "./api/HttpStatusCode";
 import { getDashboardConfig } from "./service/dashboard-config.service";
 import { executeAction } from "./service/action.service";
-import { DashboardConfigResponse } from "./api/dashboard-config-response.interface";
+import { DashboardConfigResponse, HttpStatusCode } from "@sakuli-dashboard/api";
 import { healthCheckService } from "./service/health-check.service";
-
-export * from './api/rest-api';
 
 const app = express();
 

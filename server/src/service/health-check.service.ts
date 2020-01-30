@@ -1,6 +1,5 @@
-import { HealthCheckRequest } from "..";
+import { HealthCheckRequest, HttpStatusCode } from "@sakuli-dashboard/api";
 import fetch from "node-fetch";
-import HttpStatusCode from "../api/HttpStatusCode";
 
 export interface HealthCheckService {
     checkUrl: (checkUrlRequest: HealthCheckRequest) => Promise<number>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ActionButton from "./action-button.component";
 import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
-import { BackendError, DashboardActionResponse, Display } from "server";
+import { DashboardActionResponse, Display, isDashboardActionResponse } from "@sakuli-dashboard/api";
 import { reloadUrl } from "../functions/reload-url.function";
 import { invokeAction } from "../services/dashboard-backend.service";
 import "./dashboard-display.component.css";
@@ -15,10 +15,6 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
-
-    function isDashboardActionResponse(json: DashboardActionResponse | BackendError) {
-        return (json as DashboardActionResponse).pollingInterval || (json as DashboardActionResponse).url;
-    }
 
     function handleOnClick(){
         setIsLoading(true);

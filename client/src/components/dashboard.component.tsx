@@ -3,7 +3,7 @@ import background from '../static/bg.png';
 import './Dashboard.css';
 import DashboardDisplaysComponent from "./dashboard-displays.component";
 import { getDashboardConfig } from "../services/dashboard-backend.service";
-import { Display } from "server";
+import { Display } from "@sakuli-dashboard/api";
 
 const DashboardComponent: React.FC = () => {
 
