@@ -23,7 +23,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
         };
         invokeAction(request)
             .then(json => {
-                if(isDashboardActionResponse(json)) {
+                if(isDashboardActionResponse(json) || {}) {
                     handleResponse(json as DashboardActionResponse);
                 }
             })
