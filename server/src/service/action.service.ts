@@ -5,8 +5,16 @@ import isEmpty from "../functions/is-emtpy.function";
 import podIsDead from "../functions/pod-is-dead.function";
 import * as http from "http";
 import createBackendError from "../functions/create-backend-error.function";
+import getConfig from "./config.service";
 
-const actionConfig = (<DashboardActionsConfig>JSON.parse(process.env.ACTION_CONFIG || "{}"));
+
+let actionConfig: DashboardActionsConfig;
+
+try {
+    actionConfig = getConfig(process.env.ACTION_CONFIG)
+} catch (e) {
+    console.error("Failed to get ACTION_CONFIG", e);
+}
 
 function podCouldNotBeStarted(reason: string) {
     return `Pod could not be started because of: ${reason}`;

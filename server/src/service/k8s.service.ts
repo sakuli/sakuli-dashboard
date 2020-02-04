@@ -1,13 +1,20 @@
 import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
-import { K8sClusterConfig } from "../config/k8s-cluster.config";
 import isEmpty from "../functions/is-emtpy.function";
 import * as http from "http";
 import createBackendError from "../functions/create-backend-error.function";
+import { K8sClusterConfig } from "../config/k8s-cluster.config";
+import getConfig from "./config.service";
 
 
 const k8s = require('@kubernetes/client-node');
+let clusterConfig:K8sClusterConfig;
 
-const clusterConfig = <K8sClusterConfig>JSON.parse(process.env.CLUSTER_CONFIG || "{}");
+try {
+    clusterConfig = getConfig(process.env.CLUSTER_CONFIG);
+} catch (e) {
+    console.error("Failed to get CLUSTER_CONFIG", e);
+}
+
 export interface K8sService {
     apply: (pod: V1Pod) => Promise<http.IncomingMessage>
     getPodStatus: (pod: V1Pod) => Promise<V1Pod>
