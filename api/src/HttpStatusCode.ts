@@ -5,7 +5,7 @@
  * @see {@link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes}
  * Credits to https://gist.github.com/scokmen/f813c904ef79022e84ab2409574d1b45
  */
-enum HttpStatusCode {
+export enum HttpStatusCode {
 
     /**
      * The server has received the request headers and the client should proceed to send the request body

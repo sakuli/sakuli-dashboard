@@ -1,25 +1,30 @@
 {
-  "name": "server",
+  "name": "@sakuli-dashboard/server",
   "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec node -r ts-node/register --inspect src/index.ts"
+    "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec node -r ts-node/register --inspect src/index.ts",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@kubernetes/client-node": "^0.11.0",
     "express": "^4.17.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "@sakuli-dashboard/api": "^1.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
+    "@types/jest": "^25.1.1",
     "@types/node": "^12.12.21",
     "@types/node-fetch": "^2.5.4",
+    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
+    "ts-jest": "^25.1.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   }

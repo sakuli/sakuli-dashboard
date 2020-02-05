@@ -1,6 +1,6 @@
 import React from 'react';
 import DashboardDisplayComponent from "./dashboard-display.component";
-import { Display } from "server";
+import { Display } from "@sakuli-dashboard/api";
 import "./dashboard-displays.component.css";
 
 interface DisplaysProps {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Iframe from "react-iframe";
-import { Display } from "server";
+import { Display } from "@sakuli-dashboard/api";
 import "./iframe.component.css";
 import { urlAvailable } from "../functions/url-available.function";
 import { sleep } from "../functions/sleep.function";

@@ -1,12 +1,9 @@
 import express from 'express'
 import { join } from 'path'
-import HttpStatusCode from "./api/HttpStatusCode";
-import { getDashboardConfig } from "./service/dashboard-config.service";
 import { executeAction } from "./service/action.service";
-import { DashboardConfigResponse } from "./api/dashboard-config-response.interface";
+import { HttpStatusCode } from "@sakuli-dashboard/api";
 import { healthCheckService } from "./service/health-check.service";
-
-export * from './api/rest-api';
+import { getConfiguration } from "./functions/get-configuration.function";
 
 const app = express();
 
@@ -14,13 +11,18 @@ app.use(express.static(join(__dirname, '../../dist')));
 app.use(express.json());
 
 app.get('/api/dashboard', (req, res) => {
-  res.send(<DashboardConfigResponse> getDashboardConfig());
+  try {
+    res.send(getConfiguration().dashboardConfig);
+  } catch (e) {
+    console.error("Failed to get dashboard config", e);
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(e);
+  }
 });
 
 app.post('/api/dashboard/action', (req, res) => {
   executeAction(req.body)
       .then(displayUpdate => res.status(HttpStatusCode.ACCEPTED).send(displayUpdate))
-      .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(error));
+      .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(JSON.stringify(error)));
 });
 
 app.post('/api/dashboard/health-check', (req, res) => {

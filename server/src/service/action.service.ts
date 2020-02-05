@@ -1,44 +1,37 @@
-import { DashboardActionRequest } from "..";
-import { ClusterAction, DashboardActionsConfig, DisplayUpdate } from "../config/dashboard-actions.config";
+import { DashboardActionRequest, DisplayUpdate } from "@sakuli-dashboard/api";
 import { k8sService } from "./k8s.service";
-import isEmpty from "../functions/is-emtpy.function";
 import podIsDead from "../functions/pod-is-dead.function";
-
-const actionConfig = (<DashboardActionsConfig>JSON.parse(process.env.ACTION_CONFIG || "{}"));
+import * as http from "http";
+import createBackendError from "../functions/create-backend-error.function";
+import { getConfiguration } from "../functions/get-configuration.function";
 
 function podCouldNotBeStarted(reason: string) {
     return `Pod could not be started because of: ${reason}`;
 }
 
-export function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
-    return new Promise(async (resolve, reject) => {
-        if (isEmpty(actionConfig)) {
-            reject("Environment variable 'ACTION_CONFIG' not set.");
-            return;
-        }
-        if(!actionConfig.actions) {
-            reject("No action in environment variable 'ACTION_CONFIG'");
-            return;
-        }
+const validateHttpResponse = (httpResponse: http.IncomingMessage) => {
+    if (httpResponse.statusCode !== 201) {
+        throw createBackendError(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
+    }
+};
 
-        const actionToPerform: ClusterAction | undefined = actionConfig
-            .actions
-            .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
+export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
+    const actions = getConfiguration().actionConfig.actions;
+    if (!actions) {
+        throw createBackendError("No actions configured.");
+    }
 
-        if (actionToPerform && actionToPerform.action.metadata) {
-            if (await podIsDead(actionToPerform.action)) {
-                k8sService().deletePod(actionToPerform.action)
-                    .then(() => k8sService().apply(actionToPerform.action))
-                    .then(httpResponse => {
-                        if (httpResponse.statusCode !== 201) {
-                            reject(podCouldNotBeStarted(httpResponse.statusMessage || "Unknown reason"));
-                        }
-                    })
-                    .catch(error => reject(podCouldNotBeStarted(error)));
-            }
-            resolve(actionToPerform.displayUpdate || {});
-        } else {
-            reject(`Requested action '${dashboardAction.actionIdentifier}' not found.`)
+    const actionToPerform = actions
+        .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
+
+    if (actionToPerform?.action.metadata) {
+        if (await podIsDead(actionToPerform.action)) {
+            await k8sService().deletePod(actionToPerform.action);
+            const httpResponse = await k8sService().apply(actionToPerform.action);
+            validateHttpResponse(httpResponse);
         }
-    });
+        return actionToPerform.displayUpdate || {};
+    } else {
+        throw createBackendError(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
+    }
 }
