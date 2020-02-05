@@ -3,8 +3,7 @@ import { join } from 'path'
 import { executeAction } from "./service/action.service";
 import { HttpStatusCode } from "@sakuli-dashboard/api";
 import { healthCheckService } from "./service/health-check.service";
-import getConfig from "./service/config.service";
-import { DashboardActionsConfig } from "./config/dashboard-actions.config";
+import { getConfiguration } from "./functions/get-configuration.function";
 
 const app = express();
 
@@ -13,10 +12,9 @@ app.use(express.json());
 
 app.get('/api/dashboard', (req, res) => {
   try {
-    const dashboardConfig:DashboardActionsConfig = getConfig(process.env.DASHBOARD_CONFIG);
-    res.send(dashboardConfig);
+    res.send(getConfiguration().dashboardConfig);
   } catch (e) {
-    console.error("Failed to get DASHBOARD_CONFIG", e);
+    console.error("Failed to get dashboard config", e);
     res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(e);
   }
 });

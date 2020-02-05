@@ -1,19 +1,9 @@
 import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
-import isEmpty from "../functions/is-emtpy.function";
 import * as http from "http";
 import createBackendError from "../functions/create-backend-error.function";
-import { K8sClusterConfig } from "../config/k8s-cluster.config";
-import getConfig from "./config.service";
-
+import { getConfiguration } from "../functions/get-configuration.function";
 
 const k8s = require('@kubernetes/client-node');
-let clusterConfig:K8sClusterConfig;
-
-try {
-    clusterConfig = getConfig(process.env.CLUSTER_CONFIG);
-} catch (e) {
-    console.error("Failed to get CLUSTER_CONFIG", e);
-}
 
 export interface K8sService {
     apply: (pod: V1Pod) => Promise<http.IncomingMessage>
@@ -23,18 +13,16 @@ export interface K8sService {
 
 export function k8sService(): K8sService{
     async function createK8sClient (): Promise<CoreV1Api> {
-            if (isEmpty(clusterConfig)) {
-                throw createBackendError("Environment variable 'CLUSTER_CONFIG' not set or empty.");
-            }
-
-            const k8sCubeConfig = new k8s.KubeConfig();
-            k8sCubeConfig.loadFromClusterAndUser(clusterConfig.cluster, clusterConfig.user);
-            return k8sCubeConfig.makeApiClient(k8s.CoreV1Api);
+        const clusterConfig = getConfiguration().k8sClusterConfig;
+        const k8sCubeConfig = new k8s.KubeConfig();
+        k8sCubeConfig.loadFromClusterAndUser(clusterConfig.cluster, clusterConfig.user);
+        return k8sCubeConfig.makeApiClient(k8s.CoreV1Api);
     }
 
     async function apply(pod: V1Pod): Promise<http.IncomingMessage>{
         try {
             const k8sApi = await createK8sClient();
+            const clusterConfig = getConfiguration().k8sClusterConfig;
             console.debug(`Creating pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace}`);
             const {response} = await k8sApi.createNamespacedPod(clusterConfig.namespace, pod);
             console.debug(`Pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace} created`);
@@ -53,6 +41,7 @@ export function k8sService(): K8sService{
 
         try {
             const k8sApi = await createK8sClient();
+            const clusterConfig = getConfiguration().k8sClusterConfig;
             console.debug(`Get pod status of ${podName} in namespace ${clusterConfig.namespace}`);
             const { body } = await k8sApi.readNamespacedPodStatus(podName, clusterConfig.namespace);
             return body
@@ -74,6 +63,7 @@ export function k8sService(): K8sService{
 
         try {
             const k8sApi = await createK8sClient();
+            const clusterConfig = getConfiguration().k8sClusterConfig;
             console.debug(`Deleting pod ${podName} in namespace ${clusterConfig.namespace}`);
             await k8sApi.deleteNamespacedPod(podName, clusterConfig.namespace);
             console.debug(`Deleted pod ${podName} in namespace ${clusterConfig.namespace}`);
