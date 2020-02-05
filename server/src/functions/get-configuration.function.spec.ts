@@ -7,19 +7,19 @@ describe('getConfiguration', () => {
             "DASHBOARD_CONFIG",
             () => process.env.DASHBOARD_CONFIG = "",
             () => process.env.CLUSTER_CONFIG = "{}",
-            () => process.env.DASHBOARD_ACTION_CONFIG = "{}"
+            () => process.env.ACTION_CONFIG = "{}"
         ],
         [
             "CLUSTER_CONFIG",
             () => process.env.DASHBOARD_CONFIG = "{}",
             () => process.env.CLUSTER_CONFIG = "",
-            () => process.env.DASHBOARD_ACTION_CONFIG = "{}"
+            () => process.env.ACTION_CONFIG = "{}"
         ],
         [
-            "DASHBOARD_ACTION_CONFIG",
+            "ACTION_CONFIG",
             () => process.env.DASHBOARD_CONFIG = "{}",
             () => process.env.CLUSTER_CONFIG = "{}",
-            () => process.env.DASHBOARD_ACTION_CONFIG = ""
+            () => process.env.ACTION_CONFIG = ""
         ]
     ])("should throw if %s is not set",
         (emptyVariable, setDashboardConfig, setClusterConfig, setDashboardActionConfig) => {
@@ -39,19 +39,19 @@ describe('getConfiguration', () => {
             "DASHBOARD_CONFIG",
             () => process.env.DASHBOARD_CONFIG = "{wrong}",
             () => process.env.CLUSTER_CONFIG = "{}",
-            () => process.env.DASHBOARD_ACTION_CONFIG = "{}"
+            () => process.env.ACTION_CONFIG = "{}"
         ],
         [
             "CLUSTER_CONFIG",
             () => process.env.DASHBOARD_CONFIG = "{}",
             () => process.env.CLUSTER_CONFIG = "{wrong}",
-            () => process.env.DASHBOARD_ACTION_CONFIG = "{}"
+            () => process.env.ACTION_CONFIG = "{}"
         ],
         [
-            "DASHBOARD_ACTION_CONFIG",
+            "ACTION_CONFIG",
             () => process.env.DASHBOARD_CONFIG = "{}",
             () => process.env.CLUSTER_CONFIG = "{}",
-            () => process.env.DASHBOARD_ACTION_CONFIG = "{wrong}"]
+            () => process.env.ACTION_CONFIG = "{wrong}"]
     ])("should throw if %s is invalid",
         (invalidVariable, setDashboardConfig, setClusterConfig, setDashboardActionConfig) => {
             //GIVEN
@@ -74,7 +74,7 @@ describe('getConfiguration', () => {
 
         process.env.DASHBOARD_CONFIG = '{"dashboard": "config"}';
         process.env.CLUSTER_CONFIG = '{"cluster": "config"}';
-        process.env.DASHBOARD_ACTION_CONFIG = '{"action": "config"}';
+        process.env.ACTION_CONFIG = '{"action": "config"}';
 
         //WHEN
         const configuration = getConfiguration();

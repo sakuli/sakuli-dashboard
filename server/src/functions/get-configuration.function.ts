@@ -16,7 +16,7 @@ export function getConfiguration(){
         configuration = {
             dashboardConfig: getConfig<DashboardConfig>(process.env.DASHBOARD_CONFIG, "DASHBOARD_CONFIG"),
             k8sClusterConfig: getConfig<K8sClusterConfig>(process.env.CLUSTER_CONFIG, "CLUSTER_CONFIG"),
-            actionConfig: getConfig<DashboardActionsConfig>(process.env.DASHBOARD_ACTION_CONFIG, "DASHBOARD_ACTION_CONFIG")
+            actionConfig: getConfig<DashboardActionsConfig>(process.env.ACTION_CONFIG, "ACTION_CONFIG")
         }
     }
     return configuration;
