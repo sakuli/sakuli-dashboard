@@ -2,7 +2,7 @@
     width: 90%;
     margin: 2% auto 2% auto;
     background: #ffff;
-    box-shadow: 6px 8px 8px 1px grey;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     padding: 0 0 2% 0;
 }
 
