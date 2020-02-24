@@ -1,0 +1,6 @@
+.fullscreen-button {
+    float: right;
+    border-radius: 5px;
+    background: rgba(212, 212, 212, 0.3);
+    font-size: 1rem;
+}
