@@ -7,11 +7,14 @@ import { reloadUrl } from "../functions/reload-url.function";
 import { invokeAction } from "../services/dashboard-backend.service";
 import "./dashboard-display.component.css";
 import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
+import FullscreenButtonComponent from "./fullscreen-button.component";
 
 interface DisplayProps {
     display: Display
 }
-const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
+const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
+
+    let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
@@ -42,15 +45,15 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props) => {
 
     if (isLoading) {
         return(
-            <div className={"display-container"}>
+            <div className={"display-container"} ref={displayContainerRef}>
                 <div className={"display-header"}>Loading ...</div>
                 <LoadingScreenComponent/>
             </div>
         )
     } else {
         return(
-            <div className={"display-container"}>
-                { display.description && <div className={"display-header"}>{display.description}</div> }
+            <div className={"display-container"} ref={displayContainerRef}>
+                <div className={"display-header"}>{display.description}<FullscreenButtonComponent target={displayContainerRef}/></div>
                 <IFrameComponent display={display}/>
                 { display.actionIdentifier && <ActionButton onClick={handleOnClick}/> }
             </div>
