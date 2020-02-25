@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import "./fullscreen-button.component.css";
-import {faExpandAlt, faCompressAlt} from "@fortawesome/free-solid-svg-icons";
+import {faCompressAlt, faExpandAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface FullscreenButtonProps {
@@ -21,8 +21,8 @@ const FullscreenButtonComponent: React.FC<FullscreenButtonProps> = (props: Fulls
                 await domNode.requestFullscreen({navigationUI: "show"});
                 setFullscreen(true);
             } else if (domNode && isFullscreen) {
-                    await document.exitFullscreen();
-                    setFullscreen(false);
+                await document.exitFullscreen();
+                setFullscreen(false);
             } else {
                 console.error(`Error: No element specified to enable fullscreen mode for`);
                 setFullscreen(false);
@@ -35,7 +35,7 @@ const FullscreenButtonComponent: React.FC<FullscreenButtonProps> = (props: Fulls
 
     return (
         <button className="fullscreen-button" onClick={() => toggleFullscreen(props.target)}>
-            { isFullscreen ? <FontAwesomeIcon icon={faCompressAlt}/> : <FontAwesomeIcon icon={faExpandAlt}/> }
+            {isFullscreen ? <FontAwesomeIcon icon={faCompressAlt}/> : <FontAwesomeIcon icon={faExpandAlt}/>}
         </button>
     );
 };
