@@ -8,9 +8,11 @@ import { invokeAction } from "../services/dashboard-backend.service";
 import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
 import FullscreenButtonComponent from "./fullscreen-button.component";
 import styled from "styled-components";
+import {LayoutMode} from "../App";
 
 interface DisplayProps {
-    display: Display
+    display: Display;
+    layout: LayoutMode;
 }
 const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
 
@@ -45,14 +47,10 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const DisplayContainer = styled.div`
         width: 90%;
-        margin: 2% auto 2% auto;
+        margin: ${props.layout === "row" ? "1% 1% 0 1%" : "2% auto 2% auto"};
         background: #ffff;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         padding: 0 0 2% 0;
-
-        @media all and (min-width: 1200px) {
-                margin: 1% 1% 0 1%;
-        }
     `;
 
     const DisplayHeader = styled.div`

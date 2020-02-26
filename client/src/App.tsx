@@ -5,22 +5,42 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faThLarge, faThList} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
-const LayoutContext = React.createContext('row');
+export type LayoutMode = "row" | "column";
 
 const App: React.FC = () => {
 
-    const [isRowLayout, setRowLayout] = useState(true);
+    const [currentLayout, setLayout] = useState<LayoutMode>("column");
 
-    const viewModeButton = (isRowLayout: boolean) => {
+    const ButtonGroup = styled.div`
+        float: right;
+    `;
+    const RowLayoutButton = styled.button`
+        border-radius: 5px;
+        background: rgba(212, 212, 212, 0.3);
+        font-size: 1rem;
+        margin-left: 2px;
+        margin-right: 2px;
+        color: ${currentLayout === "row" ? "grey" : "lightgray"};
+    `;
+    const ColumnLayoutButton = styled.button`
+        border-radius: 5px;
+        background: rgba(212, 212, 212, 0.3);
+        font-size: 1rem;
+        margin-left: 2px;
+        margin-right: 2px;
+        color: ${currentLayout === "column" ? "grey" : "lightgray"};
+    `;
+
+    const viewModeButton = () => {
         return (
-            <div className="buttonGroup">
-                <button>
-                    <FontAwesomeIcon icon={faThLarge}/>
-                </button>
-                <button>
+            <ButtonGroup>
+                <ColumnLayoutButton onClick={() => setLayout("column")}>
                     <FontAwesomeIcon icon={faThList}/>
-                </button>
-            </div>
+                </ColumnLayoutButton>
+                <RowLayoutButton onClick={() => setLayout("row")}>
+                    <FontAwesomeIcon icon={faThLarge}/>
+                </RowLayoutButton>
+            </ButtonGroup>
         )
     };
 
@@ -32,8 +52,10 @@ const App: React.FC = () => {
 
     return (
         <AppDiv>
-            <DashboardHeaderComponent/>
-            <DashboardComponent/>
+            <DashboardHeaderComponent>
+                {viewModeButton()}
+            </DashboardHeaderComponent>
+            <DashboardComponent layout={currentLayout}/>
         </AppDiv>
     );
 };

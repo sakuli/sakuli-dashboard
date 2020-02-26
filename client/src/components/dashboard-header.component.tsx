@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from "styled-components";
 
-const DashboardHeaderComponent: React.FC = () => {
+interface DashboardHeaderProps {
+    children?: React.ReactNode;
+}
+const DashboardHeaderComponent: React.FC = (props: DashboardHeaderProps) => {
 
     const HeaderDiv = styled.div`
         position: sticky;
@@ -17,7 +20,7 @@ const DashboardHeaderComponent: React.FC = () => {
     `;
 
     return (
-        <HeaderDiv>Sakuli Dashboard</HeaderDiv>
+        <HeaderDiv>Sakuli Dashboard{props.children}</HeaderDiv>
     )
 };
 export default DashboardHeaderComponent;

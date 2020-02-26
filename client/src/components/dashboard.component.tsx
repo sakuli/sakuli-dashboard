@@ -4,8 +4,13 @@ import DashboardDisplaysComponent from "./dashboard-displays.component";
 import {getDashboardConfig} from "../services/dashboard-backend.service";
 import {Display} from "@sakuli-dashboard/api";
 import styled from "styled-components";
+import {LayoutMode} from "../App";
 
-const DashboardComponent: React.FC = () => {
+interface DashboardProps {
+    layout: LayoutMode;
+}
+
+const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => {
 
     const [displays, setDisplays] = useState<Display[]>([]);
 
@@ -23,7 +28,7 @@ const DashboardComponent: React.FC = () => {
     }, []);
 
     if (displays) {
-        return <DashboardDisplaysComponent displays={displays} layout={"column"}/>;
+        return <DashboardDisplaysComponent displays={displays} layout={props.layout}/>;
     } else {
         return (
             <PlaceHolderDiv>

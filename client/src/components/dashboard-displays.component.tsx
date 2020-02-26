@@ -2,8 +2,7 @@ import React from 'react';
 import DashboardDisplayComponent from "./dashboard-display.component";
 import { Display } from "@sakuli-dashboard/api";
 import styled from "styled-components";
-
-type LayoutMode = "row" | "column";
+import {LayoutMode} from "../App";
 
 interface DisplaysProps {
     displays: Display[];
@@ -22,7 +21,7 @@ const DashboardDisplaysComponent: React.FC<DisplaysProps> = (props: DisplaysProp
         <DashboardContainer>
             {[...props.displays]
                 .sort((a, b) => a.index - b.index)
-                .map(display => <DashboardDisplayComponent key={display.index} display={display}/>)}
+                .map(display => <DashboardDisplayComponent key={display.index} display={display} layout={props.layout}/>)}
         </DashboardContainer>);
 };
 export default DashboardDisplaysComponent;
