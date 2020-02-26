@@ -1,18 +1,28 @@
 import React from 'react';
 import DashboardDisplayComponent from "./dashboard-display.component";
 import { Display } from "@sakuli-dashboard/api";
-import "./dashboard-displays.component.css";
+import styled from "styled-components";
+
+type LayoutMode = "row" | "column";
 
 interface DisplaysProps {
-    displays: Display[]
+    displays: Display[];
+    layout: LayoutMode;
 }
-const DashboardDisplaysComponent: React.FC<DisplaysProps> = ({displays}) => {
 
+const DashboardDisplaysComponent: React.FC<DisplaysProps> = (props: DisplaysProps) => {
+    const DashboardContainer = styled.div`
+        display: flex;
+        flex-direction: ${props.layout};
+        justify-content: space-between;
+        margin-left: auto;
+        margin-right: auto;
+    `;
     return (
-        <div className={"dashboard-container"}>
-            {[...displays]
+        <DashboardContainer>
+            {[...props.displays]
                 .sort((a, b) => a.index - b.index)
                 .map(display => <DashboardDisplayComponent key={display.index} display={display}/>)}
-        </div>);
+        </DashboardContainer>);
 };
 export default DashboardDisplaysComponent;
