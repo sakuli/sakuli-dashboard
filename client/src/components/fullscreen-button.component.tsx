@@ -18,8 +18,17 @@ const FullscreenButtonComponent: React.FC<FullscreenButtonProps> = (props: Fulls
         try {
             const domNode = target.current;
             if (domNode && !isFullscreen) {
+                domNode.onfullscreenchange = _ => {
+                    if (document.fullscreenElement) {
+                        setFullscreen(true);
+                    } else {
+                        setFullscreen(false);
+                    }
+                };
+                domNode.onfullscreenerror = _ => {
+                    setFullscreen(false);
+                };
                 await domNode.requestFullscreen({navigationUI: "show"});
-                setFullscreen(true);
             } else if (domNode && isFullscreen) {
                 await document.exitFullscreen();
                 setFullscreen(false);
