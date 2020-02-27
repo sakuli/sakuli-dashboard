@@ -27,6 +27,10 @@
     "start:dev": "lerna run start:dev --stream"
   },
   "devDependencies": {
+    "@types/styled-components": "^5.0.1",
     "lerna": "^3.19.0"
+  },
+  "dependencies": {
+    "styled-components": "^5.0.1"
   }
 }
