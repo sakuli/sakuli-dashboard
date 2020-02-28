@@ -3,24 +3,26 @@
   "version": "1.0.4",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@fortawesome/react-fontawesome": "^0.1.8",
-    "react": "^16.12.0",
-    "@sakuli-dashboard/api": "^1.0.0"
+    "@fortawesome/fontawesome-svg-core": "1.2.27",
+    "@fortawesome/free-solid-svg-icons": "5.12.1",
+    "@fortawesome/react-fontawesome": "0.1.8",
+    "@sakuli-dashboard/api": "^1.0.0",
+    "@types/styled-components": "^5.0.1",
+    "react": "16.13.0",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.0.24",
-    "@types/node": "^12.12.21",
-    "@types/react": "^16.9.16",
-    "@types/react-dom": "^16.9.4",
-    "react-dom": "^16.12.0",
-    "react-iframe": "^1.8.0",
-    "react-scripts": "3.3.0",
-    "typescript": "^3.7.3"
+    "@testing-library/jest-dom": "5.1.1",
+    "@testing-library/react": "9.4.1",
+    "@testing-library/user-event": "10.0.0",
+    "@types/jest": "25.1.3",
+    "@types/node": "13.7.6",
+    "@types/react": "16.9.23",
+    "@types/react-dom": "16.9.5",
+    "react-dom": "16.13.0",
+    "react-iframe": "1.8.0",
+    "react-scripts": "3.4.0",
+    "typescript": "3.8.2"
   },
   "scripts": {
     "start:dev": "react-scripts start",
