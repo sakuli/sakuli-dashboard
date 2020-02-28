@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import ActionButton from "./action-button.component";
 import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
-import { DashboardActionResponse, Display, isDashboardActionResponse } from "@sakuli-dashboard/api";
-import { reloadUrl } from "../functions/reload-url.function";
-import { invokeAction } from "../services/dashboard-backend.service";
-import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
+import {DashboardActionResponse, Display, isDashboardActionResponse} from "@sakuli-dashboard/api";
+import {reloadUrl} from "../functions/reload-url.function";
+import {invokeAction} from "../services/dashboard-backend.service";
+import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-available.function";
 import FullscreenButtonComponent from "./fullscreen-button.component";
 import styled from "styled-components";
 import {LayoutMode} from "../App";
@@ -14,46 +14,19 @@ interface DisplayProps {
     display: Display;
     layout: LayoutMode;
 }
-const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
 
-    let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
-
-    const [display, setDisplay] = useState(props.display);
-    const [isLoading, setIsLoading] = useState(false);
-
-    function handleOnClick(){
-        setIsLoading(true);
-        const request = {
-            actionIdentifier: display.actionIdentifier
-        };
-        invokeAction(request)
-            .then(json => {
-                if(isDashboardActionResponse(json) || {}) {
-                    handleResponse(json as DashboardActionResponse);
-                }
-            })
-            .catch(error => console.error(error));
-    }
-
-    function handleResponse(resp: DashboardActionResponse){
-        const newUrl = resp.url || reloadUrl(display.url);
-
-        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
-            .then(() => {
-                setDisplay({...display, url: newUrl});
-                setIsLoading(false);
-            })
-    }
-
-    const DisplayContainer = styled.div`
+const DisplayContainer = styled.div<DisplayProps>`
         width: 90%;
-        margin: ${props.layout === "row" ? "1% 1% 0 1%" : "2% auto 2% auto"};
+        margin: ${(props) => props.layout === "row" ? "1% 1% 0 1%" : "2% auto 2% auto"};
         background: #ffff;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         padding: 0 0 2% 0;
     `;
+const FullscreenDiv = styled.div`
+        background: #ffff;
+    `;
 
-    const DisplayHeader = styled.div`
+const DisplayHeader = styled.div`
         position: sticky;
         top: 0;
         padding: 10px;
@@ -64,25 +37,63 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         background: white;
     `;
 
-    if (isLoading) {
-        return(
-            <DisplayContainer ref={displayContainerRef}>
-                <DisplayHeader>Loading ...</DisplayHeader>
-                <LoadingScreenComponent/>
-            </DisplayContainer>
-        )
-    } else {
-        return(
-            <DisplayContainer ref={displayContainerRef}>
-                <DisplayHeader>
-                    {display.description}
-                    <FullscreenButtonComponent target={displayContainerRef}/>
-                </DisplayHeader>
-                <IFrameComponent display={display}/>
-                { display.actionIdentifier && <ActionButton onClick={handleOnClick}/> }
-            </DisplayContainer>
-        )
-    }
+const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
+
+    let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+    const [display, setDisplay] = useState(props.display);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleOnClick = useCallback(() => {
+        setIsLoading(true);
+        const request = {
+            actionIdentifier: display.actionIdentifier
+        };
+        invokeAction(request)
+            .then(json => {
+                if (isDashboardActionResponse(json) || {}) {
+                    handleResponse(json as DashboardActionResponse);
+                }
+            })
+            .catch(error => console.error(error));
+    }, [display]);
+
+    const handleResponse = useCallback((resp: DashboardActionResponse) => {
+        const newUrl = resp.url || reloadUrl(display.url);
+
+        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
+            .then(() => {
+                setDisplay({...display, url: newUrl});
+                setIsLoading(false);
+            })
+    }, [display]);
+
+    const content = isLoading ? (
+        <>
+            <DisplayHeader>
+                Loading ...
+                <FullscreenButtonComponent target={displayContainerRef}/>
+            </DisplayHeader>
+            <LoadingScreenComponent/>
+        </>
+    ) : (
+        <>
+            <DisplayHeader>
+                {display.description}
+                <FullscreenButtonComponent target={displayContainerRef}/>
+            </DisplayHeader>
+            <IFrameComponent display={display}/>
+            {display.actionIdentifier && <ActionButton onClick={handleOnClick}/>}
+        </>
+    );
+
+    return (
+        <DisplayContainer {...props}>
+            <FullscreenDiv ref={displayContainerRef}>
+                {content}
+            </FullscreenDiv>
+        </DisplayContainer>
+    )
 
 };
 export default DashboardDisplayComponent;
