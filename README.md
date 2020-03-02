@@ -5,6 +5,7 @@ A small and simple dashboard application to show sakuli VNC-views and monitoring
 * Configurable display layout
 * Configurable play button to perform actions on k8s cluster
 * Automated display updates after play button has been clicked
+* Automated updates on displays in case the service is only temporarily available
 
 ## Development
 A k8s API is necessary in order to perform e2e-tests.
