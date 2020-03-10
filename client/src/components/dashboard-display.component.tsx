@@ -9,6 +9,7 @@ import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-availabl
 import FullscreenButtonComponent from "./fullscreen-button.component";
 import styled from "styled-components";
 import {LayoutMode} from "../App";
+import { useLocale } from "../hooks/use-locale";
 
 interface DisplayProps {
     display: Display;
@@ -40,9 +41,20 @@ const DisplayHeader = styled.div`
 const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
 
     let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
+    const locale = useLocale();
 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
+
+    const handleResponse = useCallback((resp: DashboardActionResponse) => {
+        const newUrl = resp.url || reloadUrl(display.url);
+
+        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
+            .then(() => {
+                setDisplay({...display, url: newUrl});
+                setIsLoading(false);
+            })
+    }, [display]);
 
     const handleOnClick = useCallback(() => {
         setIsLoading(true);
@@ -56,17 +68,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                 }
             })
             .catch(error => console.error(error));
-    }, [display]);
-
-    const handleResponse = useCallback((resp: DashboardActionResponse) => {
-        const newUrl = resp.url || reloadUrl(display.url);
-
-        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
-            .then(() => {
-                setDisplay({...display, url: newUrl});
-                setIsLoading(false);
-            })
-    }, [display]);
+    }, [display, handleResponse]);
 
     const content = isLoading ? (
         <>
@@ -79,7 +81,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     ) : (
         <>
             <DisplayHeader>
-                {display.description}
+                {display.messages?.[locale]?.description ?? display.description}
                 <FullscreenButtonComponent target={displayContainerRef}/>
             </DisplayHeader>
             <IFrameComponent display={display}/>
