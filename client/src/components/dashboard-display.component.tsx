@@ -9,11 +9,11 @@ import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-availabl
 import FullscreenButtonComponent from "./fullscreen-button.component";
 import styled from "styled-components";
 import {LayoutMode} from "../App";
-import { useLocale } from "../hooks/use-locale";
 
 interface DisplayProps {
     display: Display;
     layout: LayoutMode;
+    locale: string;
 }
 
 const DisplayContainer = styled.div<DisplayProps>`
@@ -41,7 +41,6 @@ const DisplayHeader = styled.div`
 const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
 
     let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
-    const locale = useLocale();
 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +80,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     ) : (
         <>
             <DisplayHeader>
-                {display.messages?.[locale]?.description ?? display.description}
+                {display.messages?.[props.locale]?.description ?? display.description}
                 <FullscreenButtonComponent target={displayContainerRef}/>
             </DisplayHeader>
             <IFrameComponent display={display}/>
