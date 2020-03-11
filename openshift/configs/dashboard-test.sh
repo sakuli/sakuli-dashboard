@@ -9,13 +9,27 @@ export DASHBOARD_CONFIG=$(cat <<EOF
    "displays":[
       {
          "index":1,
-         "description": "Test Execution - VNC View",
+         "messages": {
+             "de": {
+                "description": "Test Ausführung - VNC Ansicht"
+             },
+             "en": {
+                "description": "Test Execution - VNC View"
+             }
+         },
          "url":"https://pink-coffee-pink-coffee.paas.consol.de?password=vncpassword&scale=local&view_only=true",
          "actionIdentifier":"7890eab9-6c5e-4e40-b39c-163900ea4834"
       },
       {
          "index":2,
-         "description": "Service Monitoring",
+         "messages": {
+             "de": {
+                "description": "Dienstüberwachung"
+             },
+             "en": {
+                "description": "Service Monitoring"
+             }
+         },
          "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-6h&to=now&kiosk=tv"
       }
    ]
