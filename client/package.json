@@ -7,6 +7,7 @@
     "@fortawesome/free-solid-svg-icons": "5.12.1",
     "@fortawesome/react-fontawesome": "0.1.8",
     "@sakuli-dashboard/api": "^1.0.0",
+    "@tippyjs/react": "^4.0.0-alpha.3",
     "@types/styled-components": "^5.0.1",
     "react": "16.13.0",
     "styled-components": "^5.0.1"
