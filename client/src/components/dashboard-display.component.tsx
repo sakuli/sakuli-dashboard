@@ -80,7 +80,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     ) : (
         <>
             <DisplayHeader>
-                {display.messages?.[props.locale]?.description ?? display.description}
+                {display.messages?.[props.locale]?.description}
                 <FullscreenButtonComponent target={displayContainerRef}/>
             </DisplayHeader>
             <IFrameComponent display={display}/>

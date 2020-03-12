@@ -50,7 +50,7 @@ const App: React.FC = () => {
 
     const LanguageGroup = styled.div`
         float: right;
-        border-right: 2px solid grey;
+        border-right: 1px solid lightgray;
         line-height: 25px;
     `;
     const Language = styled.a`
