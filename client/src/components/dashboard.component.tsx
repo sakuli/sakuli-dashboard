@@ -8,6 +8,7 @@ import {LayoutMode} from "../App";
 
 interface DashboardProps {
     layout: LayoutMode;
+    locale: string;
 }
 
 const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => {
@@ -28,7 +29,7 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
     }, []);
 
     if (displays) {
-        return <DashboardDisplaysComponent displays={displays} layout={props.layout}/>;
+        return <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>;
     } else {
         return (
             <PlaceHolderDiv>

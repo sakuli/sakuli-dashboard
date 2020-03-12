@@ -13,6 +13,7 @@ import {LayoutMode} from "../App";
 interface DisplayProps {
     display: Display;
     layout: LayoutMode;
+    locale: string;
 }
 
 const DisplayContainer = styled.div<DisplayProps>`
@@ -44,6 +45,16 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
 
+    const handleResponse = useCallback((resp: DashboardActionResponse) => {
+        const newUrl = resp.url || reloadUrl(display.url);
+
+        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
+            .then(() => {
+                setDisplay({...display, url: newUrl});
+                setIsLoading(false);
+            })
+    }, [display]);
+
     const handleOnClick = useCallback(() => {
         setIsLoading(true);
         const request = {
@@ -56,17 +67,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                 }
             })
             .catch(error => console.error(error));
-    }, [display]);
-
-    const handleResponse = useCallback((resp: DashboardActionResponse) => {
-        const newUrl = resp.url || reloadUrl(display.url);
-
-        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
-            .then(() => {
-                setDisplay({...display, url: newUrl});
-                setIsLoading(false);
-            })
-    }, [display]);
+    }, [display, handleResponse]);
 
     const content = isLoading ? (
         <>
@@ -79,7 +80,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     ) : (
         <>
             <DisplayHeader>
-                {display.description}
+                {display.messages?.[props.locale]?.description}
                 <FullscreenButtonComponent target={displayContainerRef}/>
             </DisplayHeader>
             <IFrameComponent display={display}/>

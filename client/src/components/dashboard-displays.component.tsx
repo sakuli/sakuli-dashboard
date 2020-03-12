@@ -7,6 +7,7 @@ import {LayoutMode} from "../App";
 interface DisplaysProps {
     displays: Display[];
     layout: LayoutMode;
+    locale: string;
 }
 
 const DashboardDisplaysComponent: React.FC<DisplaysProps> = (props: DisplaysProps) => {
@@ -21,7 +22,7 @@ const DashboardDisplaysComponent: React.FC<DisplaysProps> = (props: DisplaysProp
         <DashboardContainer>
             {[...props.displays]
                 .sort((a, b) => a.index - b.index)
-                .map(display => <DashboardDisplayComponent key={display.index} display={display} layout={props.layout}/>)}
+                .map(display => <DashboardDisplayComponent key={display.index} display={display} layout={props.layout} locale={props.locale}/>)}
         </DashboardContainer>);
 };
 export default DashboardDisplaysComponent;

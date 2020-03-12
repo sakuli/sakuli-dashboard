@@ -1,6 +1,8 @@
+import { Messages } from "./messages.interface";
+
 export interface Display {
     index: number
-    description: string
+    messages: Record<string, Messages>
     url: string
     width: string
     height: string
