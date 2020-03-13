@@ -12,10 +12,12 @@ export DASHBOARD_CONFIG=$(cat <<EOF
          "index":1,
          "messages": {
              "de": {
-                "description": "Drücken Sie auf Start, lehnen Sie sich zurück und sehen Sie Sakuli bei der Arbeit zu."
+                "description": "Drücken Sie auf Start, lehnen Sie sich zurück und sehen Sie Sakuli bei der Arbeit zu.",
+                "infoText": "Das SUT ist ein Ticketsystem und eine Windows VM. Als ersten Schritt wird ein Ticket erstellt, um den Prozess als Enduser zu simulieren. Anschließend wird das Ticket als Geschäftsperson für die Abarbeitung geöffnet. Während diesem Prozess verbindet sich Sakuli mit einer Windows VM per RDP. Dort werden alle bearbeiteten Ticket in Excel archiviert und in Paint das Sakuli Logo gezeichnet. Am Ende wird der Ticketprozess geschlossen und zur Kontrolle wird geschaut, ob an den Enduser eine Email geschickt wurde."
              },
              "en": {
-                "description": "Press Start, Sit Back and Watch Sakuli Work."
+                "description": "Press Start, Sit Back and Watch Sakuli Work.",
+                "infoText": "The SUT is a ticket tool and a Windows VM. Firstly Sakuli creates a new Ticket to simulate an end user. Afterwards Sakuli simulates a business person and looks at the ticket. During this process Sakuli opens an RDP client and connects to a Windows VM to manage all the tickets. Then Sakuli paints the Sakuli logo in Paint. After the short detour the ticket is edited and closed. At the end it is checked again if an email was sent to the end user according to the process."
              }
          },
          "url":"https://pink-coffee-pink-coffee.paas.consol.de?password=vncpassword&scale=local&view_only=true",
@@ -25,10 +27,12 @@ export DASHBOARD_CONFIG=$(cat <<EOF
          "index":2,
          "messages": {
              "de": {
-                "description": "Monitoring Daten: Erkennen von Mustern, Alerting und Screenshot Darstellung von Fehlern."
+                "description": "Monitoring Daten: Erkennen von Mustern, Alerting und Screenshot Darstellung von Fehlern.",
+                "infoText": "Hier können sie die Monitoring Daten in einem Grafana sehen, die Sakuli an ein OMD geschickt hat. Bei Fehler können Sie die Maus über diese bewegen um den Screenshot ansehen."
              },
              "en": {
-                "description": "Monitoring Data: Recognize Patterns, Alerting and Display Error Screenshots."
+                "description": "Monitoring Data: Recognize Patterns, Alerting and Display Error Screenshots.",
+                "infoText": "This is a Grafana Dashboard with the Data of the shown test, which Sakuli sent to a OMD. In case of an error during the Sakuli test, a screenshot will be sent with the monitoring data which then will be shown here."
              }
          },
          "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-6h&to=now&kiosk=tv"
