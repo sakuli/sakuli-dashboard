@@ -28,7 +28,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
          "messages": {
              "de": {
                 "description": "Monitoring Daten: Erkennen von Mustern, Alerting und Screenshot Darstellung von Fehlern.",
-                "infoText": "Hier können sie die Monitoring Daten in einem Grafana sehen, die Sakuli an ein OMD geschickt hat. Bei Fehler können Sie die Maus über diese bewegen um den Screenshot ansehen."
+                "infoText": "Hier sehen Sie Monitoring Daten in einem Grafana Dashboard, die Sakuli an ein OMD System weitergeleitet hat. Bei Fehlern können Sie die Maus über diese bewegen um einen Fehlerscreenshot einzublenden."
              },
              "en": {
                 "description": "Monitoring Data: Recognize Patterns, Alerting and Display Error Screenshots.",
