@@ -13,7 +13,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
          "messages": {
              "de": {
                 "description": "Drücken Sie auf Start, lehnen Sie sich zurück und sehen Sie Sakuli bei der Arbeit zu.",
-                "infoText": "Das SUT ist ein Ticketsystem und eine Windows VM. Als ersten Schritt wird ein Ticket erstellt, um den Prozess als Enduser zu simulieren. Anschließend wird das Ticket als Geschäftsperson für die Abarbeitung geöffnet. Während diesem Prozess verbindet sich Sakuli mit einer Windows VM per RDP. Dort werden alle bearbeiteten Ticket in Excel archiviert und in Paint das Sakuli Logo gezeichnet. Am Ende wird der Ticketprozess geschlossen und zur Kontrolle wird geschaut, ob an den Enduser eine Email geschickt wurde."
+"infoText": "Das Testsystem dieser Demo besteht aus einem Ticketsystem und einer Windows VM. Im ersten Schritt wird ein Ticket erstellt, um den Prozess als Endkunde zu simulieren. Anschließend wird das Ticket für die Abarbeitung geöffnet. Während diesem Prozess verbindet sich Sakuli per RDP mit einer Windows VM. Dort werden alle bearbeiteten Tickets in Excel archiviert und zusätzlich in Paint das Sakuli Logo gezeichnet. Zum Abschluss des Prozesses wird das Ticket geschlossen und geprüft, ob eine Email Bestätigung an den Enduser versandt wurde."
              },
              "en": {
                 "description": "Press Start, Sit Back and Watch Sakuli Work.",
