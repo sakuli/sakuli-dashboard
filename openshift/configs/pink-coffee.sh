@@ -32,7 +32,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
              },
              "en": {
                 "description": "Monitoring Data: Recognize Patterns, Alerting and Display Error Screenshots.",
-                "infoText": "This is a Grafana Dashboard with the Data of the shown test, which Sakuli sent to a OMD. In case of an error during the Sakuli test, a screenshot will be sent with the monitoring data which then will be shown here."
+                "infoText": "This is a Grafana Dashboard showing monitoring data which Sakuli provided to OMD. In case of an error during the Sakuli test, a screenshot will be sent with the monitoring data which then will be shown here."
              }
          },
          "url":"https://ta-monitoring.aws-test.consol.de/demo/grafana/dashboard/script/histou.js?orgId=1&host=sakuli_client&service=CM_Sakuli_Demo&theme=light&annotations=true&refresh=5s&from=now-6h&to=now&kiosk=tv"
