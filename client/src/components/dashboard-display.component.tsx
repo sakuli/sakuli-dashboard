@@ -9,6 +9,10 @@ import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-availabl
 import FullscreenButtonComponent from "./fullscreen-button.component";
 import styled from "styled-components";
 import {LayoutMode} from "../App";
+import { faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Tippy from "@tippyjs/react";
+import 'tippy.js/dist/tippy.css';
 
 interface DisplayProps {
     display: Display;
@@ -69,6 +73,23 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
             .catch(error => console.error(error));
     }, [display, handleResponse]);
 
+    const InfoIcon = styled.span`
+        margin-left: 4px;
+    `;
+
+    const infoPopover = () => {
+        const infoText = display.messages?.[props.locale]?.infoText;
+        if(infoText) {
+            return (
+                <InfoIcon>
+                    <Tippy content={infoText}>
+                        <span><FontAwesomeIcon icon={faInfoCircle}/></span>
+                    </Tippy>
+                </InfoIcon>
+            );
+        }
+    };
+
     const content = isLoading ? (
         <>
             <DisplayHeader>
@@ -81,6 +102,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         <>
             <DisplayHeader>
                 {display.messages?.[props.locale]?.description}
+                {infoPopover()}
                 <FullscreenButtonComponent target={displayContainerRef}/>
             </DisplayHeader>
             <IFrameComponent display={display}/>
@@ -95,6 +117,5 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
             </FullscreenDiv>
         </DisplayContainer>
     )
-
 };
 export default DashboardDisplayComponent;

@@ -16,7 +16,8 @@
   ],
   "license": "ISC",
   "scripts": {
-    "rebuild": "npm run clean && npm run bootstrap && npm run build",
+    "audit": "npm audit fix && lerna-audit",
+    "rebuild": "npm run clean && npm i && npm run bootstrap && npm run build",
     "postinstall": "npm run bootstrap",
     "test": "lerna run test",
     "build": "lerna run build",
@@ -27,6 +28,7 @@
     "start:dev": "lerna run start:dev --stream"
   },
   "devDependencies": {
-    "lerna": "^3.19.0"
+    "lerna": "^3.19.0",
+    "lerna-audit": "^1.1.1"
   }
 }
