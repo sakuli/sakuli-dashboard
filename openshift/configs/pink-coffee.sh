@@ -17,7 +17,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
              },
              "en": {
                 "description": "Press Start, Sit Back and Watch Sakuli Work.",
-                "infoText": "The SUT is a ticket tool and a Windows VM. Firstly Sakuli creates a new Ticket to simulate an end user. Afterwards Sakuli simulates a business person and looks at the ticket. During this process Sakuli opens an RDP client and connects to a Windows VM to manage all the tickets. Then Sakuli paints the Sakuli logo in Paint. After the short detour the ticket is edited and closed. At the end it is checked again if an email was sent to the end user according to the process."
+"infoText": "The system under test in this demo consists of a ticket system and a Windows VM. As a first step, a ticket is created to simulate the customer process. Afterwards this ticket is opened for processing. During this process, Sakuli connects to a Windows VM via RDP to archive all processed tickets in Excel. Additionally, Sakuli will draw its own logo in Paint. To finish the process the ticket gets closed and Sakuli verifies whether an email confirmation has been sent to the end user."
              }
          },
          "url":"https://pink-coffee-pink-coffee.paas.consol.de?password=vncpassword&scale=local&view_only=true",
