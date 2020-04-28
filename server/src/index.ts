@@ -4,6 +4,7 @@ import { executeAction } from "./service/action.service";
 import { HttpStatusCode } from "@sakuli-dashboard/api";
 import { healthCheckService } from "./service/health-check.service";
 import { getConfiguration } from "./functions/get-configuration.function";
+import { configureCronjob } from "./service/cronjob.service";
 
 const app = express();
 
@@ -29,6 +30,12 @@ app.post('/api/dashboard/health-check', (req, res) => {
   healthCheckService().checkUrl(req.body)
       .then(status => res.status(200).send({status: status}));
 });
+
+try{
+  configureCronjob(getConfiguration().cronjobConfig);
+} catch (e) {
+  console.log("Failed to configure cronjob", e);
+}
 
 const port = 8080;
 
