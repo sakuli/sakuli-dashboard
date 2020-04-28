@@ -99,7 +99,7 @@ EOF
 
 export CRONJOB_CONFIG=$(cat <<EOF
 {
-    "schedule": "*/20 * * * *",
+    "schedule": "0 0 * * *",
     "actionIdentifier": "7890eab9-6c5e-4e40-b39c-163900ea4834"
 }
 EOF
