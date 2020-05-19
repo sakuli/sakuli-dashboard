@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import ActionButton from "./action-button.component";
 import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
-import {DashboardActionResponse, Display, isDashboardActionResponse} from "@sakuli-dashboard/api";
+import {DashboardActionResponse, Display, isDashboardActionResponse, BackendError, isBackendError} from "@sakuli-dashboard/api";
 import {reloadUrl} from "../functions/reload-url.function";
 import {invokeAction} from "../services/dashboard-backend.service";
 import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-available.function";
@@ -48,6 +48,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleResponse = useCallback((resp: DashboardActionResponse) => {
         const newUrl = resp.url || reloadUrl(display.url);
@@ -59,19 +60,24 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
             })
     }, [display]);
 
-    const handleOnClick = useCallback(() => {
+    const handleError = useCallback((error: BackendError) => {
+        setErrorMessage(error.message);
+    }, [])
+
+    const handleOnClick = useCallback(async () => {
         setIsLoading(true);
         const request = {
             actionIdentifier: display.actionIdentifier
         };
-        invokeAction(request)
-            .then(json => {
-                if (isDashboardActionResponse(json) || {}) {
-                    handleResponse(json as DashboardActionResponse);
-                }
-            })
-            .catch(error => console.error(error));
-    }, [display, handleResponse]);
+
+        const response = await invokeAction(request);
+
+        if(isDashboardActionResponse(response)) {
+          handleResponse(response)
+        } else if (isBackendError(response)) {
+          handleError(response);
+        }
+    }, [display, handleResponse, handleError]);
 
     const InfoIcon = styled.span`
         margin-left: 4px;
@@ -115,6 +121,9 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
             <FullscreenDiv ref={displayContainerRef}>
                 {content}
             </FullscreenDiv>
+            <div>
+              {errorMessage}
+            </div>
         </DisplayContainer>
     )
 };
