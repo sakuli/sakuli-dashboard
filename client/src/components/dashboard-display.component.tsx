@@ -13,6 +13,7 @@ import { faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tippy from "@tippyjs/react";
 import 'tippy.js/dist/tippy.css';
+import ErrorMessageBanner from "./error-message-banner.component";
 
 interface DisplayProps {
     display: Display;
@@ -76,6 +77,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
           handleResponse(response)
         } else if (isBackendError(response)) {
           handleError(response);
+          setIsLoading(false);
         }
     }, [display, handleResponse, handleError]);
 
@@ -96,6 +98,20 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         }
     };
 
+    const showDisplay = (message: string) => {
+      if(message === "") {
+        return (
+          <div>
+            <IFrameComponent display={display}/>
+            {display.actionIdentifier && <ActionButton onClick={handleOnClick}/>}
+          </div>
+        )
+      }
+      return (
+        <ErrorMessageBanner errorMessage={errorMessage} />
+      )
+    }
+
     const content = isLoading ? (
         <>
             <DisplayHeader>
@@ -111,8 +127,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                 {infoPopover()}
                 <FullscreenButtonComponent target={displayContainerRef}/>
             </DisplayHeader>
-            <IFrameComponent display={display}/>
-            {display.actionIdentifier && <ActionButton onClick={handleOnClick}/>}
+          {showDisplay(errorMessage)}
         </>
     );
 
@@ -121,9 +136,6 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
             <FullscreenDiv ref={displayContainerRef}>
                 {content}
             </FullscreenDiv>
-            <div>
-              {errorMessage}
-            </div>
         </DisplayContainer>
     )
 };
