@@ -24,7 +24,7 @@ const App: React.FC = () => {
         font-size: 1rem;
         margin-left: 2px;
         margin-right: 2px;
-        color: ${currentLayout === "row" ? "grey" : "lightgray"};
+        color: "lightgray";
     `;
     const ColumnLayoutButton = styled.button`
         border-radius: 5px;
@@ -32,20 +32,27 @@ const App: React.FC = () => {
         font-size: 1rem;
         margin-left: 2px;
         margin-right: 2px;
-        color: ${currentLayout === "column" ? "grey" : "lightgray"};
+        color: "lightgray";
     `;
 
     const viewModeButton = () => {
-        return (
-            <ButtonGroup>
-                <ColumnLayoutButton onClick={() => setLayout("column")}>
-                    <FontAwesomeIcon icon={faThList}/>
-                </ColumnLayoutButton>
-                <RowLayoutButton onClick={() => setLayout("row")}>
+        if(currentLayout === "column"){
+            return (
+                <ButtonGroup>
+                    <RowLayoutButton onClick={() => setLayout("row")}>
                     <FontAwesomeIcon icon={faThLarge}/>
-                </RowLayoutButton>
-            </ButtonGroup>
-        )
+                    </RowLayoutButton>
+                </ButtonGroup>
+            )
+            } else {
+            return (
+                <ButtonGroup>
+                    <ColumnLayoutButton onClick={() => setLayout("column")}>
+                    <FontAwesomeIcon icon={faThList}/>
+                    </ColumnLayoutButton>
+                </ButtonGroup>
+            )
+        }
     };
 
     const LanguageGroup = styled.div`
