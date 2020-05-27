@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import DashboardComponent from "./components/dashboard.component";
-import DashboardHeaderComponent from "./components/dashboard-header.component";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faThLarge, faThList} from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
-import { useLocale } from "./hooks/use-locale";
+import {useLocale} from "./hooks/use-locale";
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export type LayoutMode = "row" | "column";
 
@@ -14,81 +16,38 @@ const App: React.FC = () => {
 
     const locale = useLocale();
 
-    const ButtonGroup = styled.div`
-        float: right;
-        margin-left: 3px;
-    `;
-    const RowLayoutButton = styled.button`
-        border-radius: 5px;
-        background: rgba(212, 212, 212, 0.3);
-        font-size: 1rem;
-        margin-left: 2px;
-        margin-right: 2px;
-        color: "lightgray";
-    `;
-    const ColumnLayoutButton = styled.button`
-        border-radius: 5px;
-        background: rgba(212, 212, 212, 0.3);
-        font-size: 1rem;
-        margin-left: 2px;
-        margin-right: 2px;
-        color: "lightgray";
-    `;
-
-    const viewModeButton = () => {
-        if(currentLayout === "column"){
-            return (
-                <ButtonGroup>
-                    <RowLayoutButton onClick={() => setLayout("row")}>
-                    <FontAwesomeIcon icon={faThLarge}/>
-                    </RowLayoutButton>
-                </ButtonGroup>
-            )
-            } else {
-            return (
-                <ButtonGroup>
-                    <ColumnLayoutButton onClick={() => setLayout("column")}>
-                    <FontAwesomeIcon icon={faThList}/>
-                    </ColumnLayoutButton>
-                </ButtonGroup>
-            )
+    const getLanguageIcon = (lang: string) => {
+        switch (lang) {
+            case "de":
+                return String.fromCodePoint(0x1F1E9, 0x1F1EA);
+            case "en":
+                return String.fromCodePoint(0x1F1EC, 0x1F1E7);
+            default:
+                return String.fromCodePoint(0x1F3F3, 0xFE0F);
         }
-    };
-
-    const LanguageGroup = styled.div`
-        float: right;
-        border-right: 1px solid lightgray;
-        line-height: 25px;
-    `;
-    const Language = styled.a`
-        margin-left: 4px;
-        margin-right: 4px;
-        text-decoration: none;
-    `;
-
-    const viewLanguageLinks = () => {
-        return (
-            <LanguageGroup>
-                <Language href="?lang=de">{String.fromCodePoint(0x1F1E9, 0x1F1EA)}</Language>
-                <Language href="?lang=en">{String.fromCodePoint(0x1F1EC, 0x1F1E7)}</Language>
-            </LanguageGroup>
-        )
-    };
-
-    const AppDiv = styled.div`
-        text-align: center;
-        background: #f2f2f2;
-        height: 100%;
-    `;
+    }
 
     return (
-        <AppDiv>
-            <DashboardHeaderComponent>
-                {viewModeButton()}
-                {viewLanguageLinks()}
-            </DashboardHeaderComponent>
+        <>
+            <Navbar bg="light" variant="light">
+                <Navbar.Text className={"text-center"}>Sakuli Dashboard</Navbar.Text>
+                <Navbar.Collapse className={"justify-content-end"}>
+                    <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)}>
+                        <NavDropdown.Item href="?lang=de">{getLanguageIcon("de")} Deutsch</NavDropdown.Item>
+                        <NavDropdown.Item href="?lang=en">{getLanguageIcon("en")} English</NavDropdown.Item>
+                    </NavDropdown>
+                    <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
+                        <Button disabled={true} variant={"light"} onClick={() => setLayout("row")}>
+                            <FontAwesomeIcon icon={faThLarge}/>
+                        </Button>
+                        <Button variant={"light"} onClick={() => setLayout("column")}>
+                            <FontAwesomeIcon icon={faThList}/>
+                        </Button>
+                    </ButtonGroup>
+                </Navbar.Collapse>
+            </Navbar>
             <DashboardComponent layout={currentLayout} locale={locale}/>
-        </AppDiv>
+        </>
     );
 };
 
