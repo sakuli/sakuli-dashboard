@@ -35,7 +35,7 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
                 setBackendError(response);
             }
         })();
-    }, [displays]);
+    }, []);
 
     if (displays.length > 0) {
         return <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>;

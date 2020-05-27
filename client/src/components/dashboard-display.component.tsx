@@ -49,7 +49,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [backendError, setBackendError] = useState<BackendError>();
 
     const handleResponse = useCallback((resp: DashboardActionResponse) => {
         const newUrl = resp.url || reloadUrl(display.url);
@@ -60,10 +60,6 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                 setIsLoading(false);
             })
     }, [display]);
-
-    const handleError = useCallback((error: BackendError) => {
-        setErrorMessage(error.message);
-    }, [])
 
     const handleOnClick = useCallback(async () => {
         setIsLoading(true);
@@ -76,10 +72,10 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         if(isDashboardActionResponse(response)) {
           handleResponse(response)
         } else if (isBackendError(response)) {
-          handleError(response);
+          setBackendError(response);
           setIsLoading(false);
         }
-    }, [display, handleResponse, handleError]);
+    }, [display, handleResponse]);
 
     const InfoIcon = styled.span`
         margin-left: 4px;
@@ -98,18 +94,19 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         }
     };
 
-    const showDisplay = (message: string) => {
-      if(message === "") {
+    const renderDisplay = () => {
         return (
           <div>
             <IFrameComponent display={display}/>
             {display.actionIdentifier && <ActionButton onClick={handleOnClick}/>}
           </div>
         )
-      }
-      return (
-        <ErrorMessageBanner errorMessage={errorMessage} />
-      )
+    }
+
+    const renderErrorMessage = (errorMessage: string) => {
+        return (
+            <ErrorMessageBanner errorMessage={errorMessage} />
+        )
     }
 
     const content = isLoading ? (
@@ -127,7 +124,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                 {infoPopover()}
                 <FullscreenButtonComponent target={displayContainerRef}/>
             </DisplayHeader>
-          {showDisplay(errorMessage)}
+          {backendError ? renderErrorMessage(backendError.message) : renderDisplay()}
         </>
     );
 
