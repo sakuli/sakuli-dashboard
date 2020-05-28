@@ -27,7 +27,7 @@ export function healthCheck(request: HealthCheckRequest): Promise<HealthCheckRes
     }).then(response => response.json());
 }
 
-export function getDashboardConfig(): Promise<DashboardConfigResponse> {
+export function getDashboardConfig(): Promise<DashboardConfigResponse | BackendError> {
     return fetch('/api/dashboard')
             .then(r => r.json());
 }
