@@ -4,7 +4,7 @@ import DashboardDisplaysComponent from "./dashboard-displays.component";
 import {getDashboardConfig} from "../services/dashboard-backend.service";
 import {Display} from "@sakuli-dashboard/api";
 import {LayoutMode} from "../App";
-import { BackendError, isBackendError, isDashboardConfigResponse } from "@sakuli-dashboard/api/dist";
+import {BackendError, isBackendError, isDashboardConfigResponse} from "@sakuli-dashboard/api/dist";
 import ErrorMessageBanner from "./error-message-banner.component";
 import Image from 'react-bootstrap/Image'
 import Container from 'react-bootstrap/Container'
@@ -22,7 +22,7 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
     useEffect(() => {
         (async function handleDashboardConfigResponse() {
             const response = await getDashboardConfig()
-            if(isDashboardConfigResponse(response)) {
+            if (isDashboardConfigResponse(response)) {
                 setDisplays(response.displays)
             } else if (isBackendError(response)) {
                 setBackendError(response);
@@ -34,10 +34,16 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
         return <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>;
     } else {
         return (
-            <Container>
-                {backendError ? <ErrorMessageBanner errorMessage={backendError.message}/> : <React.Fragment/>}
-                <Image src={background} className={"mx-auto d-block"}/>
-                <h1 className={"text-center"}>DASHBOARD</h1>
+            <Container fluid={true}>
+                <div className={"row justify-content-center col"}>
+                    {backendError ? <ErrorMessageBanner errorMessage={backendError.message}/> : <React.Fragment/>}
+                </div>
+                <div className={"row col"}>
+                    <Image src={background} className={"mx-auto d-block"} fluid={true}/>
+                </div>
+                <div className={"row justify-content-center col"}>
+                    <h1 className={"text-center"}>DASHBOARD</h1>
+                </div>
             </Container>
         );
     }
