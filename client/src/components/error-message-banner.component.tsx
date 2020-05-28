@@ -1,4 +1,5 @@
 import React from "react";
+import Alert from 'react-bootstrap/Alert'
 
 interface ErrorMessageProps{
   errorMessage: string
@@ -6,7 +7,7 @@ interface ErrorMessageProps{
 
 const ErrorMessageBanner: React.FC<ErrorMessageProps> = (props: ErrorMessageProps) => {
 
-  return <div className={"text-danger text-center"}>{props.errorMessage}</div>;
+  return <Alert variant={"danger"} className={"text-center"}>{props.errorMessage}</Alert>;
 
 }
 export default ErrorMessageBanner;

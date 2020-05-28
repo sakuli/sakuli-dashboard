@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Iframe from "react-iframe";
 import { Display } from "@sakuli-dashboard/api";
-import "./iframe.component.css";
 import { urlAvailable } from "../functions/url-available.function";
 import { sleep } from "../functions/sleep.function";
 import placeholder from '../static/placeholder.png';
+import Image from 'react-bootstrap/Image';
+import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed';
 
 interface IframeComponentProps {
     display: Display
@@ -24,17 +25,14 @@ const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     if(pageIsAvailable){
         return(
-            <Iframe
-                className={ (display.actionIdentifier) ? "frame-embed--with-action" : "frame-embed" }
-                url={display.url}
-            />
+            <ResponsiveEmbed>
+                <Iframe url={display.url}/>
+            </ResponsiveEmbed>
         );
     }
 
     return (
-        <div className={ (display.actionIdentifier) ? "frame-embed--with-action" : "frame-embed"}>
-            <img alt="placeholder" className={"placeholder"} src={placeholder}/>
-        </div>
+            <Image alt="placeholder" className={"placeholder"} src={placeholder} fluid={true}/>
     )
 };
 export default IFrameComponent;

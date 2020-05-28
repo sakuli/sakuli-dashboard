@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import "./fullscreen-button.component.css";
 import {faCompressAlt, faExpandAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Button from 'react-bootstrap/Button';
 
 interface FullscreenButtonProps {
     target: React.RefObject<HTMLElement>
@@ -43,9 +43,9 @@ const FullscreenButtonComponent: React.FC<FullscreenButtonProps> = (props: Fulls
     };
 
     return (
-        <button className="fullscreen-button" onClick={() => toggleFullscreen(props.target)}>
+        <Button variant={"light"} className={"float-right"} size={"sm"} onClick={() => toggleFullscreen(props.target)}>
             {isFullscreen ? <FontAwesomeIcon icon={faCompressAlt}/> : <FontAwesomeIcon icon={faExpandAlt}/>}
-        </button>
+        </Button>
     );
 };
 export default FullscreenButtonComponent;
