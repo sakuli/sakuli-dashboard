@@ -32,7 +32,7 @@ const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
     }
 
     return (
-            <Image alt="placeholder" className={"placeholder"} src={placeholder} fluid={true}/>
+            <Image alt="placeholder" src={placeholder} fluid={true}/>
     )
 };
 export default IFrameComponent;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import DashboardComponent from "./components/dashboard.component";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faThLarge, faThList} from "@fortawesome/free-solid-svg-icons";
@@ -37,10 +37,10 @@ const App: React.FC = () => {
                         <NavDropdown.Item href="?lang=en">{getLanguageIcon("en")} English</NavDropdown.Item>
                     </NavDropdown>
                     <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
-                        <Button variant={"light"} onClick={() => setLayout("row")}>
+                        <Button variant={"light"} disabled={currentLayout === "column"} onClick={() => setLayout("column")}>
                             <FontAwesomeIcon icon={faThLarge}/>
                         </Button>
-                        <Button variant={"light"} onClick={() => setLayout("column")}>
+                        <Button variant={"light"} disabled={currentLayout === "row"} onClick={() => setLayout("row")}>
                             <FontAwesomeIcon icon={faThList}/>
                         </Button>
                     </ButtonGroup>
