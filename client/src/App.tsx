@@ -29,10 +29,10 @@ const App: React.FC = () => {
 
     return (
         <>
-            <Navbar bg="light" variant="light">
+            <Navbar bg="light" variant="light" className={"border-bottom border-success mb-5"}>
                 <Navbar.Text className={"text-center"}>Sakuli Dashboard</Navbar.Text>
                 <Navbar.Collapse className={"justify-content-end"}>
-                    <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)}>
+                    <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)} className={"dropdown-menu-right"}>
                         <NavDropdown.Item href="?lang=de">{getLanguageIcon("de")} Deutsch</NavDropdown.Item>
                         <NavDropdown.Item href="?lang=en">{getLanguageIcon("en")} English</NavDropdown.Item>
                     </NavDropdown>

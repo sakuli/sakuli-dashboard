@@ -51,11 +51,11 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
         const response = await invokeAction(request);
 
-        if(isDashboardActionResponse(response)) {
-          handleResponse(response)
+        if (isDashboardActionResponse(response)) {
+            handleResponse(response)
         } else if (isBackendError(response)) {
-          setBackendError(response);
-          setIsLoading(false);
+            setBackendError(response);
+            setIsLoading(false);
         }
     }, [display, handleResponse]);
 
@@ -70,11 +70,21 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         }
     };
 
+    const renderDisplay = () => {
+        return (
+            <div className={"row"}>
+                <IFrameComponent display={display}/>
+            </div>
+        )
+    };
+
     const renderErrorMessage = (errorMessage: string) => {
         return (
-            <ErrorMessageBanner errorMessage={errorMessage}/>
+            <div className={"row"}>
+                <ErrorMessageBanner errorMessage={errorMessage}/>
+            </div>
         )
-    }
+    };
 
     return (
         //layout
@@ -98,10 +108,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                         <FullscreenButtonComponent target={displayContainerRef}/>
                     </div>
                 </div>
-                {backendError ? renderErrorMessage(backendError.message) : <React.Fragment/>}
-                <div className={"row"}>
-                    <IFrameComponent display={display}/>
-                </div>
+                {backendError ? renderErrorMessage(backendError.message) : renderDisplay()}
             </div>
         </div>
     )
