@@ -86,30 +86,33 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         )
     };
 
-    return (
-        //layout
-        <div className={"row"} ref={displayContainerRef}>
-            <div className={"col-12"}>
-                <div className={"row justify-content-between my-2"}>
-                    <div className={"col-5 pl-1"}>
-                        <div className={"row"}>
-                            <div className={"col-1"}>
-                                {infoPopover()}
-                            </div>
-                            <div className={"col-10"}>
-                                {display.messages?.[props.locale]?.description}
-                            </div>
+    const renderDisplayHeader = () => {
+        return (
+            <div className={"row justify-content-between my-2"}>
+                <div className={"col-5 pl-1"}>
+                    <div className={"row"}>
+                        <div className={"col-1"}>
+                            {infoPopover()}
+                        </div>
+                        <div className={"col-10"}>
+                            {display.messages?.[props.locale]?.description}
                         </div>
                     </div>
-                    <div className={"col-3 text-center"}>
-                        {display.actionIdentifier && <ActionButton onClick={handleOnClick} isLoading={isLoading}/>}
-                    </div>
-                    <div className={"col-4 pr-1"}>
-                        <FullscreenButtonComponent target={displayContainerRef}/>
-                    </div>
                 </div>
-                {backendError ? renderErrorMessage(backendError.message) : renderDisplay()}
+                <div className={"col-3 text-center"}>
+                    {display.actionIdentifier && <ActionButton onClick={handleOnClick} isLoading={isLoading}/>}
+                </div>
+                <div className={"col-4 pr-1"}>
+                    <FullscreenButtonComponent target={displayContainerRef}/>
+                </div>
             </div>
+        )
+    };
+
+    return (
+        <div className={props.layout === "row" ? "col-6" : "col-12"} ref={displayContainerRef}>
+                {renderDisplayHeader()}
+                {backendError ? renderErrorMessage(backendError.message) : renderDisplay()}
         </div>
     )
 };

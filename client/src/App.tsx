@@ -37,7 +37,7 @@ const App: React.FC = () => {
                         <NavDropdown.Item href="?lang=en">{getLanguageIcon("en")} English</NavDropdown.Item>
                     </NavDropdown>
                     <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
-                        <Button disabled={true} variant={"light"} onClick={() => setLayout("row")}>
+                        <Button variant={"light"} onClick={() => setLayout("row")}>
                             <FontAwesomeIcon icon={faThLarge}/>
                         </Button>
                         <Button variant={"light"} onClick={() => setLayout("column")}>

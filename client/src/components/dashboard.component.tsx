@@ -31,7 +31,11 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
     }, []);
 
     if (displays.length > 0) {
-        return <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>;
+        return (
+            <Container fluid={true}>
+                <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>
+            </Container>
+        );
     } else {
         return (
             <Container fluid={true}>
