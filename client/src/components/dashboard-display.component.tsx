@@ -2,11 +2,11 @@ import React, {useCallback, useState} from 'react';
 import ActionButton from "./action-button.component";
 import IFrameComponent from "./iframe.component";
 import {
+    BackendError,
     DashboardActionResponse,
     Display,
-    isDashboardActionResponse,
-    BackendError,
-    isBackendError
+    isBackendError,
+    isDashboardActionResponse
 } from "@sakuli-dashboard/api";
 import {reloadUrl} from "../functions/reload-url.function";
 import {invokeAction} from "../services/dashboard-backend.service";
@@ -72,7 +72,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const renderDisplay = () => {
         return (
-            <div className={"row my-2"}>
+            <div className={"row my-2 justify-content-center"}>
                 <IFrameComponent display={display}/>
             </div>
         )
@@ -88,8 +88,8 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const renderDisplayHeader = () => {
         return (
-            <div className={"row justify-content-between my-2"}>
-                <div className={"col-5 pl-1"}>
+            <div className={"row justify-content-between my-2 mx-auto pb-1 border-bottom border-success"}>
+                <div className={"col-5 pl-1 align-self-center"}>
                     <div className={"row"}>
                         <div className={"col-1"}>
                             {infoPopover()}
