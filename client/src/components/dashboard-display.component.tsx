@@ -72,7 +72,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const renderDisplay = () => {
         return (
-            <div className={"row"}>
+            <div className={"row my-2"}>
                 <IFrameComponent display={display}/>
             </div>
         )
@@ -80,7 +80,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const renderErrorMessage = (errorMessage: string) => {
         return (
-            <div className={"row"}>
+            <div className={"row justify-content-center"}>
                 <ErrorMessageBanner errorMessage={errorMessage}/>
             </div>
         )
@@ -88,10 +88,10 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     return (
         //layout
-        <div className={"row mt-5"}>
+        <div className={"row"} ref={displayContainerRef}>
             <div className={"col-12"}>
-                <div className={"row justify-content-between mb-2"}>
-                    <div className={"col-5"}>
+                <div className={"row justify-content-between my-2"}>
+                    <div className={"col-5 pl-1"}>
                         <div className={"row"}>
                             <div className={"col-1"}>
                                 {infoPopover()}
@@ -104,7 +104,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                     <div className={"col-3 text-center"}>
                         {display.actionIdentifier && <ActionButton onClick={handleOnClick} isLoading={isLoading}/>}
                     </div>
-                    <div className={"col-4"}>
+                    <div className={"col-4 pr-1"}>
                         <FullscreenButtonComponent target={displayContainerRef}/>
                     </div>
                 </div>

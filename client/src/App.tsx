@@ -29,7 +29,7 @@ const App: React.FC = () => {
 
     return (
         <>
-            <Navbar bg="light" variant="light" className={"border-bottom border-success mb-5"}>
+            <Navbar bg="light" variant="light" className={"border-bottom border-success mb-3"}>
                 <Navbar.Text className={"text-center"}>Sakuli Dashboard</Navbar.Text>
                 <Navbar.Collapse className={"justify-content-end"}>
                     <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)} className={"dropdown-menu-right"}>
