@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Iframe from "react-iframe";
-import { Display } from "@sakuli-dashboard/api";
-import { urlAvailable } from "../functions/url-available.function";
-import { sleep } from "../functions/sleep.function";
+import {Display} from "@sakuli-dashboard/api";
+import {urlAvailable} from "../functions/url-available.function";
+import {sleep} from "../functions/sleep.function";
 import placeholder from '../static/placeholder.png';
 import Image from 'react-bootstrap/Image';
 import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed';
@@ -25,7 +25,7 @@ const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     if(pageIsAvailable){
         return(
-            <ResponsiveEmbed>
+            <ResponsiveEmbed className={""}>
                 <Iframe url={display.url}/>
             </ResponsiveEmbed>
         );

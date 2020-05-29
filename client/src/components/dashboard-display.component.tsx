@@ -90,19 +90,19 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         return (
             <div className={"row justify-content-between my-2 mx-auto pb-1 border-bottom border-success"}>
                 <div className={"col-5 pl-1 align-self-center"}>
-                    <div className={"row"}>
-                        <div className={"col-1"}>
+                    <div className={"row flex-nowrap"}>
+                        <div className={"col-1 align-self-center"}>
                             {infoPopover()}
                         </div>
-                        <div className={"col-10"}>
+                        <div className={"col-10 align-self-center"}>
                             {display.messages?.[props.locale]?.description}
                         </div>
                     </div>
                 </div>
-                <div className={"col-3 text-center"}>
+                <div className={"col-3 text-center align-self-center"}>
                     {display.actionIdentifier && <ActionButton onClick={handleOnClick} isLoading={isLoading}/>}
                 </div>
-                <div className={"col-4 pr-1"}>
+                <div className={"col-4 pr-1 align-self-center"}>
                     <FullscreenButtonComponent target={displayContainerRef}/>
                 </div>
             </div>

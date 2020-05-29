@@ -12,32 +12,30 @@ const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonP
 
     const buttonText = props.isLoading ? (
         <>
-            <div className={"row"}>
-                <div className={"col-1"}>
-                    <span className={"spinner-border spinner-border-sm"} role={"status"} aria-hidden={"true"}/>
-                </div>
-                <div className={"col-8"}>
-                    Loading...
-                </div>
+            <div className={"col-1"}>
+                <span className={"spinner-border spinner-border-sm"} role={"status"} aria-hidden={"true"}/>
+            </div>
+            <div className={"col-8"}>
+                Loading...
             </div>
         </>
 
     ) : (
         <>
-            <div className={"row"}>
-                <div className={"col-1"}>
-                    <FontAwesomeIcon icon={faPlayCircle}/>
-                </div>
-                <div className={"col-8"}>
-                    <span>Start!</span>
-                </div>
+            <div className={"col-1"}>
+                <FontAwesomeIcon icon={faPlayCircle}/>
+            </div>
+            <div className={"col-8"}>
+                <span>Start!</span>
             </div>
         </>
     );
 
     return (
         <Button variant={"success"} className={"float-center"} size={"sm"} onClick={() => props.onClick()}>
-            {buttonText}
+            <div className={"row flex-nowrap"}>
+                {buttonText}
+            </div>
         </Button>
     );
 };
