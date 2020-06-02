@@ -6,12 +6,12 @@ import {Display} from "@sakuli-dashboard/api";
 import {LayoutMode} from "../App";
 import {BackendError, isBackendError, isDashboardConfigResponse} from "@sakuli-dashboard/api/dist";
 import ErrorMessageBanner from "./error-message-banner.component";
-import Image from 'react-bootstrap/Image'
-import Container from 'react-bootstrap/Container'
+import Image from 'react-bootstrap/Image';
 
 interface DashboardProps {
     layout: LayoutMode;
     locale: string;
+
 }
 
 const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => {
@@ -32,13 +32,11 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
 
     if (displays.length > 0) {
         return (
-            <Container fluid={true}>
-                <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>
-            </Container>
+            <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>
         );
     } else {
         return (
-            <Container fluid={true}>
+            <>
                 <div className={"row col"}>
                     <Image src={background} className={"mx-auto d-block"} fluid={true}/>
                 </div>
@@ -48,7 +46,7 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
                 <div className={"row justify-content-center col"}>
                     {backendError ? <ErrorMessageBanner errorMessage={backendError.message}/> : <React.Fragment/>}
                 </div>
-            </Container>
+            </>
         );
     }
 };

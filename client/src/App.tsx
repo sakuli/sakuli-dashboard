@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import DashboardComponent from "./components/dashboard.component";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faThLarge, faThList} from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from 'react-bootstrap/Container';
+import FullscreenButtonComponent from "./components/fullscreen-button.component";
+
 
 export type LayoutMode = "row" | "column";
 
@@ -14,6 +17,7 @@ const App: React.FC = () => {
 
     const [currentLayout, setLayout] = useState<LayoutMode>("column");
 
+    let appContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
     const locale = useLocale();
 
     const getLanguageIcon = (lang: string) => {
@@ -25,28 +29,39 @@ const App: React.FC = () => {
             default:
                 return String.fromCodePoint(0x1F3F3, 0xFE0F);
         }
-    }
+    };
+
+    const languageDropdownMenu = (
+        <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)} className={"dropdown-menu-right"}>
+            <NavDropdown.Item href="?lang=de">{getLanguageIcon("de")} Deutsch</NavDropdown.Item>
+            <NavDropdown.Item href="?lang=en">{getLanguageIcon("en")} English</NavDropdown.Item>
+        </NavDropdown>
+    );
+
+    const layoutButtonGroup = (
+        <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
+            <Button variant={"light"} disabled={currentLayout === "column"} onClick={() => setLayout("column")}>
+                <FontAwesomeIcon icon={faThList}/>
+            </Button>
+            <Button variant={"light"} disabled={currentLayout === "row"} onClick={() => setLayout("row")}>
+                <FontAwesomeIcon icon={faThLarge}/>
+            </Button>
+        </ButtonGroup>
+    );
 
     return (
         <>
             <Navbar bg="light" variant="light" className={"border-bottom border-success mb-3"}>
                 <Navbar.Text className={"text-center"}>Sakuli Dashboard</Navbar.Text>
                 <Navbar.Collapse className={"justify-content-end"}>
-                    <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)} className={"dropdown-menu-right"}>
-                        <NavDropdown.Item href="?lang=de">{getLanguageIcon("de")} Deutsch</NavDropdown.Item>
-                        <NavDropdown.Item href="?lang=en">{getLanguageIcon("en")} English</NavDropdown.Item>
-                    </NavDropdown>
-                    <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
-                        <Button variant={"light"} disabled={currentLayout === "column"} onClick={() => setLayout("column")}>
-                            <FontAwesomeIcon icon={faThLarge}/>
-                        </Button>
-                        <Button variant={"light"} disabled={currentLayout === "row"} onClick={() => setLayout("row")}>
-                            <FontAwesomeIcon icon={faThList}/>
-                        </Button>
-                    </ButtonGroup>
+                    {languageDropdownMenu}
+                    {layoutButtonGroup}
+                    <FullscreenButtonComponent target={appContainerRef}/>
                 </Navbar.Collapse>
             </Navbar>
-            <DashboardComponent layout={currentLayout} locale={locale}/>
+            <Container fluid={true}>
+                <DashboardComponent layout={currentLayout} locale={locale}/>
+            </Container>
         </>
     );
 };
