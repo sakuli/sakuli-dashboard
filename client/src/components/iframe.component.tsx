@@ -25,7 +25,7 @@ const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     if(pageIsAvailable){
         return(
-            <ResponsiveEmbed className={""} aspectRatio={"16by9"}>
+            <ResponsiveEmbed className={""} aspectRatio={"1by1"}>
                 <Iframe url={display.url}/>
             </ResponsiveEmbed>
         );
