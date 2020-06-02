@@ -110,7 +110,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     };
 
     return (
-        <div className={props.layout === "row" ? "col-6" : "col-12"} ref={displayContainerRef}>
+        <div className={props.layout === "row" ? "col-6 mt-4" : "col-12 mt-4"} ref={displayContainerRef}>
                 {renderDisplayHeader()}
                 {backendError ? renderErrorMessage(backendError.message) : renderDisplay()}
         </div>
