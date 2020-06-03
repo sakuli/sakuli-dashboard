@@ -99,10 +99,10 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                         </div>
                     </div>
                 </div>
-                <div className={"col-3 text-center align-self-center"}>
+                <div className={"col-2 text-center align-self-center"}>
                     {display.actionIdentifier && <ActionButton onClick={handleOnClick} isLoading={isLoading}/>}
                 </div>
-                <div className={"col-4 pr-1 align-self-center"}>
+                <div className={"col-5 pr-1 align-self-center"}>
                     <FullscreenButtonComponent target={displayContainerRef}/>
                 </div>
             </div>
