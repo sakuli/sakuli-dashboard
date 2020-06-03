@@ -50,8 +50,8 @@ const App: React.FC = () => {
     );
 
     return (
-        <>
-            <Navbar bg="light" variant="light" className={"border-bottom border-success mb-3"}>
+        <div className={"app"} ref={appContainerRef}>
+            <Navbar bg="light" variant="light" className={"border-bottom border-success"}>
                 <Navbar.Text className={"text-center"}>Sakuli Dashboard</Navbar.Text>
                 <Navbar.Collapse className={"justify-content-end"}>
                     {languageDropdownMenu}
@@ -62,7 +62,7 @@ const App: React.FC = () => {
             <Container fluid={true}>
                 <DashboardComponent layout={currentLayout} locale={locale}/>
             </Container>
-        </>
+        </div>
     );
 };
 
