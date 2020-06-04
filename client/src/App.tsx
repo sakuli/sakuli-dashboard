@@ -39,14 +39,18 @@ const App: React.FC = () => {
     );
 
     const layoutButtonGroup = (
-        <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
-            <Button variant={"light"} disabled={currentLayout === "column"} onClick={() => setLayout("column")}>
-                <FontAwesomeIcon icon={faThList}/>
-            </Button>
-            <Button variant={"light"} disabled={currentLayout === "row"} onClick={() => setLayout("row")}>
-                <FontAwesomeIcon icon={faThLarge}/>
-            </Button>
-        </ButtonGroup>
+        <div className={"row d-none d-md-block d-xl-none"}>
+            <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
+                <Button variant={"light"} disabled={currentLayout === "column"} onClick={() => setLayout("column")}>
+                    <FontAwesomeIcon icon={faThList}/>
+                </Button>
+                <Button variant={"light"} disabled={currentLayout === "row"} onClick={() => setLayout("row")}>
+                    <FontAwesomeIcon icon={faThLarge}/>
+                </Button>
+            </ButtonGroup>
+            <FullscreenButtonComponent target={appContainerRef}/>
+        </div>
+
     );
 
     return (
@@ -56,7 +60,6 @@ const App: React.FC = () => {
                 <Navbar.Collapse className={"justify-content-end"}>
                     {languageDropdownMenu}
                     {layoutButtonGroup}
-                    <FullscreenButtonComponent target={appContainerRef}/>
                 </Navbar.Collapse>
             </Navbar>
             <Container fluid={true}>
