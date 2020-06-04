@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ActionButton from "./action-button.component";
 import IFrameComponent from "./iframe.component";
 import {
@@ -18,6 +18,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Tippy from "@tippyjs/react";
 import 'tippy.js/dist/tippy.css';
 import ErrorMessageBanner from "./error-message-banner.component";
+import {urlAvailable} from "../functions/url-available.function";
+import {sleep} from "../functions/sleep.function";
+import placeholder from '../static/placeholder.png';
+import Image from "react-bootstrap/Image";
 
 interface DisplayProps {
     display: Display;
@@ -32,6 +36,16 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState<BackendError>();
+    const [pageIsAvailable, setPageIsAvailable] = useState(false);
+    const [lastPolling, setLastPolling] = useState(Date.now());
+    const pollingInterval = 2000;
+
+    useEffect(() => {
+        urlAvailable(display.url)
+            .then(isUrlAvailable => setPageIsAvailable(isUrlAvailable))
+            .then(() => sleep(pollingInterval))
+            .then(() => setLastPolling(Date.now() - pollingInterval));
+    }, [lastPolling, display.url]);
 
     const handleResponse = useCallback((resp: DashboardActionResponse) => {
         const newUrl = resp.url || reloadUrl(display.url);
@@ -59,6 +73,16 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         }
     }, [display, handleResponse]);
 
+    const displayPlaceholder = (
+        <Image alt="placeholder" src={placeholder} fluid={true}/>
+    );
+
+    const renderDisplay = (
+        <div className={"row my-2 justify-content-center"}>
+            {pageIsAvailable ? <IFrameComponent display={display}/> : displayPlaceholder}
+        </div>
+    );
+
     const infoPopover = () => {
         const infoText = display.messages?.[props.locale]?.infoText;
         if (infoText) {
@@ -68,14 +92,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                 </Tippy>
             );
         }
-    };
 
-    const renderDisplay = () => {
-        return (
-            <div className={"row my-2 justify-content-center"}>
-                <IFrameComponent display={display}/>
-            </div>
-        )
     };
 
     const renderErrorMessage = (errorMessage: string) => {
@@ -100,7 +117,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
                     </div>
                 </div>
                 <div className={"col-2 text-center align-self-center"}>
-                    {display.actionIdentifier && <ActionButton onClick={handleOnClick} isLoading={isLoading}/>}
+                    {display.actionIdentifier && <ActionButton onClick={handleOnClick} isLoading={isLoading} pageIsAvailable={pageIsAvailable}/>}
                 </div>
                 <div className={"col-5 pr-1 align-self-center"}>
                     <FullscreenButtonComponent target={displayContainerRef}/>
@@ -112,7 +129,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     return (
         <div className={props.layout === "row" ? "col-6 mt-4" : "col-12 mt-4"} ref={displayContainerRef}>
                 {renderDisplayHeader()}
-                {backendError ? renderErrorMessage(backendError.message) : renderDisplay()}
+                {backendError ? renderErrorMessage(backendError.message) : renderDisplay}
         </div>
     )
 };

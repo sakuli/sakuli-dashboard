@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 interface ActionButtonProps {
     onClick: () => void
     isLoading: boolean
+    pageIsAvailable: boolean
 }
 
 const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonProps) => {
@@ -32,7 +33,7 @@ const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonP
     );
 
     return (
-        <Button variant={"success"} className={"float-center"} size={"sm"} onClick={() => props.onClick()}>
+        <Button variant={"success"} className={"float-center"} size={"sm"} onClick={() => props.onClick()} disabled={props.pageIsAvailable}>
             <div className={"row flex-nowrap"}>
                 {buttonText}
             </div>
