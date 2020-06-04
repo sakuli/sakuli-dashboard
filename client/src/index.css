@@ -18,3 +18,7 @@ code {
 button:focus {
   outline: none;
 }
+
+.vertical-scroll {
+  overflow-y: auto;
+}

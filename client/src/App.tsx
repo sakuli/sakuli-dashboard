@@ -50,7 +50,7 @@ const App: React.FC = () => {
     );
 
     return (
-        <div className={"app"} ref={appContainerRef}>
+        <div className={"vertical-scroll"} ref={appContainerRef}>
             <Navbar bg="light" variant="light" className={"border-bottom border-success"}>
                 <Navbar.Text className={"text-center"}>Sakuli Dashboard</Navbar.Text>
                 <Navbar.Collapse className={"justify-content-end"}>
