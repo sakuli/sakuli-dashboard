@@ -39,7 +39,7 @@ const App: React.FC = () => {
     );
 
     const layoutButtonGroup = (
-        <div className={"row d-none d-md-block d-xl-none"}>
+        <div className={"row d-none d-md-block d-xl-block"}>
             <ButtonGroup aria-label={"Layout Buttons"} size={"sm"}>
                 <Button variant={"light"} disabled={currentLayout === "column"} onClick={() => setLayout("column")}>
                     <FontAwesomeIcon icon={faThList}/>

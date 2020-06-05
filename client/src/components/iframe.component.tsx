@@ -10,7 +10,7 @@ interface IframeComponentProps {
 const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     return (
-        <ResponsiveEmbed className={""} aspectRatio={"1by1"}>
+        <ResponsiveEmbed>
             <Iframe url={display.url}/>
         </ResponsiveEmbed>
     );

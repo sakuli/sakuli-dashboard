@@ -37,13 +37,13 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
     } else {
         return (
             <>
-                <div className={"row col"}>
+                <div className={"row mt-3"}>
                     <Image src={background} className={"mx-auto d-block"} fluid={true}/>
                 </div>
-                <div className={"row justify-content-center col"}>
+                <div className={"row justify-content-center"}>
                     <h1 className={"text-center"}>DASHBOARD</h1>
                 </div>
-                <div className={"row justify-content-center col"}>
+                <div className={"row justify-content-center"}>
                     {backendError ? <ErrorMessageBanner errorMessage={backendError.message}/> : <React.Fragment/>}
                 </div>
             </>
