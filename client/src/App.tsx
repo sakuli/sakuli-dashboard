@@ -32,7 +32,7 @@ const App: React.FC = () => {
     };
 
     const languageDropdownMenu = (
-        <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)} className={"dropdown-menu-right"}>
+        <NavDropdown id={"language-dropdown"} title={getLanguageIcon(locale)} alignRight>
             <NavDropdown.Item href="?lang=de">{getLanguageIcon("de")} Deutsch</NavDropdown.Item>
             <NavDropdown.Item href="?lang=en">{getLanguageIcon("en")} English</NavDropdown.Item>
         </NavDropdown>
