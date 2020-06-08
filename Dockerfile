@@ -7,6 +7,8 @@ RUN npm run build --unsafe-perm
 FROM node:12-alpine
 WORKDIR /prod/
 EXPOSE 8080
+#fix DNS resolution issue
+RUN apk upgrade -U -a
 # Add Tini
 RUN apk add --no-cache tini
 ENTRYPOINT ["/sbin/tini", "--"]
