@@ -7,6 +7,9 @@ RUN npm run build --unsafe-perm
 FROM node:12-alpine
 WORKDIR /prod/
 EXPOSE 8080
+# Add Tini
+RUN apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
 #Copy the build artifacts as they currently are, as the docker build should not break s2i
 #After the s2i build has been deactivated, frontend, backend and api should be merged.
 COPY --from=builder /build/package.json ./package.json
