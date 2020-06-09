@@ -23,7 +23,7 @@
     "build": "lerna run build",
     "postbuild": "npm run test",
     "bootstrap": "lerna bootstrap",
-    "clean": "rm -rf dist && rm -rf server/dist && rm -rf client/dist",
+    "clean": "lerna clean",
     "start": "cd server && npm start",
     "start:dev": "lerna run start:dev --stream"
   },
