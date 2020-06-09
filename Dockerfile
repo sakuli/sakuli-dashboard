@@ -1,17 +1,16 @@
-FROM node:12-alpine AS builder
+FROM node:12-slim AS builder
 WORKDIR /build/
 COPY . /build
 RUN npm install --unsafe-perm
 RUN npm run build --unsafe-perm
 
-FROM node:12-alpine
+FROM node:12-slim
 WORKDIR /prod/
 EXPOSE 8080
-#fix DNS resolution issue
-RUN apk upgrade -U -a
-# Add Tini
-RUN apk add --no-cache tini
-ENTRYPOINT ["/sbin/tini", "--"]
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
 #Copy the build artifacts as they currently are, as the docker build should not break s2i
 #After the s2i build has been deactivated, frontend, backend and api should be merged.
 COPY --from=builder /build/package.json ./package.json
