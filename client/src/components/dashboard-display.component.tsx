@@ -1,15 +1,21 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import ActionButton from "./action-button.component";
 import LoadingScreenComponent from "./loading-screen.component";
 import IFrameComponent from "./iframe.component";
-import {DashboardActionResponse, Display, isDashboardActionResponse, BackendError, isBackendError} from "@sakuli-dashboard/api";
-import {reloadUrl} from "../functions/reload-url.function";
-import {invokeAction} from "../services/dashboard-backend.service";
-import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-available.function";
+import {
+    BackendError,
+    DashboardActionResponse,
+    Display,
+    isBackendError,
+    isDashboardActionResponse
+} from "@sakuli-dashboard/api";
+import { reloadUrl } from "../functions/reload-url.function";
+import { invokeAction } from "../services/dashboard-backend.service";
+import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
 import FullscreenButtonComponent from "./fullscreen-button.component";
 import styled from "styled-components";
-import {LayoutMode} from "../App";
-import { faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import { LayoutMode } from "../App";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tippy from "@tippyjs/react";
 import 'tippy.js/dist/tippy.css';
@@ -74,6 +80,9 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         } else if (isBackendError(response)) {
           setBackendError(response);
           setIsLoading(false);
+        }else{
+            setBackendError({message: `Could not identify backend response: '${JSON.stringify(response)}'`});
+            setIsLoading(false);
         }
     }, [display, handleResponse]);
 
