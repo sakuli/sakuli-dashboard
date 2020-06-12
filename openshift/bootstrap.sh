@@ -44,12 +44,14 @@ oc policy add-role-to-user edit -n "${ACTION_NAMESPACE}" -z "${SERVICE_NAME}"
 LOGIN_TOKEN=$(sh $DIR/utils/get-login-token.sh "${SERVICE_NAME}" "${ACTION_NAMESPACE}")
 source ${CONFIG_FILE_PATH} #Update config with received login token
 
-oc new-app centos/nodejs-12-centos7~git@github.com:sakuli/sakuli-dashboard.git \
+oc new-app git@github.com:sakuli/sakuli-dashboard.git \
     --name="${SERVICE_NAME}" \
+    --strategy=docker \
     --source-secret=${GITHUB_SOURCE_SECRET} \
     -e DASHBOARD_CONFIG="${DASHBOARD_CONFIG}" \
     -e ACTION_CONFIG="${ACTION_CONFIG}" \
-    -e CLUSTER_CONFIG="${CLUSTER_CONFIG}"
+    -e CLUSTER_CONFIG="${CLUSTER_CONFIG}" \
+    -e CRONJOB_CONFIG="${CRONJOB_CONFIG}"
 
 CREATE_ROUTE="oc create route edge ${SERVICE_NAME} --service ${SERVICE_NAME} --insecure-policy=Redirect"
 if [ -n "${DASHBOARD_HOSTNAME}" ]; then

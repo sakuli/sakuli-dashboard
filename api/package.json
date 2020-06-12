@@ -1,15 +1,18 @@
 {
   "name": "@sakuli-dashboard/api",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^25.1.1",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.1.0",
     "typescript": "^3.7.3"
-  },
-  "dependencies": {}
+  }
 }
