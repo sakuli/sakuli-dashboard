@@ -23,7 +23,7 @@
     "build": "lerna run build",
     "postbuild": "npm run test",
     "bootstrap": "lerna bootstrap",
-    "clean": "lerna clean -y && rm -r $(find . -name dist -type d)",
+    "clean": "find . -name node_modules -type d | xargs -r rm -r && find . -name dist -type d | xargs -r rm -r",
     "start": "cd server && npm start",
     "start:dev": "lerna run start:dev --stream"
   },
