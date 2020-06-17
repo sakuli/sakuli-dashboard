@@ -22,3 +22,7 @@ button:focus {
 .vertical-scroll {
   overflow-y: auto;
 }
+
+.iframe-height {
+  max-height: 1024px;
+}

@@ -10,7 +10,7 @@ interface IframeComponentProps {
 const IFrameComponent: React.FC<IframeComponentProps> = ({display}) => {
 
     return (
-        <ResponsiveEmbed>
+        <ResponsiveEmbed className={"iframe-height"}>
             <Iframe url={display.url}/>
         </ResponsiveEmbed>
     );
