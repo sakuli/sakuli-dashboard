@@ -11,7 +11,7 @@ interface ActionButtonProps {
 
 const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonProps) => {
 
-    const buttonText = props.isLoading ? (
+    const loadingLabel = (
         <>
             <div className={"col-1"}>
                 <span className={"spinner-border spinner-border-sm"} role={"status"} aria-hidden={"true"}/>
@@ -20,8 +20,9 @@ const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonP
                 Loading...
             </div>
         </>
+    );
 
-    ) : (
+    const startLabel = (
         <>
             <div className={"col-1"}>
                 <FontAwesomeIcon icon={faPlayCircle}/>
@@ -33,9 +34,15 @@ const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonP
     );
 
     return (
-        <Button variant={"success"} className={"float-center"} size={"sm"} onClick={() => props.onClick()} disabled={props.pageIsAvailable}>
+        <Button
+            variant={"success"}
+            className={"float-center"}
+            size={"sm"}
+            onClick={() => props.onClick()}
+            disabled={props.pageIsAvailable}
+        >
             <div className={"row flex-nowrap"}>
-                {buttonText}
+                {props.isLoading ? loadingLabel : startLabel}
             </div>
         </Button>
     );
