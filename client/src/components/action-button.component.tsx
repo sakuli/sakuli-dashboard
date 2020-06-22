@@ -1,27 +1,50 @@
 import React from 'react';
 import {faPlayCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
+import Button from 'react-bootstrap/Button';
 
 interface ActionButtonProps {
     onClick: () => void
+    isLoading: boolean
+    pageIsAvailable: boolean
 }
 
-const ActionButtonComponent: React.FC<ActionButtonProps> = ({onClick}) => {
+const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonProps) => {
 
-    const ActionButton = styled.button`
-        min-width: 100px;
-        border-radius: 5px;
-        background: #95c11f;
-        font-size: 1rem;
-        padding: 0.5rem;
-    `;
+    const loadingLabel = (
+        <>
+            <div className={"col-1"}>
+                <span className={"spinner-border spinner-border-sm"} role={"status"} aria-hidden={"true"}/>
+            </div>
+            <div className={"col-8"}>
+                Loading...
+            </div>
+        </>
+    );
+
+    const startLabel = (
+        <>
+            <div className={"col-1"}>
+                <FontAwesomeIcon icon={faPlayCircle}/>
+            </div>
+            <div className={"col-8"}>
+                <span>Start!</span>
+            </div>
+        </>
+    );
 
     return (
-        <ActionButton onClick={() => onClick()}>
-            <FontAwesomeIcon icon={faPlayCircle}/>
-            <span style={{paddingLeft: "0.5rem"}}>Start!</span>
-        </ActionButton>
+        <Button
+            variant={"success"}
+            className={"float-center"}
+            size={"sm"}
+            onClick={() => props.onClick()}
+            disabled={props.pageIsAvailable}
+        >
+            <div className={"row flex-nowrap"}>
+                {props.isLoading ? loadingLabel : startLabel}
+            </div>
+        </Button>
     );
 };
 export default ActionButtonComponent;

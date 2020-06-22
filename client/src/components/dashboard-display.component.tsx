@@ -1,6 +1,4 @@
-import React, { useCallback, useState } from 'react';
-import ActionButton from "./action-button.component";
-import LoadingScreenComponent from "./loading-screen.component";
+import React, {useCallback, useEffect, useState} from 'react';
 import IFrameComponent from "./iframe.component";
 import {
     BackendError,
@@ -9,45 +7,22 @@ import {
     isBackendError,
     isDashboardActionResponse
 } from "@sakuli-dashboard/api";
-import { reloadUrl } from "../functions/reload-url.function";
-import { invokeAction } from "../services/dashboard-backend.service";
-import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
-import FullscreenButtonComponent from "./fullscreen-button.component";
-import styled from "styled-components";
-import { LayoutMode } from "../App";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Tippy from "@tippyjs/react";
-import 'tippy.js/dist/tippy.css';
+import {reloadUrl} from "../functions/reload-url.function";
+import {invokeAction} from "../services/dashboard-backend.service";
+import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-available.function";
+import {LayoutMode} from "../App";
 import ErrorMessageBanner from "./error-message-banner.component";
+import {urlAvailable} from "../functions/url-available.function";
+import {sleep} from "../functions/sleep.function";
+import placeholder from '../static/placeholder.png';
+import Image from "react-bootstrap/Image";
+import DashboardDisplayHeaderComponent from "./dashboard-display-header.component";
 
 interface DisplayProps {
     display: Display;
     layout: LayoutMode;
     locale: string;
 }
-
-const DisplayContainer = styled.div<DisplayProps>`
-        width: 90%;
-        margin: ${(props) => props.layout === "row" ? "1% 1% 0 1%" : "2% auto 2% auto"};
-        background: #ffff;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        padding: 0 0 2% 0;
-    `;
-const FullscreenDiv = styled.div`
-        background: #ffff;
-    `;
-
-const DisplayHeader = styled.div`
-        position: sticky;
-        top: 0;
-        padding: 10px;
-        border-bottom: 1px solid #aadd226b;
-        text-align: center;
-        font-weight: bold;
-        color: #523c3c;
-        background: white;
-    `;
 
 const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
 
@@ -56,6 +31,16 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
     const [display, setDisplay] = useState(props.display);
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState<BackendError>();
+    const [pageIsAvailable, setPageIsAvailable] = useState(false);
+    const [lastPolling, setLastPolling] = useState(Date.now());
+    const pollingInterval = 2000;
+
+    useEffect(() => {
+        urlAvailable(display.url)
+            .then(isUrlAvailable => setPageIsAvailable(isUrlAvailable))
+            .then(() => sleep(pollingInterval))
+            .then(() => setLastPolling(Date.now() - pollingInterval));
+    }, [lastPolling, display.url]);
 
     const handleResponse = useCallback((resp: DashboardActionResponse) => {
         const newUrl = resp.url || reloadUrl(display.url);
@@ -75,74 +60,47 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
         const response = await invokeAction(request);
 
-        if(isDashboardActionResponse(response)) {
-          handleResponse(response)
+        if (isDashboardActionResponse(response)) {
+            handleResponse(response)
         } else if (isBackendError(response)) {
-          setBackendError(response);
-          setIsLoading(false);
+            setBackendError(response);
+            setIsLoading(false);
         }else{
             setBackendError({message: `Could not identify backend response: '${JSON.stringify(response)}'`});
             setIsLoading(false);
         }
     }, [display, handleResponse]);
 
-    const InfoIcon = styled.span`
-        margin-left: 4px;
-    `;
+    const displayPlaceholder = (
+        <Image alt="placeholder" src={placeholder} fluid={true}/>
+    );
 
-    const infoPopover = () => {
-        const infoText = display.messages?.[props.locale]?.infoText;
-        if(infoText) {
-            return (
-                <InfoIcon>
-                    <Tippy content={infoText}>
-                        <span><FontAwesomeIcon icon={faInfoCircle}/></span>
-                    </Tippy>
-                </InfoIcon>
-            );
-        }
-    };
-
-    const renderDisplay = () => {
-        return (
-          <div>
-            <IFrameComponent display={display}/>
-            {display.actionIdentifier && <ActionButton onClick={handleOnClick}/>}
-          </div>
-        )
-    }
+    const renderDisplay = (
+        <div className={"row my-2 justify-content-center"}>
+            {pageIsAvailable ? <IFrameComponent display={display}/> : displayPlaceholder}
+        </div>
+    );
 
     const renderErrorMessage = (errorMessage: string) => {
         return (
-            <ErrorMessageBanner errorMessage={errorMessage} />
+            <div className={"row justify-content-center"}>
+                <ErrorMessageBanner errorMessage={errorMessage}/>
+            </div>
         )
-    }
-
-    const content = isLoading ? (
-        <>
-            <DisplayHeader>
-                Loading ...
-                <FullscreenButtonComponent target={displayContainerRef}/>
-            </DisplayHeader>
-            <LoadingScreenComponent/>
-        </>
-    ) : (
-        <>
-            <DisplayHeader>
-                {display.messages?.[props.locale]?.description}
-                {infoPopover()}
-                <FullscreenButtonComponent target={displayContainerRef}/>
-            </DisplayHeader>
-          {backendError ? renderErrorMessage(backendError.message) : renderDisplay()}
-        </>
-    );
+    };
 
     return (
-        <DisplayContainer {...props}>
-            <FullscreenDiv ref={displayContainerRef}>
-                {content}
-            </FullscreenDiv>
-        </DisplayContainer>
+        <div className={props.layout === "row" ? "col-6 mt-4" : "col-12 mt-4"} ref={displayContainerRef}>
+                <DashboardDisplayHeaderComponent
+                    display={display}
+                    displayContainerRef={displayContainerRef}
+                    locale={props.locale}
+                    onClick={handleOnClick}
+                    isLoading={isLoading}
+                    pageIsAvailable={pageIsAvailable}
+                />
+                {backendError ? renderErrorMessage(backendError.message) : renderDisplay}
+        </div>
     )
 };
 export default DashboardDisplayComponent;

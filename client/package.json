@@ -8,9 +8,10 @@
     "@fortawesome/react-fontawesome": "0.1.8",
     "@sakuli-dashboard/api": "^1.0.0",
     "@tippyjs/react": "^4.0.0-alpha.3",
-    "@types/styled-components": "^5.0.1",
+    "@types/react-bootstrap": "^1.0.1",
+    "bootstrap": "^4.5.0",
     "react": "16.13.0",
-    "styled-components": "^5.0.1"
+    "react-bootstrap": "^1.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.1.1",
