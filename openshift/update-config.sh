@@ -27,7 +27,7 @@ oc projects | grep ${NAMESPACE}
 if [[ ${?} == 0 ]]; then
   oc project ${NAMESPACE}
 else
-  echo "ERROR: Namepace ${NAMESPACE} not found on cluster."
+  echo "ERROR: Namespace ${NAMESPACE} not found on cluster."
   exit 1
 fi
 
