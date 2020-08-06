@@ -32,7 +32,6 @@ COPY --from=builder /build/api/package.json ./api/
 
 COPY ./startup.sh ./startup.sh
 COPY --from=builder /build/license-validator ./license-validator
-COPY ./failed.sh ./failed.sh
 RUN chmod -R 775 ./*
 RUN chgrp -R 1000 ./*
 USER 1000:1000
