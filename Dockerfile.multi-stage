@@ -38,4 +38,4 @@ RUN chgrp -R 1000 ./*
 USER 1000:1000
 ENV IMG=taconsol/sakuli-dashboard
 ENTRYPOINT ["/tini", "--", "./startup.sh"]
-#CMD ["./failed.sh"]
+CMD ["node", "/prod/server/dist/index.js"]
