@@ -35,14 +35,14 @@ jobs:
           chmod +rx $HOME/dgoss
       - name: Checkout sources
         uses: actions/checkout@v2
-      - name: Build and test Docker images
+      - name: Build Docker image
         uses: docker/build-push-action@v1
         with:
           dockerfile: Dockerfile.multi-stage
           repository: taconsol/sakuli-dashboard
           tags: latest
           push: false
-      - name: test docker container
+      - name: test Docker image
         run: dgoss run taconsol/sakuli-dashboard:latest
-      - name: test docker container with altered user
+      - name: test Docker image with altered user
         run: dgoss run -u 12345:45678 taconsol/sakuli-dashboard:latest
