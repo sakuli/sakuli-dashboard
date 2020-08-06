@@ -1,0 +1,45 @@
+name: Continuous integration
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+      - 'release/**'
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: '12'
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm test
+  build-docker:
+    name: build-docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install goss and dgoss
+        run: |
+          curl -L https://github.com/aelsabbahy/goss/releases/latest/download/goss-linux-amd64 -o $HOME/goss
+          chmod +rx $HOME/goss
+          curl -L https://github.com/aelsabbahy/goss/releases/latest/download/dgoss -o $HOME/dgoss
+          chmod +rx $HOME/dgoss
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Build and test Docker images
+        uses: docker/build-push-action@v1
+        with:
+          dockerfile: Dockerfile.multi-stage
+          repository: taconsol/sakuli-dashboard
+          tags: latest
+          push: false
+      - name: test docker container
+        run: dgoss run taconsol/sakuli-dashboard:latest
+      - name: test docker container with altered user
+        run: dgoss run -u 12345:45678 taconsol/sakuli-dashboard:latest
