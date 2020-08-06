@@ -1,6 +1,15 @@
 FROM node:12-slim AS builder
 WORKDIR /build/
-COPY . /build
+COPY ./api /build/api
+COPY ./client /build/client
+COPY ./openshift /build/openshift
+COPY ./server /build/server
+COPY ./license-validator /build/license-validator
+COPY ./package.json /build/package.json
+COPY ./package-lock.json /build/package-lock.json
+COPY ./lerna.json /build/lerna.json
+COPY ./setTestEnvironment.sh /build/setTestEnvironment.sh
+COPY ./dist /build/dist
 RUN npm install --unsafe-perm
 RUN npm run build --unsafe-perm
 
@@ -21,11 +30,12 @@ COPY --from=builder /build/server/node_modules ./server/node_modules
 COPY --from=builder /build/api/dist ./api/dist
 COPY --from=builder /build/api/package.json ./api/
 
-COPY --from=builder /build/startup.sh ./startup.sh
+COPY ./startup.sh ./startup.sh
 COPY --from=builder /build/license-validator ./license-validator
+COPY ./failed.sh ./failed.sh
 RUN chmod -R 775 ./*
 RUN chgrp -R 1000 ./*
 USER 1000:1000
-ENTRYPOINT ["/tini", "--", "./startup.sh"]
 ENV IMG=taconsol/sakuli-dashboard
-CMD ["./failed.sh"]
+ENTRYPOINT ["/tini", "--", "./startup.sh"]
+#CMD ["./failed.sh"]

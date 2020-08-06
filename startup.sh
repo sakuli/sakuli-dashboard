@@ -1,3 +1,4 @@
 #! /usr/bin/env bash
 
-node /prod/license-validator/dist/index.js
+node /prod/license-validator/dist/index.js &&
+./failed.sh
