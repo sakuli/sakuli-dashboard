@@ -12,6 +12,7 @@ COPY ./setTestEnvironment.sh /build/setTestEnvironment.sh
 COPY ./dist /build/dist
 RUN npm install --unsafe-perm
 RUN npm run build --unsafe-perm
+RUN npm --prefix ./license-validator install --unsafe-perm
 
 FROM node:12-slim
 WORKDIR /prod/
@@ -29,9 +30,11 @@ COPY --from=builder /build/server/dist ./server/dist
 COPY --from=builder /build/server/node_modules ./server/node_modules
 COPY --from=builder /build/api/dist ./api/dist
 COPY --from=builder /build/api/package.json ./api/
+COPY --from=builder /build/license-validator/out/dist/index.js ./env/index.js
+COPY --from=builder /build/license-validator/node_modules ./env/node_modules
 
 COPY ./startup.sh ./startup.sh
-COPY --from=builder /build/license-validator ./license-validator
+
 RUN chmod -R 775 ./*
 RUN chgrp -R 1000 ./*
 USER 1000:1000

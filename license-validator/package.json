@@ -8,7 +8,7 @@
     "copy": "cpx ./out .",
     "clean": "rimraf ./out",
     "build": "tsc",
-    "build:release": "tsc && npm run obfuscate && npm run copy && npm run clean",
+    "build:release": "tsc && npm run obfuscate",
     "postinstall": "npm run build:release"
   },
   "keywords": [],
