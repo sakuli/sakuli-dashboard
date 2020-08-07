@@ -33,7 +33,6 @@ jobs:
           chmod +rx $HOME/goss
           curl -L https://github.com/aelsabbahy/goss/releases/latest/download/dgoss -o $HOME/dgoss
           chmod +rx $HOME/dgoss
-          export PATH=$PATH:$HOME
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Build Docker image
@@ -44,6 +43,10 @@ jobs:
           tags: latest
           push: false
       - name: test Docker image
-        run: dgoss run taconsol/sakuli-dashboard:latest
+        run: |
+          export PATH=$PATH:$HOME
+          dgoss run taconsol/sakuli-dashboard:latest
       - name: test Docker image with altered user
-        run: dgoss run -u 12345:45678 taconsol/sakuli-dashboard:latest
+        run: |
+          export PATH=$PATH:$HOME
+          dgoss run -u 12345:45678 taconsol/sakuli-dashboard:latest
