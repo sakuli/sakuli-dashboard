@@ -2,14 +2,11 @@ FROM node:12-slim AS builder
 WORKDIR /build/
 COPY ./api /build/api
 COPY ./client /build/client
-COPY ./openshift /build/openshift
 COPY ./server /build/server
 COPY ./license-validator /build/license-validator
 COPY ./package.json /build/package.json
 COPY ./package-lock.json /build/package-lock.json
 COPY ./lerna.json /build/lerna.json
-COPY ./setTestEnvironment.sh /build/setTestEnvironment.sh
-COPY ./dist /build/dist
 RUN npm install --unsafe-perm
 RUN npm run build --unsafe-perm
 RUN npm --prefix ./license-validator install --unsafe-perm
