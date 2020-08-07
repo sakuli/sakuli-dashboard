@@ -45,14 +45,14 @@ jobs:
       - name: test Docker image
         run: |
           export PATH=$PATH:$HOME
-          ID=$(docker run -d taconsol/sakuli-dashboard:latest)
+          ID=$(docker run -d -p 8080:8080 taconsol/sakuli-dashboard:latest)
           sleep 5
           curl -q http://localhost:8080/
           docker kill $ID
       - name: test Docker image with altered user
         run: |
           export PATH=$PATH:$HOME
-          ID=$(docker run -d -u 12345:45678 taconsol/sakuli-dashboard:latest)
+          ID=$(docker run -d -u 12345:45678 -p 8080:8080 taconsol/sakuli-dashboard:latest)
           sleep 5
           curl -q http://localhost:8080/
           docker kill $ID
