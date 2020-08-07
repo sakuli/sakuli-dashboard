@@ -45,8 +45,12 @@ jobs:
       - name: test Docker image
         run: |
           export PATH=$PATH:$HOME
-          dgoss run taconsol/sakuli-dashboard:latest
+          ID=$(docker run -d taconsol/sakuli-dashboard:latest)
+          curl -q http://localhost:8080/
+          docker kill $ID
       - name: test Docker image with altered user
         run: |
           export PATH=$PATH:$HOME
-          dgoss run -u 12345:45678 taconsol/sakuli-dashboard:latest
+          ID=$(docker run -d -u 12345:45678 taconsol/sakuli-dashboard:latest)
+          curl -q http://localhost:8080/
+          docker kill $ID
