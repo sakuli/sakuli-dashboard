@@ -27,12 +27,6 @@ jobs:
     name: test-docker-container
     runs-on: ubuntu-latest
     steps:
-      - name: Install goss and dgoss
-        run: |
-          curl -L https://github.com/aelsabbahy/goss/releases/latest/download/goss-linux-amd64 -o $HOME/goss
-          chmod +rx $HOME/goss
-          curl -L https://github.com/aelsabbahy/goss/releases/latest/download/dgoss -o $HOME/dgoss
-          chmod +rx $HOME/dgoss
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Build Docker image
