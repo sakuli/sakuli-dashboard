@@ -33,6 +33,7 @@ jobs:
           chmod +rx $HOME/goss
           curl -L https://github.com/aelsabbahy/goss/releases/latest/download/dgoss -o $HOME/dgoss
           chmod +rx $HOME/dgoss
+          export PATH=$PATH:$HOME
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Build Docker image
