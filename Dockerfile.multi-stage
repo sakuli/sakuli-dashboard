@@ -9,7 +9,9 @@ COPY ./package-lock.json /build/package-lock.json
 COPY ./lerna.json /build/lerna.json
 RUN npm install --unsafe-perm
 RUN npm run build --unsafe-perm
+RUN npm prune --production
 RUN npm --prefix ./license-validator install --unsafe-perm
+RUN npm --prefix ./license-validator prune --production
 
 FROM node:12-slim
 WORKDIR /prod/

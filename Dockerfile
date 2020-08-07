@@ -8,6 +8,7 @@ COPY ./package-lock.json ./package-lock.json
 COPY ./lerna.json ./lerna.json
 RUN npm install --unsafe-perm
 RUN npm run build --unsafe-perm
+RUN npm prune --production
 
 WORKDIR /prod/
 RUN cp /build/package.json ./package.json && \
