@@ -36,6 +36,7 @@ COPY ./startup.sh ./startup.sh
 
 RUN chmod -R 775 ./*
 RUN chgrp -R 1000 ./*
+
 USER 1000:1000
 ENV IMG=taconsol/sakuli-dashboard
 ENTRYPOINT ["/tini", "--", "./startup.sh"]

@@ -21,7 +21,6 @@
     "postinstall": "npm run bootstrap",
     "test": "lerna run test",
     "build": "lerna run build",
-    "postbuild": "npm run test",
     "bootstrap": "lerna bootstrap",
     "clean": "find . -maxdepth 2 -name node_modules -type d | xargs -r rm -r && find . -name dist -type d | xargs -r rm -r",
     "start": "cd server && npm start",
