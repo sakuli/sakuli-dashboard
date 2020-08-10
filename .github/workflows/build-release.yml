@@ -1,0 +1,23 @@
+name: Build-release
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+release-tag-build:
+  name: release-tag-build
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+    - name: Build Docker image
+      uses: docker/build-push-action@v1
+      with:
+        dockerfile: Dockerfile.multi-stage
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: taconsol/sakuli-dashboard
+        tag_with_ref: true
+        push: true
