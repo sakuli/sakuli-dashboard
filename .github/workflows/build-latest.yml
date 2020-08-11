@@ -44,7 +44,7 @@ jobs:
           sleep 5
           curl -q http://localhost:8080/ 2>&1 >/dev/null
           docker kill $ID
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v2
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Push to Docker Hub
         run: docker push taconsol/sakuli-dashboard:latest
