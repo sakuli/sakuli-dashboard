@@ -1,16 +1,12 @@
-name: Continuous integration
+name: Build-latest
 
 on:
   push:
-    branches-ignore:
-      - 'master'
-      - 'develop'
-      - 'release/**'
-  pull_request:
+    branches: [develop]
 
 jobs:
-  test-dashboard:
-    name: test-dashboard
+  test-build-and-release-dashboard:
+    name: test-build-and-release-dashboard
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -25,30 +21,28 @@ jobs:
         run: npm run build
       - name: run tests
         run: npm test
-  test-docker-container:
-    name: test-docker-container
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
       - name: Build Docker image
         uses: docker/build-push-action@v1
         with:
           dockerfile: Dockerfile.multi-stage
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           repository: taconsol/sakuli-dashboard
           tags: latest
           push: false
       - name: test Docker image
         run: |
           export PATH=$PATH:$HOME
-          ID=$(docker run -d -p 8080:8080 taconsol/sakuli-dashboard:latest)
+          ID=$(docker run -d -p 8080:8080 -e SAKULI_LICENSE_KEY=${{ secrets.SAKULI_LICENSE_KEY }} taconsol/sakuli-dashboard:latest)
           sleep 5
           curl http://localhost:8080/ 2>&1 >/dev/null
           docker kill $ID
       - name: test Docker image with altered user
         run: |
           export PATH=$PATH:$HOME
-          ID=$(docker run -d -u 12345:45678 -p 8080:8080 taconsol/sakuli-dashboard:latest)
+          ID=$(docker run -d -u 12345:45678 -p 8080:8080 -e SAKULI_LICENSE_KEY=${{ secrets.SAKULI_LICENSE_KEY }} taconsol/sakuli-dashboard:latest)
           sleep 5
           curl -q http://localhost:8080/ 2>&1 >/dev/null
           docker kill $ID
+      - name: Push to Docker Hub
+        run: docker push taconsol/sakuli-dashboard:latest
