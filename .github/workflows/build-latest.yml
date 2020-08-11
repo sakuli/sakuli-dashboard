@@ -5,8 +5,8 @@ on:
     branches: [develop]
 
 jobs:
-  test-dashboard:
-    name: test-dashboard
+  test-build-and-release-dashboard:
+    name: test-build-and-release-dashboard
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -21,10 +21,6 @@ jobs:
         run: npm run build
       - name: run tests
         run: npm test
-  test-docker-container:
-    name: test-docker-container
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Build Docker image
