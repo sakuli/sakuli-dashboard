@@ -2,6 +2,7 @@ import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
 import * as http from "http";
 import createBackendError from "../functions/create-backend-error.function";
 import { getConfiguration } from "../functions/get-configuration.function";
+import { logger } from "../functions/logger";
 
 const k8s = require('@kubernetes/client-node');
 
@@ -23,12 +24,12 @@ export function k8sService(): K8sService{
         try {
             const k8sApi = await createK8sClient();
             const clusterConfig = getConfiguration().k8sClusterConfig;
-            console.debug(`Creating pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace}`);
+            logger().info(`Creating pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace}`);
             const {response} = await k8sApi.createNamespacedPod(clusterConfig.namespace, pod);
-            console.debug(`Pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace} created`);
+            logger().debug(`Pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace} created`);
             return response;
         } catch (error) {
-            console.log(`Could not apply pod configuration because of: ${JSON.stringify(error)}`);
+            logger().error(`Could not apply pod configuration because of: ${JSON.stringify(error)}`);
             throw createBackendError('Could not apply pod configuration on cluster');
         }
     }
@@ -42,11 +43,11 @@ export function k8sService(): K8sService{
         try {
             const k8sApi = await createK8sClient();
             const clusterConfig = getConfiguration().k8sClusterConfig;
-            console.debug(`Get pod status of ${podName} in namespace ${clusterConfig.namespace}`);
+            logger().debug(`Get pod status of ${podName} in namespace ${clusterConfig.namespace}`);
             const { body } = await k8sApi.readNamespacedPodStatus(podName, clusterConfig.namespace);
             return body
         } catch (error) {
-            console.log(`Could not get pod status of ${podName}: ${JSON.stringify(error)}`);
+            logger().error(`Could not get pod status of ${podName}: ${JSON.stringify(error)}`);
             throw createBackendError('Could not get pod status from cluster.');
         }
     }
@@ -64,11 +65,11 @@ export function k8sService(): K8sService{
         try {
             const k8sApi = await createK8sClient();
             const clusterConfig = getConfiguration().k8sClusterConfig;
-            console.debug(`Deleting pod ${podName} in namespace ${clusterConfig.namespace}`);
+            logger().info(`Deleting pod ${podName} in namespace ${clusterConfig.namespace}`);
             await k8sApi.deleteNamespacedPod(podName, clusterConfig.namespace);
-            console.debug(`Deleted pod ${podName} in namespace ${clusterConfig.namespace}`);
+            logger().debug(`Deleted pod ${podName} in namespace ${clusterConfig.namespace}`);
         } catch (error) {
-            console.log(`Could not delete pod ${podName}: ${JSON.stringify(error)}`);
+            logger().error(`Could not delete pod ${podName}: ${JSON.stringify(error)}`);
         }
     }
 

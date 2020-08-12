@@ -5,6 +5,7 @@ import { HttpStatusCode } from "@sakuli-dashboard/api";
 import { healthCheckService } from "./service/health-check.service";
 import { getConfiguration } from "./functions/get-configuration.function";
 import { configureCronjob } from "./service/cronjob.service";
+import { logger } from "./functions/logger";
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.get('/api/dashboard', (req, res) => {
   try {
     res.send(getConfiguration().dashboardConfig);
   } catch (e) {
-    console.error("Failed to get dashboard config", e);
+    logger().error("Failed to get dashboard config: ", e);
     res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(e);
   }
 });
@@ -34,9 +35,9 @@ app.post('/api/dashboard/health-check', (req, res) => {
 try{
   configureCronjob(getConfiguration().cronjobConfig);
 } catch (e) {
-  console.log("Failed to configure cronjob", e);
+  logger().error("Failed to configure cronjob: ", e);
 }
 
 const port = 8080;
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port, () => logger().info(`Server started on port ${port}`));
