@@ -17,7 +17,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
 EOF
 )
 
-export ACTION_CONFIG=$(cat <<EOF
+export ACTION_CONFIG=$(sed "s/@SAKULI_LICENSE_KEY@/${SAKULI_LICENSE_KEY}/" <<EOF
 {
    "actions":[
       {
@@ -37,7 +37,7 @@ export ACTION_CONFIG=$(cat <<EOF
                   "env": [
                     {
                       "name": "SAKULI_LICENSE_KEY",
-                      "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJjYXRlZ29yeSI6MiwiaWF0IjoxNTY2MTk4MTUzLCJuYmYiOjE1NjYxOTgxNTMsImV4cCI6MTU5Nzc1NTc1MywiYXVkIjoiRG9ja2VyIiwiaXNzIjoic2FrdWxpLmlvIiwic3ViIjoic2FrdWxpX3VzZXIifQ.fkYXsV3aOj3C8X1PO8AKfeKHaaBGSiabDhzlOOPlseWHEYiXan-X6oP4WOkAUzFihhRFSFWHXzG7SYsWids8KQ"
+                      "value": "@SAKULI_LICENSE_KEY@"
                     }
                   ]
                 }
