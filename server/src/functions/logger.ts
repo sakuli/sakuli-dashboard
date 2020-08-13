@@ -1,6 +1,5 @@
 import { config, createLogger, format, Logger, transports } from "winston";
 
-const logLevel = process.env.LOG_LEVEL;
 let loggerInstance: Logger | undefined;
 const loggingFormat = format.combine(
     format.colorize(),
@@ -9,6 +8,7 @@ const loggingFormat = format.combine(
 );
 
 function getLogLevel() {
+    const logLevel = process.env.LOG_LEVEL;
     if(logLevel){
         if(logLevel in config.cli.levels){
             return logLevel
