@@ -1,4 +1,4 @@
-import { createLogger, format, Logger, transports } from "winston";
+import { config, createLogger, format, Logger, transports } from "winston";
 
 const logLevel = process.env.LOG_LEVEL;
 let loggerInstance: Logger | undefined;
@@ -8,10 +8,21 @@ const loggingFormat = format.combine(
     format.printf(info => `[${info.timestamp}] [${info.level}]: ${info.message}`)
 );
 
+function getLogLevel() {
+    if(logLevel){
+        if(logLevel in config.cli.levels){
+            return logLevel
+        }else{
+            console.log(`[warning] Could not initialize logger by provided config due to unknown log level "${logLevel}". Setting log level to "info".`)
+        }
+    }
+    return "info"
+}
+
 export function logger() {
     if(!loggerInstance){
         loggerInstance = createLogger({
-            level: logLevel || "info",
+            level: getLogLevel(),
             format: loggingFormat,
             transports:
                 [new transports.Console()]
