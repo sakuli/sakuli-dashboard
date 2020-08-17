@@ -25,6 +25,8 @@ CONFIG_FILE_PATH=${DIR}/configs/${CONFIG_FILE}
 [[ -z "${DOCKER_PASSWORD}" ]] && echo "ERROR: DOCKER_PASSWORD is not defined" && help && exit 1
 [[ ! -f "${CONFIG_FILE_PATH}" ]] && echo "ERROR: CONFIG_FILE \"${CONFIG_FILE_PATH}\" does not exist" && help && exit 1
 
+[[ -z "${SAKULI_LICENSE_KEY}" ]] && echo "ERROR: SAKULI_LICENSE_KEY is not in environment" && help && exit 1
+
 source "${CONFIG_FILE_PATH}"
 [[ -z "${NAMESPACE}" ]] && echo "ERROR: NAMESPACE is empty" && help && exit 1
 [[ -z "${SERVICE_NAME}" ]] && echo "ERROR: SERVICE_NAME is empty" && help && exit 1
