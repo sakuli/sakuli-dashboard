@@ -17,7 +17,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
 EOF
 )
 
-export ACTION_CONFIG=$(sed "s/@SAKULI_LICENSE_KEY@/${SAKULI_LICENSE_KEY}/" <<EOF
+export ACTION_CONFIG=$(cat <<EOF
 {
    "actions":[
       {
@@ -37,7 +37,7 @@ export ACTION_CONFIG=$(sed "s/@SAKULI_LICENSE_KEY@/${SAKULI_LICENSE_KEY}/" <<EOF
                   "env": [
                     {
                       "name": "SAKULI_LICENSE_KEY",
-                      "value": "@SAKULI_LICENSE_KEY@"
+                      "value": "${SAKULI_LICENSE_KEY}"
                     }
                   ]
                 }
