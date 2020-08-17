@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 function help() {
-    echo "Usage: sh bootstrap.sh <DOCKER_USERNAME> <DOCKER_PASSWORD> <CONFIG_FILE>"
+    echo "Usage: sh bootstrap.sh <DOCKER_USERNAME> <DOCKER_PASSWORD> <CONFIG_FILE> <SAKULI_LICENSE_KEY>"
     echo ""
     echo "Parameters:"
     echo "  DOCKER_USERNAME: Username for docker login"
