@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export NAMESPACE="sakuli-dashboard-test"
-export SERVICE_NAME="sakuli-dashboard"
+export SERVICE_NAME="sakuli-dashboard-test"
 export ACTION_NAMESPACE="pink-coffee"
 export DASHBOARD_HOSTNAME="sakuli-dashboard-test.paas.consol.de"
 

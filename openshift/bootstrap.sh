@@ -55,7 +55,7 @@ oc create secret docker-registry dockerhub-sakuli-secret \
 
 oc secrets link builder dockerhub-sakuli-secret
 
-oc import-image sakuli-dashboard \
+oc import-image "${SERVICE_NAME}" \
     --from=docker.io/taconsol/sakuli-dashboard \
     --confirm \
     --scheduled=true \
@@ -71,8 +71,6 @@ oc process -f dashboard-template.yml \
     -p CRONJOB_CONFIG="${CRONJOB_CONFIG}" \
     -p NAMESPACE="${NAMESPACE}" \
     | oc create -f -
-
-oc expose svc/${SERVICE_NAME}
 
 CREATE_ROUTE="oc create route edge ${SERVICE_NAME} --service ${SERVICE_NAME} --insecure-policy=Redirect"
 if [ -n "${DASHBOARD_HOSTNAME}" ]; then
