@@ -62,7 +62,6 @@ oc import-image "${SERVICE_NAME}" \
     --scheduled=true \
     --all=true \
     --reference-policy=local
-#do we need reference-policy?
 
 oc process -f dashboard-template.yml \
     -p SERVICE_NAME="${SERVICE_NAME}" \
