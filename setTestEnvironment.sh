@@ -37,7 +37,7 @@ export ACTION_CONFIG=$(cat <<EOF
                   "env": [
                     {
                       "name": "SAKULI_LICENSE_KEY",
-                      "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJjYXRlZ29yeSI6MiwiaWF0IjoxNTY2MTk4MTUzLCJuYmYiOjE1NjYxOTgxNTMsImV4cCI6MTU5Nzc1NTc1MywiYXVkIjoiRG9ja2VyIiwiaXNzIjoic2FrdWxpLmlvIiwic3ViIjoic2FrdWxpX3VzZXIifQ.fkYXsV3aOj3C8X1PO8AKfeKHaaBGSiabDhzlOOPlseWHEYiXan-X6oP4WOkAUzFihhRFSFWHXzG7SYsWids8KQ"
+                      "value": "${SAKULI_LICENSE_KEY}"
                     }
                   ]
                 }
@@ -65,6 +65,14 @@ export CLUSTER_CONFIG=$(cat <<EOF
       "token":"IcgX0FmSitF6uUYgq1_hPOtFDRwZ40ONJjvQJfuG-PA"
    },
    "namespace":"sakuli-demo"
+}
+EOF
+)
+
+export CRONJOB_CONFIG=$(cat <<EOF
+{
+  "schedule": "*/20 * * * *",
+  "actionIdentifier": "7890eab9-6c5e-4e40-b39c-163900ea4834"
 }
 EOF
 )
