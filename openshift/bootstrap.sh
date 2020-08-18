@@ -54,7 +54,7 @@ oc create secret docker-registry dockerhub-sakuli-secret \
     --docker-password="${DOCKER_PASSWORD}" \
     --docker-email=unused
 
-oc secrets link default dockerhub-sakuli-secret
+oc secrets link default dockerhub-sakuli-secret --for=pull
 
 oc import-image "${SERVICE_NAME}" \
     --from=docker.io/taconsol/sakuli-dashboard \
