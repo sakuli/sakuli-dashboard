@@ -30,6 +30,8 @@ _Interface implementation_ can be found in `server/src/config`.
 | DASHBOARD_CONFIG     | configures the displays (ordering, url, actions, etc.) shown in the dashboard     | `dashboard.config.ts`         |
 | ACTION_CONFIG        | available actions to perform on the k8s cluster and corresponding display updates | `dashboard-actions.config.ts` |
 | CLUSTER_CONFIG       | configures the cluster access (cluster address, access token, etc.)               | `k8s-cluster.config.ts`       |
+| CRONJOB_CONFIG       | configures a cronjob to start a specific action                                   | `cronjob.config.ts`           |
+| SAKULI_LICENSE_KEY   | XL-License to start the dashboard container                                       |                               |
 
 To use an available action in a display configuration, the corresponding `actionIdentifier` defined in `ACTION_CONFIG` must be used.
 
@@ -52,12 +54,14 @@ In addition, the following deployment relevant fields are specified in the confi
 #### Bootstrapping
 ```shell script
 oc login <ClusterToBootstrapOn>
-sh openshift/bootstrap.sh ${GITHUB_SOURCE_SECRET_PATH} ${CONFIG_FILE}
+sh openshift/bootstrap.sh ${DOCKER_USERNAME} ${DOCKER_PASSWORD} ${CONFIG_FILE} ${SAKULI_LICENSE_KEY}
 ```
-| Parameter                 | Description                                                                                                                                                               |
-|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GITHUB_SOURCE_SECRET_PATH | Path to the private key for the ssh github source secret. Secret is located on `pw.consol.de:/crypt/pw/testautomatisierung/sakuli/sakuli-dashboard/sakuli_dashboard_git`. |
-| CONFIG_FILE               | Name of the config file to be loaded e.g. `pink-coffee.sh` (must be located in `openshift/configs`).                                                                      | 
+| Parameter                 | Description                                                                                                   |
+|---------------------------|---------------------------------------------------------------------------------------------------------------|
+| DOCKER_USERNAME           | Username for docker login                                                                                     | 
+| DOCKER_PASSWORD           | Password for docker login                                                                                     | 
+| CONFIG_FILE               | Name of the config file to be loaded e.g. `pink-coffee.sh` (must be located in `openshift/configs`).          | 
+| SAKULI_LICENSE_KEY        | XL-License to start the dashboard container                                                                   | 
 
 #### Updating configuration
 ```shell script
