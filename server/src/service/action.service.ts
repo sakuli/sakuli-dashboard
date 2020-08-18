@@ -16,7 +16,7 @@ const validateHttpResponse = (httpResponse: http.IncomingMessage) => {
 };
 
 export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
-    const actions = getConfiguration().actionConfig.actions;
+    const actions = getConfiguration().actionConfig?.actions;
     if (!actions) {
         throw createBackendError("No actions configured.");
     }

@@ -32,11 +32,7 @@ app.post('/api/dashboard/health-check', (req, res) => {
       .then(status => res.status(200).send({status: status}));
 });
 
-try{
-  configureCronjob(getConfiguration().cronjobConfig);
-} catch (e) {
-  logger().error("Failed to configure cronjob: ", e);
-}
+configureCronjob(getConfiguration().cronjobConfig);
 
 const port = 8080;
 
