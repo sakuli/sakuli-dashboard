@@ -5,7 +5,7 @@ function help() {
     echo "Parameters:"
     echo "  DOCKER_USERNAME: Username for docker login"
     echo "  DOCKER_PASSWORD: Password for docker login"
-    echo "  CONFIG_FILE: Name of the config file to be loaded (located in openshift/configs)."
+    echo "  CONFIG_FILE_PATH: Path to the config file to be loaded."
     echo "  SAKULI_LICENSE_KEY: Sakuli XL-License key to start the dashboard"
 }
 
@@ -19,9 +19,9 @@ fi
 
 DOCKER_USERNAME=${1}
 DOCKER_PASSWORD=${2}
-CONFIG_FILE=${3}
+CONFIG_FILE_PATH=${3}
 SAKULI_LICENSE_KEY=${4}
-CONFIG_FILE_PATH=${DIR}/configs/${CONFIG_FILE}
+
 
 [[ -z "${DOCKER_USERNAME}" ]] && echo "ERROR: DOCKER_USERNAME is not defined" && help && exit 1
 [[ -z "${DOCKER_PASSWORD}" ]] && echo "ERROR: DOCKER_PASSWORD is not defined" && help && exit 1
@@ -54,7 +54,7 @@ oc create secret docker-registry dockerhub-sakuli-secret \
     --docker-password="${DOCKER_PASSWORD}" \
     --docker-email=unused
 
-oc secrets link builder dockerhub-sakuli-secret
+oc secrets link default dockerhub-sakuli-secret
 
 oc import-image "${SERVICE_NAME}" \
     --from=docker.io/taconsol/sakuli-dashboard \
