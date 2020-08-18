@@ -1,15 +1,10 @@
-import { getConfiguration } from "./get-configuration.function";
-
 describe('getConfiguration', () => {
 
+    beforeEach(() => {
+        jest.resetModules()
+    })
+
     test.each([
-        [
-            "DASHBOARD_CONFIG",
-            () => process.env.DASHBOARD_CONFIG = "",
-            () => process.env.CLUSTER_CONFIG = "{}",
-            () => process.env.ACTION_CONFIG = "{}",
-            () => process.env.CRONJOB_CONFIG = "{}"
-        ],
         [
             "CLUSTER_CONFIG",
             () => process.env.DASHBOARD_CONFIG = "{}",
@@ -31,18 +26,35 @@ describe('getConfiguration', () => {
             () => process.env.ACTION_CONFIG = "{}",
             () => process.env.CRONJOB_CONFIG = ""
         ]
-    ])("should throw if %s is not set",
-        (emptyVariable, setDashboardConfig, setClusterConfig, setDashboardActionConfig, setCronjob) => {
+    ])("should not throw for missing optional config %s",
+        (_, setDashboardConfig, setClusterConfig, setDashboardActionConfig, setCronjob) =>{
+            //GIVEN
+            const { getConfiguration } = require("./get-configuration.function")
+
+            setDashboardConfig();
+            setClusterConfig();
+            setDashboardActionConfig();
+            setCronjob();
+
+            //WHEN
+            expect(getConfiguration)
+                //THEN
+                .not.toThrow();
+        })
+
+    it("should throw if DASHBOARD_CONFIG is not set", () => {
         //GIVEN
-        setDashboardConfig();
-        setClusterConfig();
-        setDashboardActionConfig();
-        setCronjob();
+        const { getConfiguration } = require("./get-configuration.function")
+
+        process.env.DASHBOARD_CONFIG = ""
+        process.env.CLUSTER_CONFIG = "{}"
+        process.env.ACTION_CONFIG = "{}"
+        process.env.CRONJOB_CONFIG = "{}"
 
         //WHEN
         expect(getConfiguration)
             //THEN
-            .toThrow(`Invalid configuration: Environment ${emptyVariable} is empty or undefined.`)
+            .toThrow(`Invalid configuration: Environment DASHBOARD_CONFIG is empty or undefined.`)
     });
 
     test.each([
@@ -74,9 +86,11 @@ describe('getConfiguration', () => {
             () => process.env.ACTION_CONFIG = "{}",
             () => process.env.CRONJOB_CONFIG = "{wrong}"
         ]
-    ])("should throw if %s is invalid",
+    ])("should throw if %s is set and invalid",
         (invalidVariable, setDashboardConfig, setClusterConfig, setDashboardActionConfig, setCronjobConfig) => {
             //GIVEN
+            const { getConfiguration } = require("./get-configuration.function")
+
             setDashboardConfig();
             setClusterConfig();
             setDashboardActionConfig();
@@ -91,6 +105,8 @@ describe('getConfiguration', () => {
     it("should parse and store config", () =>{
 
         //GIVEN
+        const { getConfiguration } = require("./get-configuration.function")
+
         const expectedDashboardConfig = {dashboard: "config"};
         const expectedClusterConfig = {cluster: "config"};
         const expectedDashboardActionConfig = {action: "config"};
