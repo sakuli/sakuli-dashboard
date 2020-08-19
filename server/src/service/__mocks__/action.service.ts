@@ -1,5 +1,9 @@
 import { DashboardActionRequest, DisplayUpdate } from "../../../../api";
 
-export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
-    return Promise.resolve({})
-}
+export const executeAction = jest.fn(
+    async (dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> => {
+        return Promise.resolve({
+            url: "foobar.com",
+            pollingInterval: 200
+        });
+    })
