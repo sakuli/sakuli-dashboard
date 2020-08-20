@@ -1,7 +1,7 @@
 import { mockPartial } from "sneer";
 import { configureCronjob } from "./cronjob.service";
 import { logger } from "../functions/logger";
-import cron, { ScheduledTask, ScheduleOptions } from "node-cron";
+import { schedule, ScheduledTask, ScheduleOptions } from "node-cron";
 import { executeAction } from "./action.service";
 import { CronjobConfig } from "../config/cronjob.config";
 
@@ -26,17 +26,17 @@ describe("cronjob service", () => {
         configureCronjob(cronjobConfig);
 
         //THEN
-        expect(cron.schedule).toBeCalledWith(cronjobConfig.schedule, expect.any(Function))
+        expect(schedule).toBeCalledWith(cronjobConfig.schedule, expect.any(Function))
     })
 
     it("should execute action if cronjob is triggered", async () => {
 
         //GIVEN
-        const scheduleSpy = jest.spyOn(cron, "schedule");
-        scheduleSpy.mockImplementation((cronExpression: string, func: () => void, options?: ScheduleOptions) => {
-            func();
-            return mockPartial<ScheduledTask>({})
-        })
+        (schedule as jest.Mock).mockImplementation(
+            (cronExpression: string, func: () => void, options?: ScheduleOptions) => {
+                func();
+                return mockPartial<ScheduledTask>({})
+            })
 
         //WHEN
         configureCronjob(cronjobConfig);
