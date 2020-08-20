@@ -21,15 +21,15 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
-    "@types/jest": "^25.1.1",
+    "@types/jest": "26.0.10",
     "@types/node": "^12.12.21",
     "@types/node-cron": "^2.0.3",
     "@types/node-fetch": "^2.5.4",
-    "jest": "^25.1.0",
+    "jest": "26.4.1",
     "nodemon": "^2.0.2",
-    "ts-jest": "^25.1.0",
+    "ts-jest": "26.2.0",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.3",
+    "typescript": "3.9.7",
     "sneer": "1.0.1"
   }
 }

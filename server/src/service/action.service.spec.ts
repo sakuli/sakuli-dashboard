@@ -4,9 +4,9 @@ import { Configuration, getConfiguration } from "../functions/get-configuration.
 import { executeAction } from "./action.service";
 import { mockPartial } from "sneer";
 import { V1Pod } from "@kubernetes/client-node";
-import { k8sService } from "./k8s.service";
 import { V1ObjectMeta } from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
 import http from "http";
+import { apply, deletePod, getPodStatus } from "./k8s.service";
 
 describe("action service", () =>{
 
@@ -15,8 +15,8 @@ describe("action service", () =>{
     })
 
     const getConfigurationMock = getConfiguration as any as jest.Mock<Configuration>
-    const podStatusMock = k8sService().getPodStatus as any as jest.Mock<Promise<V1Pod>>
-    const applyMock = k8sService().apply as any as jest.Mock<Promise<http.IncomingMessage>>
+    const podStatusMock = getPodStatus as any as jest.Mock<Promise<V1Pod>>
+    const applyMock = apply as any as jest.Mock<Promise<http.IncomingMessage>>
 
     const dashboardActionRequest = {
         actionIdentifier: "7890eab9-6c5e-4e40-b39c-163900ea4834"
@@ -98,7 +98,7 @@ describe("action service", () =>{
 
         //THEN
         await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
-        expect(k8sService().deletePod).not.toBeCalled()
+        expect(deletePod).not.toBeCalled()
     })
 
     it("should return empty object if no display update is specified", async () => {
@@ -134,7 +134,7 @@ describe("action service", () =>{
 
         //THEN
         await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
-        expect(k8sService().deletePod).not.toBeCalled()
+        expect(deletePod).not.toBeCalled()
     })
 
     it("should apply action", async () => {
@@ -182,7 +182,7 @@ describe("action service", () =>{
 
         //THEN
         await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
-        expect(k8sService().deletePod).toBeCalledWith(actionToPerform)
-        expect(k8sService().apply).toBeCalledWith(actionToPerform)
+        expect(deletePod).toBeCalledWith(actionToPerform)
+        expect(apply).toBeCalledWith(actionToPerform)
     })
 })

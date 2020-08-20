@@ -1,9 +1,9 @@
 import { DashboardActionRequest, DisplayUpdate } from "@sakuli-dashboard/api";
-import { k8sService } from "./k8s.service";
 import * as http from "http";
 import createBackendError from "../functions/create-backend-error.function";
 import { getConfiguration } from "../functions/get-configuration.function";
 import { V1Pod } from "@kubernetes/client-node";
+import { apply, deletePod, getPodStatus } from "./k8s.service";
 
 function podCouldNotBeStarted(reason: string) {
     return `Pod could not be started because of: ${reason}`;
@@ -26,8 +26,8 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
 
     if (actionToPerform?.action.metadata) {
         if (await podIsDead(actionToPerform.action)) {
-            await k8sService().deletePod(actionToPerform.action);
-            const httpResponse = await k8sService().apply(actionToPerform.action);
+            await deletePod(actionToPerform.action);
+            const httpResponse = await apply(actionToPerform.action);
             validateHttpResponse(httpResponse);
         }
         return actionToPerform.displayUpdate || {};
@@ -38,7 +38,7 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
 
 async function podIsDead(pod: V1Pod): Promise<boolean>{
     try {
-        const clusterPod = await k8sService().getPodStatus(pod);
+        const clusterPod = await getPodStatus(pod);
 
         if(!clusterPod.status?.phase) {
             return true;

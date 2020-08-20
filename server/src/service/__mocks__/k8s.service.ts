@@ -1,13 +1,8 @@
-import { K8sService } from "../k8s.service";
+import { mockPartial } from "sneer";
+import http from "http";
+import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
 
-const applyMock = jest.fn()
-const getPodStatusMock = jest.fn()
-const deletePodMock = jest.fn()
-
-export function k8sService(): K8sService{
-    return{
-        apply: applyMock,
-        getPodStatus: getPodStatusMock,
-        deletePod: deletePodMock
-    }
-}
+export const apply = jest.fn(() => Promise.resolve(mockPartial<http.IncomingMessage>({})))
+export const getPodStatus = jest.fn(() => Promise.resolve(mockPartial<V1Pod>({})))
+export const deletePod = jest.fn(() => Promise.resolve())
+export const createK8sClient = jest.fn(() => Promise.resolve(mockPartial<CoreV1Api>({})))
