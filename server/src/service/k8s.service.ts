@@ -12,11 +12,8 @@ function createK8sServiceError(message: string){
 
 async function createK8sClient(): Promise<CoreV1Api> {
     const clusterConfig = getConfiguration()?.k8sClusterConfig
-    if(!clusterConfig){
-        throw createK8sServiceError("Could not create kubernetes client");
-    }
     const k8sCubeConfig = new k8s.KubeConfig();
-    k8sCubeConfig.loadFromClusterAndUser(clusterConfig.cluster, clusterConfig.user);
+    k8sCubeConfig.loadFromClusterAndUser(clusterConfig!.cluster, clusterConfig!.user);
     return k8sCubeConfig.makeApiClient(k8s.CoreV1Api);
 }
 

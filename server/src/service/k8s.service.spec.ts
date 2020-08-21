@@ -21,6 +21,13 @@ describe("k8s service", () => {
     const getConfigurationMock = getConfiguration as any as jest.Mock<Configuration>
 
     describe("apply pod config", () => {
+
+        const podToCreate = mockPartial<V1Pod>({
+            metadata: mockPartial<V1ObjectMeta>({
+                name: "Sachuli"
+            })
+        });
+
         it("should throw if no cluster config is set", async () => {
 
             //GIVEN
@@ -71,9 +78,32 @@ describe("k8s service", () => {
                 })
             });
 
-            const podToCreate = mockPartial<V1Pod>({
-                metadata: mockPartial<V1ObjectMeta>({
-                    name: "Sachuli"
+            //WHEN
+            const applyPromise = apply(podToCreate);
+
+            //THEN
+            await expect(applyPromise).resolves.toEqual(expectedResponse);
+            expect(createNamespacePodMock).toBeCalledWith(clusterConfig.namespace, podToCreate)
+        })
+
+        it("should reject if pod could not be applied", async () => {
+
+            //GIVEN
+            KubeConfigMock.mockImplementation(() => {
+                return mockPartial({
+                    loadFromClusterAndUser: jest.fn(),
+                    makeApiClient: () => mockPartial<CoreV1Api>({
+                        createNamespacedPod: jest.fn().mockRejectedValue("Cluster said no!"),
+                    })
+                })
+            })
+
+            const clusterConfig = mockPartial<K8sClusterConfig>({
+                namespace: "foobar"
+            })
+            getConfigurationMock.mockImplementation(() => {
+                return mockPartial<Configuration>({
+                    k8sClusterConfig: clusterConfig
                 })
             });
 
@@ -81,8 +111,10 @@ describe("k8s service", () => {
             const applyPromise = apply(podToCreate);
 
             //THEN
-            await expect(applyPromise).resolves.toEqual(expectedResponse);
-            expect(createNamespacePodMock).toBeCalledWith(clusterConfig.namespace, podToCreate)
+            await expect(applyPromise).rejects.toEqual(
+                {
+                    message: "Could not apply pod configuration on cluster"
+                })
         })
     })
 })
