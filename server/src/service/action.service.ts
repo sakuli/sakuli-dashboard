@@ -36,7 +36,7 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
     } else {
         const message = `Requested action '${dashboardAction.actionIdentifier}' not found.`
         logger().error(message)
-        throw createBackendError(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
+        throw createBackendError(message);
     }
 }
 
