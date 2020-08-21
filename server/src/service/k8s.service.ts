@@ -10,7 +10,7 @@ function createK8sServiceError(message: string){
     throw createBackendError(`${message}: Cluster config is not defined.`);
 }
 
-export async function createK8sClient(): Promise<CoreV1Api> {
+async function createK8sClient(): Promise<CoreV1Api> {
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     if(!clusterConfig){
         throw createK8sServiceError("Could not create kubernetes client");
