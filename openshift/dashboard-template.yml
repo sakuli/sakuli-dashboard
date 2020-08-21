@@ -80,19 +80,16 @@ parameters:
   - name: SERVICE_NAME
     description: Service name for dashboard
     required: true
-  - name: CRONJOB_CONFIG
-    description: Configuration for cronjob
-    required: true
-  - name: ACTION_CONFIG
-    description: Configuration for actions
-    required: true
   - name: DASHBOARD_CONFIG
     description: Configuration for dashboard
-    required: true
-  - name: CLUSTER_CONFIG
-    desciption: Configuration for cluster
     required: true
   - name: NAMESPACE
     describe: Namespace for the project
     required: true
+  - name: CRONJOB_CONFIG
+    description: Configuration for cronjob (Optional)
+  - name: ACTION_CONFIG
+    description: Configuration for actions (Optional)
+  - name: CLUSTER_CONFIG
+    desciption: Configuration for cluster (Optional)
 
