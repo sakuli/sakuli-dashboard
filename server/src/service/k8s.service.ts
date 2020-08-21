@@ -76,5 +76,6 @@ export async function deletePod(pod:V1Pod): Promise<void> {
         logger().debug(`Deleted pod ${podName} in namespace ${clusterConfig.namespace}`);
     } catch (error) {
         logger().error(`Could not delete pod ${podName}: ${JSON.stringify(error)}`);
+        throw createBackendError("Could not delete pod on cluster");
     }
 }
