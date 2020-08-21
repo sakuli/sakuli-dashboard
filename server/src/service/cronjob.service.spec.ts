@@ -33,7 +33,7 @@ describe("cronjob service", () => {
 
         //GIVEN
         (schedule as jest.Mock).mockImplementation(
-            (cronExpression: string, func: () => void, options?: ScheduleOptions) => {
+            (cronExpression: string, func: () => void, _?: ScheduleOptions) => {
                 func();
                 return mockPartial<ScheduledTask>({})
             })
@@ -51,6 +51,6 @@ describe("cronjob service", () => {
         configureCronjob(undefined);
 
         //THEN
-        expect(logger().debug).toBeCalledWith("Cronjob config is empty or undefined");
+        expect(logger().debug).toBeCalled();
     })
 })

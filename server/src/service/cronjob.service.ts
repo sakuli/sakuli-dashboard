@@ -5,7 +5,7 @@ import { logger } from "../functions/logger";
 
 export function configureCronjob(cronjobConfig: CronjobConfig | undefined) {
     if(!cronjobConfig) {
-        logger().debug("Cronjob config is empty or undefined")
+        logger().debug("Could not create cronjob: Cronjob config is empty or undefined")
         return
     }
 
