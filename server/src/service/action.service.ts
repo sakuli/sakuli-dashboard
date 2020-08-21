@@ -4,6 +4,7 @@ import createBackendError from "../functions/create-backend-error.function";
 import { getConfiguration } from "../functions/get-configuration.function";
 import { V1Pod } from "@kubernetes/client-node";
 import { apply, deletePod, getPodStatus } from "./k8s.service";
+import { logger } from "../functions/logger";
 
 function podCouldNotBeStarted(reason: string) {
     return `Pod could not be started because of: ${reason}`;
@@ -18,6 +19,7 @@ const validateHttpResponse = (httpResponse: http.IncomingMessage) => {
 export async function executeAction(dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> {
     const actions = getConfiguration().actionConfig?.actions;
     if (!actions) {
+        logger().error(`Received request for cluster action while no actions are configured.`)
         throw createBackendError("No actions configured.");
     }
 
@@ -32,6 +34,8 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
         }
         return actionToPerform.displayUpdate || {};
     } else {
+        const message = `Requested action '${dashboardAction.actionIdentifier}' not found.`
+        logger().error(message)
         throw createBackendError(`Requested action '${dashboardAction.actionIdentifier}' not found.`);
     }
 }
