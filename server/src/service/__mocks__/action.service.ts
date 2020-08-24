@@ -1,4 +1,4 @@
-import { DashboardActionRequest, DisplayUpdate } from "../../../../api";
+import { DashboardActionRequest, DisplayUpdate } from "@sakuli-dashboard/api";
 
 export const executeAction = jest.fn(
     async (dashboardAction: DashboardActionRequest): Promise<DisplayUpdate> => {
