@@ -20,7 +20,7 @@ async function createK8sClient(): Promise<CoreV1Api> {
 export async function apply(pod: V1Pod): Promise<http.IncomingMessage>{
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     if(!clusterConfig){
-        throw createK8sConfigError("Could apply pod config to cluster");
+        throw createK8sConfigError("Could not apply pod config to cluster");
     }
     try {
         const k8sApi = await createK8sClient();
