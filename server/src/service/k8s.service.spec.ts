@@ -125,7 +125,7 @@ describe("k8s service", () => {
             getConfigurationMock.mockImplementation(() => {
                 return mockPartial<Configuration>({})
             });
-            const expectedRejection = { message: "Could apply get pod status: Cluster config is not defined." }
+            const expectedRejection = { message: "Could not apply get pod status: Cluster config is not defined." }
 
             //WHEN
             await expect(getPodStatus(mockPartial<V1Pod>({})))
