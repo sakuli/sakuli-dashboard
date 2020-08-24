@@ -292,7 +292,7 @@ describe("k8s service", () => {
                 })
             });
 
-            const podName = "John Sakuli"
+            const podName = "Jon Sakuli"
             const podToDelete = mockPartial<V1Pod>({
                 metadata: mockPartial<V1ObjectMeta>({
                     name: podName
@@ -340,7 +340,7 @@ describe("k8s service", () => {
                 return mockPartial({
                     loadFromClusterAndUser: jest.fn(),
                     makeApiClient: () => mockPartial<CoreV1Api>({
-                        deleteNamespacedPod: jest.fn().mockRejectedValue("Winter is comming")
+                        deleteNamespacedPod: jest.fn().mockRejectedValue("Winter is coming")
                     })
                 })
             })
