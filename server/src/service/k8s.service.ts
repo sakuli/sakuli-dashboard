@@ -37,7 +37,7 @@ export async function apply(pod: V1Pod): Promise<http.IncomingMessage>{
 export async function getPodStatus(pod: V1Pod): Promise<V1Pod>{
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     if(!clusterConfig){
-        throw createK8sConfigError("Could apply get pod status");
+        throw createK8sConfigError("Could not apply get pod status");
     }
     if(!pod.metadata?.name) {
         throw createBackendError("Could not get pod status due to missing name");
