@@ -34,7 +34,6 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v1
         with:
-          dockerfile: Dockerfile.multi-stage
           repository: taconsol/sakuli-dashboard
           tags: latest
           push: false
