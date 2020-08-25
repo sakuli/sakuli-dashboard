@@ -7,7 +7,9 @@ import { logger } from "../functions/logger";
 const k8s = require('@kubernetes/client-node');
 
 function createK8sConfigError(message: string){
-    throw createBackendError(`${message}: Cluster config is not defined.`);
+    const errorMessage = `${message}: Cluster config is not defined.`
+    logger().error(errorMessage)
+    throw createBackendError(errorMessage)
 }
 
 async function createK8sClient(): Promise<CoreV1Api> {
@@ -40,6 +42,7 @@ export async function getPodStatus(pod: V1Pod): Promise<V1Pod>{
         throw createK8sConfigError("Could not apply get pod status");
     }
     if(!pod.metadata?.name) {
+        logger().error(`Could not get pod status due to missing name. Requested pod: ${JSON.stringify(pod)}`)
         throw createBackendError("Could not get pod status due to missing name");
     }
     const podName = pod.metadata.name;
@@ -65,6 +68,7 @@ export async function deletePod(pod:V1Pod): Promise<void> {
         throw createK8sConfigError("Could not delete pod");
     }
     if(!pod.metadata?.name) {
+        logger().error(`Could not delete pod due to missing name. Requested pod: ${JSON.stringify(pod)}`)
         throw createBackendError("Could not delete pod due to missing name");
     }
     const podName = pod.metadata.name;
