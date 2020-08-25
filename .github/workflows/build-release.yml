@@ -14,9 +14,9 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Set DASHBOARD_VERSION according to pushed tag
-        run: echo ::set-env name=DASHBOARD_VERSION::${GITHUB_REF}
+        run: echo ::set-env name=DASHBOARD_VERSION::${GITHUB_REF#refs/*/}
       - name: Show new release version
-        run: echo DASHBOARD_VERSION= ${DASHBOARD_VERSION}
+        run: echo DASHBOARD_VERSION=${DASHBOARD_VERSION}
 #      - name: Build Docker image
 #        uses: docker/build-push-action@v1
 #        with:
