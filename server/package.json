@@ -1,6 +1,6 @@
 {
   "name": "@sakuli-dashboard/server",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@kubernetes/client-node": "^0.11.0",
-    "@sakuli-dashboard/api": "^1.0.0",
+    "@sakuli-dashboard/api": "^2.0.0",
     "express": "^4.17.1",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.0",
@@ -27,9 +27,9 @@
     "@types/node-fetch": "^2.5.4",
     "jest": "26.4.1",
     "nodemon": "^2.0.2",
+    "sneer": "1.0.1",
     "ts-jest": "26.2.0",
     "ts-node": "^8.5.4",
-    "typescript": "3.9.7",
-    "sneer": "1.0.1"
+    "typescript": "3.9.7"
   }
 }
