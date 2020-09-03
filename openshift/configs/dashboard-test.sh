@@ -65,7 +65,7 @@ export ACTION_CONFIG=$(cat <<EOF
               "containers": [
                 {
                   "name": "pink-coffee",
-                  "image": "172.30.1.1:5000/pink-coffee/pink-coffee",
+                  "image": "docker-registry.default.svc:5000/pink-coffee/pink-coffee",
                   "volumeMounts": [
                     {
                       "mountPath": "/dev/shm",
