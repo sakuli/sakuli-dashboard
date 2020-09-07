@@ -55,10 +55,25 @@ export ACTION_CONFIG=$(cat <<EOF
               "name":"pink-coffee"
             },
             "spec": {
+              "volumes" : [
+                {
+                  "name": "dshm",
+                  "emptyDir":
+                    {
+                    "medium": "Memory"
+                    }
+                }
+              ],
               "containers": [
                 {
                   "name": "pink-coffee",
                   "image": "docker-registry.default.svc:5000/pink-coffee/pink-coffee",
+                  "volumeMounts": [
+                    {
+                      "mountPath": "/dev/shm",
+                      "name": "dshm"
+                    }
+                  ],
                   "env": [
                     {
                       "name": "VNC_VIEW_ONLY",
