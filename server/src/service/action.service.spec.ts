@@ -62,7 +62,7 @@ describe("action service", () =>{
             .rejects.toEqual(expectedRejection)
     })
 
-    it("should not delete pod if it is still alive", async () => {
+    it("should not delete/apply pod if it is still alive", async () => {
 
         //GIVEN
         const expectedDisplayUpdate =  {
@@ -93,17 +93,12 @@ describe("action service", () =>{
             }))
         })
 
-        applyMock.mockImplementation(() => {
-            return Promise.resolve(mockPartial<http.IncomingMessage>({
-                statusCode: 201
-            }))
-        })
-
         //WHEN
         const displayUpdate = executeAction(dashboardActionRequest);
 
         //THEN
         await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
+        expect(applyMock).not.toBeCalled()
         expect(deletePod).not.toBeCalled()
     })
 

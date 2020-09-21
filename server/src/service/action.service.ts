@@ -26,13 +26,21 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
     const actionToPerform = actions
         .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
 
+    async function applyPod(podToApply: V1Pod) {
+        const httpResponse = await apply(podToApply);
+        validateHttpResponse(httpResponse);
+    }
+
     if (actionToPerform?.action.metadata) {
         const actionPod = await getPodStatus(actionToPerform.action);
-        if (actionPod && await podIsDead(actionPod)) {
+
+        if(!actionPod){
+            await applyPod(actionToPerform.action)
+        }else if(await podIsDead(actionPod)) {
             await deletePod(actionToPerform.action);
+            await applyPod(actionToPerform.action);
         }
-        const httpResponse = await apply(actionToPerform.action);
-        validateHttpResponse(httpResponse);
+
         return actionToPerform.displayUpdate || {};
     } else {
         const message = `Requested action '${dashboardAction.actionIdentifier}' not found.`
