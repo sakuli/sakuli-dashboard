@@ -36,7 +36,7 @@ export async function apply(pod: V1Pod): Promise<http.IncomingMessage>{
     }
 }
 
-export async function getPodStatus(pod: V1Pod): Promise<V1Pod>{
+export async function getPodStatus(pod: V1Pod) {
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     if(!clusterConfig){
         throw createK8sConfigError("Could not apply get pod status");
@@ -53,6 +53,10 @@ export async function getPodStatus(pod: V1Pod): Promise<V1Pod>{
         const { body } = await k8sApi.readNamespacedPodStatus(podName, clusterConfig.namespace);
         return body
     } catch (error) {
+        if(error.response?.statusCode === 404){ // pod not found on cluster
+            logger().debug(`Pod ${podName} does not exist on cluster.`)
+            return undefined;
+        }
         logger().error(`Could not get pod status of ${podName}: ${JSON.stringify(error)}`);
         throw createBackendError('Could not get pod status from cluster.');
     }

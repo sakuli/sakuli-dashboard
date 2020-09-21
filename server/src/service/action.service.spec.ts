@@ -15,7 +15,7 @@ describe("action service", () =>{
     })
 
     const getConfigurationMock = getConfiguration as any as jest.Mock<Configuration>
-    const podStatusMock = getPodStatus as any as jest.Mock<Promise<V1Pod>>
+    const podStatusMock = getPodStatus as any as jest.Mock<Promise<V1Pod|undefined>>
     const applyMock = apply as any as jest.Mock<Promise<http.IncomingMessage>>
 
     const dashboardActionRequest = {
@@ -85,11 +85,17 @@ describe("action service", () =>{
             })
         })
 
-        podStatusMock.mockImplementation((_: V1Pod) => {
+        podStatusMock.mockImplementation(() => {
             return Promise.resolve(mockPartial<V1Pod>({
                 status: {
                     phase: "Running"
                 }
+            }))
+        })
+
+        applyMock.mockImplementation(() => {
+            return Promise.resolve(mockPartial<http.IncomingMessage>({
+                statusCode: 201
             }))
         })
 
@@ -119,11 +125,17 @@ describe("action service", () =>{
             })
         })
 
-        podStatusMock.mockImplementation((_: V1Pod) => {
+        podStatusMock.mockImplementation(() => {
             return Promise.resolve(mockPartial<V1Pod>({
                 status: {
                     phase: "Running"
                 }
+            }))
+        })
+
+        applyMock.mockImplementation(() => {
+            return Promise.resolve(mockPartial<http.IncomingMessage>({
+                statusCode: 201
             }))
         })
 
@@ -212,18 +224,11 @@ describe("action service", () =>{
                 })
             })
 
-            podStatusMock.mockImplementation((_: V1Pod) => {
-                return Promise.reject({
-                    response: mockPartial<http.IncomingMessage>({
-                        statusCode: 404 //pod not found on cluster
-                    }),
-                    body: mockPartial<V1Pod>({
-                        status: {}
-                    })
-                })
+            podStatusMock.mockImplementation(() => {
+                return Promise.resolve(undefined)
             })
 
-            applyMock.mockImplementation((_: V1Pod) => {
+            applyMock.mockImplementation(() => {
                 return Promise.resolve(mockPartial<http.IncomingMessage>({
                     statusCode: 201
                 }))

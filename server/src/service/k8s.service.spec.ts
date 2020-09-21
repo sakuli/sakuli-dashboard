@@ -239,6 +239,52 @@ describe("k8s service", () => {
             //THEN
             await expect(podStatusPromise).rejects.toEqual(expectedRejection)
         })
+
+        it("should return undefined, if pod does not exist", async () => {
+            //GIVEN
+            const namespace = "foobar";
+            getConfigurationMock.mockImplementation(() => {
+                return mockPartial<Configuration>({
+                    k8sClusterConfig: mockPartial<K8sClusterConfig>({
+                        namespace: namespace
+                    })
+                })
+            });
+
+            const podName = "The real slim Sakuli"
+            const podToCheck = mockPartial<V1Pod>({
+                metadata: mockPartial<V1ObjectMeta>({
+                    name: podName
+                })
+            });
+
+            KubeConfigMock.mockImplementation(() => {
+                return mockPartial({
+                    loadFromClusterAndUser: jest.fn(),
+                    makeApiClient: () => mockPartial<CoreV1Api>({
+                        readNamespacedPodStatus: jest.fn()
+                            .mockRejectedValue({
+                                "response":
+                                    {
+                                        "statusCode": 404,
+                                    },
+                                "body": {
+                                    "apiVersion":"v1",
+                                    "kind":"Status",
+                                    "metadata":{},
+                                    "status":{}
+                                }
+                            })
+                    })
+                })
+            })
+
+            //WHEN
+            const podStatusPromise = getPodStatus(podToCheck);
+
+            //THEN
+            await expect(podStatusPromise).resolves.toBeUndefined();
+        })
     })
 
     describe("delete pod", () => {

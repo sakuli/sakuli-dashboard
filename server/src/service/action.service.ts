@@ -27,11 +27,12 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
         .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
 
     if (actionToPerform?.action.metadata) {
-        if (await podIsDead(actionToPerform.action)) {
+        const actionPod = await getPodStatus(actionToPerform.action);
+        if (actionPod && await podIsDead(actionPod)) {
             await deletePod(actionToPerform.action);
-            const httpResponse = await apply(actionToPerform.action);
-            validateHttpResponse(httpResponse);
         }
+        const httpResponse = await apply(actionToPerform.action);
+        validateHttpResponse(httpResponse);
         return actionToPerform.displayUpdate || {};
     } else {
         const message = `Requested action '${dashboardAction.actionIdentifier}' not found.`
@@ -42,12 +43,10 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
 
 async function podIsDead(pod: V1Pod): Promise<boolean>{
     try {
-        const clusterPod = await getPodStatus(pod);
-
-        if(!clusterPod.status?.phase) {
+        if(!pod.status?.phase) {
             return true;
         }
-        return clusterPod.status.phase !== "Running" && clusterPod.status.phase !== "Pending";
+        return pod.status.phase !== "Running" && pod.status.phase !== "Pending";
     } catch (error) {
         return true;
     }
