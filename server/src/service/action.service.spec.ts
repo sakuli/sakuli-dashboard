@@ -15,7 +15,7 @@ describe("action service", () =>{
     })
 
     const getConfigurationMock = getConfiguration as any as jest.Mock<Configuration>
-    const podStatusMock = getPodStatus as any as jest.Mock<Promise<V1Pod>>
+    const podStatusMock = getPodStatus as any as jest.Mock<Promise<V1Pod|undefined>>
     const applyMock = apply as any as jest.Mock<Promise<http.IncomingMessage>>
 
     const dashboardActionRequest = {
@@ -62,7 +62,7 @@ describe("action service", () =>{
             .rejects.toEqual(expectedRejection)
     })
 
-    it("should not delete pod if it is still alive", async () => {
+    it("should not delete/apply pod if it is still alive", async () => {
 
         //GIVEN
         const expectedDisplayUpdate =  {
@@ -85,7 +85,7 @@ describe("action service", () =>{
             })
         })
 
-        podStatusMock.mockImplementation((_: V1Pod) => {
+        podStatusMock.mockImplementation(() => {
             return Promise.resolve(mockPartial<V1Pod>({
                 status: {
                     phase: "Running"
@@ -98,6 +98,7 @@ describe("action service", () =>{
 
         //THEN
         await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
+        expect(applyMock).not.toBeCalled()
         expect(deletePod).not.toBeCalled()
     })
 
@@ -119,11 +120,17 @@ describe("action service", () =>{
             })
         })
 
-        podStatusMock.mockImplementation((_: V1Pod) => {
+        podStatusMock.mockImplementation(() => {
             return Promise.resolve(mockPartial<V1Pod>({
                 status: {
                     phase: "Running"
                 }
+            }))
+        })
+
+        applyMock.mockImplementation(() => {
+            return Promise.resolve(mockPartial<http.IncomingMessage>({
+                statusCode: 201
             }))
         })
 
@@ -137,52 +144,99 @@ describe("action service", () =>{
         expect(deletePod).not.toBeCalled()
     })
 
-    it("should apply action", async () => {
+    describe("apply action", () => {
 
-        //GIVEN
-        const actionToPerform = mockPartial<V1Pod>({
-            metadata: mockPartial<V1ObjectMeta>({
-                name: "ConfidentialPod"
+        it("should apply action", async () => {
+
+            //GIVEN
+            const actionToPerform = mockPartial<V1Pod>({
+                metadata: mockPartial<V1ObjectMeta>({
+                    name: "ConfidentialPod"
+                })
+            });
+            const expectedDisplayUpdate = {
+                url: "xhamster.com"
+            }
+            getConfigurationMock.mockImplementation(() =>  {
+                return mockPartial<Configuration>({
+                    actionConfig: {
+                        actions: [
+                            {
+                                actionIdentifier: "7890eab9-6c5e-4e40-b39c-163900ea4834",
+                                action: actionToPerform,
+                                displayUpdate: expectedDisplayUpdate
+                            }
+                        ]
+                    }
+                })
             })
-        });
-        const expectedDisplayUpdate = {
-            url: "xhamster.com"
-        }
-        getConfigurationMock.mockImplementation(() =>  {
-            return mockPartial<Configuration>({
-                actionConfig: {
-                    actions: [
-                        {
-                            actionIdentifier: "7890eab9-6c5e-4e40-b39c-163900ea4834",
-                            action: actionToPerform,
-                            displayUpdate: expectedDisplayUpdate
-                        }
-                    ]
-                }
+
+            podStatusMock.mockImplementation((_: V1Pod) => {
+                return Promise.resolve(mockPartial<V1Pod>({
+                    status: {
+                        phase: "Terminated"
+                    }
+                }))
             })
+
+            applyMock.mockImplementation((_: V1Pod) => {
+                return Promise.resolve(mockPartial<http.IncomingMessage>({
+                    statusCode: 201
+                }))
+            })
+
+            //WHEN
+            const displayUpdate = executeAction(dashboardActionRequest);
+
+
+            //THEN
+            await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
+            expect(deletePod).toBeCalledWith(actionToPerform)
+            expect(apply).toBeCalledWith(actionToPerform)
         })
 
-        podStatusMock.mockImplementation((_: V1Pod) => {
-            return Promise.resolve(mockPartial<V1Pod>({
-                status: {
-                    phase: "Terminated"
-                }
-            }))
+        it("should apply if pod is created for the first time", async () =>{
+
+            const actionToPerform = mockPartial<V1Pod>({
+                metadata: mockPartial<V1ObjectMeta>({
+                    name: "ConfidentialPod"
+                })
+            });
+            const expectedDisplayUpdate = {
+                url: "xhamster.com"
+            }
+            getConfigurationMock.mockImplementation(() =>  {
+                return mockPartial<Configuration>({
+                    actionConfig: {
+                        actions: [
+                            {
+                                actionIdentifier: "7890eab9-6c5e-4e40-b39c-163900ea4834",
+                                action: actionToPerform,
+                                displayUpdate: expectedDisplayUpdate
+                            }
+                        ]
+                    }
+                })
+            })
+
+            podStatusMock.mockImplementation(() => {
+                return Promise.resolve(undefined)
+            })
+
+            applyMock.mockImplementation(() => {
+                return Promise.resolve(mockPartial<http.IncomingMessage>({
+                    statusCode: 201
+                }))
+            })
+
+            //WHEN
+            const displayUpdate = executeAction(dashboardActionRequest);
+
+
+            //THEN
+            await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
+            expect(deletePod).not.toBeCalled()
+            expect(apply).toBeCalledWith(actionToPerform)
         })
-
-        applyMock.mockImplementation((_: V1Pod) => {
-            return Promise.resolve(mockPartial<http.IncomingMessage>({
-                statusCode: 201
-            }))
-        })
-
-        //WHEN
-        const displayUpdate = executeAction(dashboardActionRequest);
-
-
-        //THEN
-        await expect(displayUpdate).resolves.toEqual(expectedDisplayUpdate)
-        expect(deletePod).toBeCalledWith(actionToPerform)
-        expect(apply).toBeCalledWith(actionToPerform)
     })
 })
