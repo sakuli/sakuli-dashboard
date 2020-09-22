@@ -36,7 +36,7 @@ const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (
                     <div className={"col-1 align-self-center"}>
                         {infoPopover()}
                     </div>
-                    <div className={"col-10 align-self-center"}>
+                    <div data-testid={`display-header-description-${props.display.index}`} className={"col-10 align-self-center"}>
                         {props.display.messages?.[props.locale]?.description}
                     </div>
                 </div>
@@ -51,7 +51,7 @@ const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (
                     />
                 }
             </div>
-            <div className={"col-5 pr-1 align-self-center"}>
+            <div data-testid={`display-header-fullscreen-${props.display.index}`} className={"col-5 pr-1 align-self-center"}>
                 <FullscreenButtonComponent target={props.displayContainerRef}/>
             </div>
         </div>
