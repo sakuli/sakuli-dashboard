@@ -3,32 +3,50 @@ import DashboardDisplayHeaderComponent from "./dashboard-display-header.componen
 import { Display, Messages } from "@sakuli-dashboard/api";
 import { render } from '@testing-library/react';
 
-describe("dashboard display component", () => {
-  let messages: Record<string, Messages>;
-  let display: Display;
-  let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
-  let onClick = () => {};
-  let isLoading: boolean;
-  let pageIsAvailable: boolean;
+jest.mock("./action-button.component", () => {
+  return () => {
+    return (
+      <button data-testid={"action-button"}>Action Button</button>
+    )
+  }
+});
+jest.mock("./fullscreen-button.component", () => {
+  return () => {
+    return (
+      <button data-testid={"fullscreen-button"}>Fullscreen Button</button>
+    )
+  }
+});
+jest.mock("@tippyjs/react", () => {
+  return () => {
+    return (
+      <div data-testid={"tippy"}>Tool tip</div>
+    )
+  }
+});
 
-  test('loads and display', async () => {
+describe("dashboard display component", () => {
+  const displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
+  const onClick = () => {};
+  const isLoading = false;
+  const pageIsAvailable = false;
+
+  test('loads and display every used component', async () => {
     // GIVEN
-      messages = {
-        "en": {
-          description: "description",
-          infoText: "infoText"
-        }
+    const messages: Record<string, Messages> = {
+      "en": {
+        infoText: "info",
+        description: "description"
       }
-      display = {
-        actionIdentifier: "identifier",
-        height: "100",
-        index: 0,
-        messages: messages,
-        url: "https://sakuli.io",
-        width: "100"
-      }
-      pageIsAvailable = false;
-      isLoading = false;
+    };
+    const display: Display = {
+      actionIdentifier: "identifier",
+      height: "100",
+      index: 0,
+      messages: messages,
+      url: "https://sakuli.io",
+      width: "100"
+    };
 
     // WHEN
     let { getByTestId } = render(
@@ -42,101 +60,68 @@ describe("dashboard display component", () => {
       />);
 
     // THEN
+    expect(getByTestId('tippy')).toBeInTheDocument();
     expect(getByTestId(`display-header-description-${display.index}`)).toHaveTextContent(messages["en"].description);
-    expect(getByTestId(`display-header-fullscreen-${display.index}`)).toBeInTheDocument();
+    expect(getByTestId('action-button')).toBeInTheDocument();
+    expect(getByTestId('fullscreen-button')).toBeInTheDocument();
+  });
+
+  test("should not display action button when action identifier is empty", () => {
+    // GIVEN
+    const messages: Record<string, Messages> = {
+      "en": {
+        infoText: "info",
+        description: "description"
+      }
+    };
+    const display: Display = {
+      actionIdentifier: "",
+      height: "100",
+      index: 0,
+      messages: messages,
+      url: "https://sakuli.io",
+      width: "100"
+    };
+
+    // WHEN
+    let { queryByTestId } = render(
+      <DashboardDisplayHeaderComponent
+        locale={"en"}
+        display={display}
+        displayContainerRef={displayContainerRef}
+        onClick={onClick}
+        isLoading={isLoading}
+        pageIsAvailable={pageIsAvailable}
+      />);
+
+    //THEN
+    expect(queryByTestId('action-button')).not.toBeInTheDocument();
+  });
+
+  test("should not render info popover when messages is empty", () => {
+    // GIVEN
+    const messages: Record<string, Messages> = {};
+    const display: Display = {
+      actionIdentifier: "identifier",
+      height: "100",
+      index: 0,
+      messages: messages,
+      url: "https://sakuli.io",
+      width: "100"
+    };
+
+    // WHEN
+    let { queryByTestId } = render(
+      <DashboardDisplayHeaderComponent
+        locale={"en"}
+        display={display}
+        displayContainerRef={displayContainerRef}
+        onClick={onClick}
+        isLoading={isLoading}
+        pageIsAvailable={pageIsAvailable}
+      />);
+
+    //THEN
+    expect(queryByTestId('tippy')).not.toBeInTheDocument();
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     it("should render action button when actionIdentifier is given", () => {
-//       // GIVEN
-//       const display: Display = {
-//         index: 0,
-//         actionIdentifier: "just-an-identifier",
-//         messages: messages,
-//         url: "",
-//         width: "",
-//         height: "",
-//       }
-//       const dashboardDisplayHeaderProp: DashboardDisplayHeaderProps = {
-//         display: display,
-//         displayContainerRef: displayRef,
-//         isLoading: false,
-//         locale: "",
-//         onClick(): void {},
-//         pageIsAvailable: false
-//       }
-//
-//       // WHEN
-//       act(() => {
-//         render(
-//           <DashboardDisplayHeaderComponent
-//             locale={dashboardDisplayHeaderProp.locale}
-//             display={dashboardDisplayHeaderProp.display}
-//             displayContainerRef={dashboardDisplayHeaderProp.displayContainerRef}
-//             onClick={dashboardDisplayHeaderProp.onClick}
-//             isLoading={dashboardDisplayHeaderProp.isLoading}
-//             pageIsAvailable={dashboardDisplayHeaderProp.pageIsAvailable}
-//           />,
-//           container
-//         );
-//       });
-//
-//       // THEN
-//       expect(container.querySelector(".action-button")).toBeDefined();
-//     });
-//   })
-// });

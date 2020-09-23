@@ -51,7 +51,7 @@ const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (
                     />
                 }
             </div>
-            <div data-testid={`display-header-fullscreen-${props.display.index}`} className={"col-5 pr-1 align-self-center"}>
+            <div className={"col-5 pr-1 align-self-center"}>
                 <FullscreenButtonComponent target={props.displayContainerRef}/>
             </div>
         </div>
