@@ -17,12 +17,16 @@ interface DashboardDisplayHeaderProps {
 }
 
 const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (props:DashboardDisplayHeaderProps) => {
+    const displayHeaderId = `display-header-${props.display.index}`;
+
     const infoPopover = () => {
         const infoText = props.display.messages?.[props.locale]?.infoText;
         if (infoText) {
             return (
-                <Tippy content={infoText}>
-                    <span><FontAwesomeIcon icon={faInfoCircle}/></span>
+                <Tippy appendTo={document.getElementById(displayHeaderId) || document.body} content={infoText}>
+                    <span data-testid={`info-icon-${props.display.index}`}>
+                      <FontAwesomeIcon icon={faInfoCircle}/>
+                    </span>
                 </Tippy>
             );
         }
@@ -30,7 +34,7 @@ const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (
     };
 
     return (
-        <div className={"row justify-content-between my-2 mx-auto pb-1 border-bottom border-success"}>
+        <div id={displayHeaderId} className={"row justify-content-between my-2 mx-auto pb-1 border-bottom border-success"}>
             <div className={"col-5 pl-1 align-self-center"}>
                 <div className={"row flex-nowrap"}>
                     <div className={"col-1 align-self-center"}>
