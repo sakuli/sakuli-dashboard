@@ -31,7 +31,7 @@ describe("dashboard display component", () => {
   const isLoading = false;
   const pageIsAvailable = false;
 
-  test('loads and display every used component', async () => {
+  test('loads and displays every used component', async () => {
     // GIVEN
     const messages: Record<string, Messages> = {
       "en": {
@@ -49,7 +49,7 @@ describe("dashboard display component", () => {
     };
 
     // WHEN
-    let { getByTestId } = render(
+    const { getByTestId } = render(
       <DashboardDisplayHeaderComponent
         locale={"en"}
         display={display}
@@ -84,7 +84,7 @@ describe("dashboard display component", () => {
     };
 
     // WHEN
-    let { queryByTestId } = render(
+    const { queryByTestId } = render(
       <DashboardDisplayHeaderComponent
         locale={"en"}
         display={display}
@@ -111,7 +111,7 @@ describe("dashboard display component", () => {
     };
 
     // WHEN
-    let { queryByTestId } = render(
+    const { queryByTestId } = render(
       <DashboardDisplayHeaderComponent
         locale={"en"}
         display={display}
