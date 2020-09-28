@@ -1,5 +1,34 @@
 # Sakuli dashboard change log
 
+## v2.0.2 (next)
+### General
+- [add CHANGELOG.md to repo](https://github.com/sakuli/sakuli-dashboard/issues/74)
+
+### Fix
+- [Info popover not shown in fullscreen](https://github.com/sakuli/sakuli-dashboard/issues/41)
+
+## v2.0.1
+### Features
+- [add shm size to container](https://github.com/sakuli/pink-coffee/issues/33)
+
+### Fix
+- [Dont delete pod if not existing](https://github.com/sakuli/sakuli-dashboard/pull/72)
+
+## v2.0.0
+This release marks the step of the dashboard from an internal tool to a product that is part of the Sakuli ecosystem.
+From here, the dashboard is shipped as a container available via dockerhub which requires a license token to boot up.
+
+### Features
+- [Add plugin validator to container startup](https://github.com/sakuli/sakuli-dashboard/issues/52)
+- [Add CI](https://github.com/sakuli/sakuli-dashboard/issues/53)
+- [Add continuous delivery (latest/release)](https://github.com/sakuli/sakuli-dashboard/issues/54)
+- [Configure logging in deployments](https://github.com/sakuli/sakuli-dashboard/issues/26)
+- [Make CLUSTER_CONFIG, ACTION_CONFIG, CRONJOB_CONFIG optional](https://github.com/sakuli/sakuli-dashboard/issues/65)
+- [Added error logs in case of invalid config](https://github.com/sakuli/sakuli-dashboard/commit/b84d058f262131fcc59e1e38616ad94960c2f291)
+
+### Enhancements
+- [Improve UX/CSS](https://github.com/sakuli/sakuli-dashboard/issues/40)
+
 ## v1.4.0
 ### Enhancements
 - [Improve UX/CSS](https://github.com/sakuli/sakuli-dashboard/issues/40)
