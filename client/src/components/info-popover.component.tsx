@@ -14,10 +14,8 @@ interface InfoPopoverProps {
 
 const InfoPopoverComponent: React.FC<InfoPopoverProps> = (props:InfoPopoverProps) => {
 
-  const infoText = props.messages?.[props.locale]?.infoText;
-
   return (
-    <Tippy appendTo={ props.target.current || document.body} content={infoText}>
+    <Tippy appendTo={ props.target.current || document.body} content={props.messages?.[props.locale]?.infoText}>
       <span data-testid={`info-icon-${props.displayIndex}`}>
         <FontAwesomeIcon icon={faInfoCircle}/>
       </span>
