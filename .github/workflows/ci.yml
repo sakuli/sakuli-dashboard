@@ -33,7 +33,6 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          repository: taconsol/sakuli-dashboard
           tags: latest
           push: false
       - name: test Docker image
