@@ -1,52 +1,36 @@
 #!/usr/bin/env bash
+
 function help() {
-    echo "Usage: sh bootstrap.sh <DOCKER_USERNAME> <DOCKER_PASSWORD> <CONFIG_FILE> <SAKULI_LICENSE_KEY>"
+    echo "Usage: sh bootstrap.sh <NAMESPACE> <DOCKER_USERNAME> <DOCKER_PASSWORD> <GITHUB_SOURCE_SECRET_PATH> <ENCRYPTION_KEY>"
     echo ""
     echo "Parameters:"
-    echo "  DOCKER_USERNAME: Username for docker login"
-    echo "  DOCKER_PASSWORD: Password for docker login"
-    echo "  CONFIG_FILE_PATH: Path to the config file to be loaded."
-    echo "  SAKULI_LICENSE_KEY: Sakuli XL-License key to start the dashboard"
+    echo "  NAMESPACE: Namespace to create and deploy the showcase in"
+    echo "  DOCKER_USERNAME: Dockerhub user with access to taconsol"
+    echo "  DOCKER_PASSWORD: Password of the dockerhub user"
+    echo "  GITHUB_SOURCE_SECRET_PATH: Path to the private key for the ssh github source secret"
+    echo "  ENCRYPTION_KEY: Sakuli encryption key"
 }
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+NAMESPACE="${1}"
+DOCKER_USERNAME="${2}"
+DOCKER_PASSWORD="${3}"
+GITHUB_SOURCE_SECRET_PATH="${4}"
+ENCRYPTION_KEY="${5}"
+SAKULI_LICENSE_KEY=$(cat "../license.key")
 
-oc status > /dev/null 2>&1
-if [[ ${?} != 0 ]]; then
-  echo "ERROR: Please login to a cluster first to deploy the Sakuli-Dashboard."
-  exit 1
-fi
+[[ -z "${NAMESPACE}" ]] && echo "ERROR: NAMESPACE is empty" && help && exit
+[[ -z "${DOCKER_USERNAME}" ]] && echo "ERROR: DOCKER_USERNAME is empty" && help  && exit
+[[ -z "${DOCKER_PASSWORD}" ]] && echo "ERROR: DOCKER_PASSWORD is empty" && help && exit
+[[ -z "${GITHUB_SOURCE_SECRET_PATH}" ]] && echo "ERROR: GITHUB_SOURCE_SECRET_PATH is empty" && help && exit
+[[ -z "${SAKULI_LICENSE_KEY}" ]] && echo "ERROR: missing license.key file" && help && exit
+[[ -z "${ENCRYPTION_KEY}" ]] && echo "ERROR: ENCRYPTION_KEY is empty" && help && exit
 
-DOCKER_USERNAME=${1}
-DOCKER_PASSWORD=${2}
-CONFIG_FILE_PATH=${3}
-SAKULI_LICENSE_KEY=${4}
-
-
-[[ -z "${DOCKER_USERNAME}" ]] && echo "ERROR: DOCKER_USERNAME is not defined" && help && exit 1
-[[ -z "${DOCKER_PASSWORD}" ]] && echo "ERROR: DOCKER_PASSWORD is not defined" && help && exit 1
-[[ ! -f "${CONFIG_FILE_PATH}" ]] && echo "ERROR: CONFIG_FILE \"${CONFIG_FILE_PATH}\" does not exist" && help && exit 1
-[[ -z "${SAKULI_LICENSE_KEY}" ]] && echo "ERROR: SAKULI_LICENSE_KEY is not defined" && help && exit 1
-
-source "${CONFIG_FILE_PATH}"
-[[ -z "${NAMESPACE}" ]] && echo "ERROR: NAMESPACE is empty" && help && exit 1
-[[ -z "${SERVICE_NAME}" ]] && echo "ERROR: SERVICE_NAME is empty" && help && exit 1
-[[ -z "${ACTION_NAMESPACE}" ]] && ACTION_NAMESPACE=${NAMESPACE}
-
-oc projects | grep ${NAMESPACE}
-if [[ ${?} == 0 ]]; then
+oc projects | grep "${NAMESPACE}" > /dev/null
+if [[ $? == "0" ]]; then
   oc project ${NAMESPACE}
 else
   oc new-project ${NAMESPACE}
 fi
-
-oc create sa "${SERVICE_NAME}" -n "${ACTION_NAMESPACE}"
-oc policy add-role-to-user edit -n "${ACTION_NAMESPACE}" -z "${SERVICE_NAME}"
-LOGIN_TOKEN=$(sh $DIR/utils/get-login-token.sh "${SERVICE_NAME}" "${ACTION_NAMESPACE}")
-source ${CONFIG_FILE_PATH} #Update config with received login token
-
-oc create secret generic sakuli-license-key \
-    --from-literal="SAKULI_LICENSE_KEY=${SAKULI_LICENSE_KEY}"
 
 oc create secret docker-registry dockerhub-sakuli-secret \
     --docker-server=docker.io \
@@ -54,27 +38,70 @@ oc create secret docker-registry dockerhub-sakuli-secret \
     --docker-password="${DOCKER_PASSWORD}" \
     --docker-email=unused
 
-oc secrets link default dockerhub-sakuli-secret --for=pull
+oc secrets link builder dockerhub-sakuli-secret
 
-oc import-image "${SERVICE_NAME}" \
-    --from=docker.io/taconsol/sakuli-dashboard \
+oc create sa "${NAMESPACE}" -n "${NAMESPACE}"
+oc policy add-role-to-user edit -n "${NAMESPACE}" -z "${NAMESPACE}"
+
+TOKEN_SECRET=$(oc describe sa ${NAMESPACE} -n ${NAMESPACE} | grep "Tokens:" | sed "s/Tokens://g" | tr -d '[:space:]')
+LOGIN_TOKEN=$(oc describe secret ${TOKEN_SECRET} -n ${NAMESPACE} | grep "token:" | sed "s/token://g" |  tr -d '[:space:]')
+
+oc import-image prom/pushgateway:v1.2.0 \
+    --confirm \
+    --scheduled=true
+
+oc import-image prom/prometheus:v2.17.2 \
+    --confirm \
+    --scheduled=true
+
+oc import-image grafana/grafana:6.7.3 \
+    --confirm \
+    --scheduled=true
+
+oc import-image sakuli-s2i-remote-connection \
+    --from=docker.io/taconsol/sakuli-s2i-remote-connection \
     --confirm \
     --scheduled=true \
-    --all=true \
-    --reference-policy=local
+    --all=true
 
-oc process -f dashboard-template.yml \
-    -p SERVICE_NAME="${SERVICE_NAME}" \
-    -p DASHBOARD_CONFIG="${DASHBOARD_CONFIG}" \
-    -p ACTION_CONFIG="${ACTION_CONFIG}" \
-    -p CLUSTER_CONFIG="${CLUSTER_CONFIG}" \
-    -p CRONJOB_CONFIG="${CRONJOB_CONFIG}" \
-    -p NAMESPACE="${NAMESPACE}" \
-    | oc create -f -
+oc import-image sakuli-dashboard \
+   --from=docker.io/taconsol/sakuli-dashboard \
+   --confirm \
+   --scheduled=true \
+   --all=true
 
-CREATE_ROUTE="oc create route edge ${SERVICE_NAME} --service ${SERVICE_NAME} --insecure-policy=Redirect"
-if [ -n "${DASHBOARD_HOSTNAME}" ]; then
-  CREATE_ROUTE="${CREATE_ROUTE} --hostname=${DASHBOARD_HOSTNAME}"
-fi
-$CREATE_ROUTE
-oc label --overwrite route ${SERVICE_NAME} router=public
+oc delete configmap prometheus-config
+oc create configmap prometheus-config --from-file=prometheus-config.yml
+oc delete configmap grafana-datasource
+oc create configmap grafana-datasource --from-file=grafana-datasource.yml
+oc delete configmap grafana-dashboard
+oc create configmap grafana-dashboard --from-file=grafana-dashboard.json --from-file=grafana-dashboard-config.yml
+
+SOURCE_SECRET="sakuli-dashboard-test-source-secret"
+oc create secret generic "${SOURCE_SECRET}" \
+    --from-file=ssh-privatekey="${GITHUB_SOURCE_SECRET_PATH}" \
+    --type=kubernetes.io/ssh-auth
+
+oc create secret generic sakuli-encryption-key \
+    --from-literal="key=${ENCRYPTION_KEY}"
+
+CLUSTER_NAME=$(oc whoami --show-context=true)
+CLUSTER_SERVER=$(oc whoami --show-server=true)
+
+OC_APPLY="oc process -f monitoring-template.yml
+            -p NAMESPACE=${NAMESPACE}
+            -p TESTSUITE_REPOSITORY_SECRET=${SOURCE_SECRET}
+            -p SAKULI_LICENSE_KEY=${SAKULI_LICENSE_KEY}
+            -p LOGIN_TOKEN=${LOGIN_TOKEN}
+            -p CLUSTER_NAME=${CLUSTER_NAME}
+            -p CLUSTER_SERVER=${CLUSTER_SERVER}
+            -p BUILDER_IMAGE_TAG=latest"
+echo ${OC_APPLY}
+${OC_APPLY} | oc apply -f -
+
+oc create route edge sakuli-dashboard-test --service sakuli-dashboard-test --insecure-policy=Redirect --port=6901
+oc create route edge grafana --service grafana --insecure-policy=Redirect --port=3000
+oc create route edge dashboard  --hostname="sakuli-dashboard-test.paas.consol.de" --service dashboard --insecure-policy=Redirect
+oc label --overwrite route sakuli-dashboard-test router=public
+oc label --overwrite route grafana router=public
+oc label --overwrite route dashboard router=public
