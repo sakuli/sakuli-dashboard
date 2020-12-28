@@ -33,6 +33,8 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          context: .
+          file: ./Dockerfile
           tags: latest
           push: false
       - name: test Docker image
