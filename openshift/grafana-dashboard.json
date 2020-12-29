@@ -70,7 +70,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "pink coffee develop suite durations",
+      "title": "Test execution durations",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -315,7 +315,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Job Application uptime",
+      "title": "Pink coffee uptime",
       "type": "gauge"
     }
   ],
