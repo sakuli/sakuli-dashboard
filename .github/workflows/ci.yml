@@ -35,7 +35,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          tags: latest
+          tags: taconsol/sakuli-dashboard:latest
           push: false
       - name: test Docker image
         run: |
