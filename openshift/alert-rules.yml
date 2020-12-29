@@ -1,0 +1,15 @@
+groups:
+  - name: Pink coffee
+    rules:
+      - alert: SuiteDown
+        # Condition for alerting
+        expr: case_000_Pink_Coffee_error == 1
+
+        # Annotation - additional informational labels to store more information
+        annotations:
+          title: '{{ $labels.job }} monitoring'
+          description: 'Suite {{ $labels.job }} failed at step {{ $labels.step }}'
+
+        # Labels - additional labels to be attached to the alert
+        labels:
+          severity: 'critical'

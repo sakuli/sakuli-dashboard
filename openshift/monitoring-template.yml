@@ -187,6 +187,8 @@ objects:
                 items:
                   - key: prometheus-config.yml
                     path: prometheus.yml
+                  - key: alert-rules.yml
+                    path: alert-rules.yml
                 name: prometheus-config
               name: prometheus-config
       triggers:
@@ -491,3 +493,60 @@ objects:
           targetPort: 8080
       selector:
         app: dashboard
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: alertmanager
+      name: alertmanager
+    spec:
+      ports:
+        - name: 9093-tcp
+          port: 9093
+          protocol: TCP
+          targetPort: 9093
+      selector:
+        app: alertmanager
+        deploymentconfig: alertmanager
+      sessionAffinity: None
+      type: ClusterIP
+
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      labels:
+        app: alertmanager
+      name: alertmanager
+    spec:
+      replicas: 1
+      selector:
+        app: alertmanager
+        deploymentconfig: alertmanager
+      template:
+        metadata:
+          labels:
+            app: alertmanager
+            deploymentconfig: alertmanager
+        spec:
+          containers:
+            - name: alertmanager
+              image: docker-registry.default.svc:5000/${NAMESPACE}/alertmanager:v0.21.0
+              ports:
+                - containerPort: 9093
+                  protocol: TCP
+              volumeMounts:
+                - mountPath: /etc/alertmanager/
+                  name: alertmanager-config
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - configMap:
+                defaultMode: 420
+                items:
+                  - key: alertmanager-config.yml
+                    path: alertmanager.yml
+                name: alertmanager-config
+              name: alertmanager-config
+      triggers:
+        - type: ConfigChange
