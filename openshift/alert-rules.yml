@@ -1,9 +1,10 @@
 groups:
   - name: Pink coffee
     rules:
-      - alert: SuiteDown
+      - alert: pink coffee down
         # Condition for alerting
         expr: case_000_Pink_Coffee_error == 1
+        for: 1h
 
         # Annotation - additional informational labels to store more information
         annotations:
@@ -13,3 +14,16 @@ groups:
         # Labels - additional labels to be attached to the alert
         labels:
           severity: 'critical'
+      - alert: pink coffee up
+        # Condition for alerting
+        expr: case_000_Pink_Coffee_error == 0
+        for: 1h
+
+        # Annotation - additional informational labels to store more information
+        annotations:
+          title: '{{ $labels.job }} monitoring'
+          description: '{{ $labels.job }} is working again'
+
+        # Labels - additional labels to be attached to the alert
+        labels:
+          severity: 'ok'
