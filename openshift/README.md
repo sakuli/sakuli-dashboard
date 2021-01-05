@@ -1,7 +1,7 @@
 ## Openshift
 
 web console: https://master.ext1.ocp.consol.de/
-namespace: circit-poc
+namespace: sakuli-dashboard-test
 
 ## Grafana
 
