@@ -7,6 +7,9 @@
 ### Fix
 - [Info popover not shown in fullscreen](https://github.com/sakuli/sakuli-dashboard/issues/41)
 
+### Maintenance
+- [Port pink-coffee to standard monitoring setup](https://github.com/sakuli/pink-coffee/issues/44)
+
 ## v2.0.1
 ### Features
 - [add shm size to container](https://github.com/sakuli/pink-coffee/issues/33)

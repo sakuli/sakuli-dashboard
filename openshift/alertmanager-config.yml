@@ -1,3 +1,8 @@
+global:
+  smtp_require_tls: false
+  smtp_smarthost: 'lb.ext1.ocp.consol.de:25'
+  smtp_from: 'pink-coffee@consol.de'
+
 # The root route on which each incoming alert enters.
 route:
   # The root route must not have any matchers as it is the entry point for
@@ -26,25 +31,8 @@ route:
   repeat_interval: 3h
 
 
-# Inhibition rules allow to mute a set of alerts given that another alert is
-# firing.
-# We use this to mute any warning-level notifications if the same alert is
-# already critical.
-inhibit_rules:
-  - source_match:
-      severity: 'critical'
-    target_match:
-      severity: 'warning'
-    # Apply inhibition if the alertname is the same.
-    equal: ['alertname']
-
-
 receivers:
   - name: 'ta-core'
     email_configs:
       - to: 'testautomatisierung-core@consol.de'
-        from: '$EMAIL_ADDRESS'
-        smarthost: '$SMTP_SERVER'
-        auth_username: '$EMAIL_ADDRESS'
-        auth_identity: '$EMAIL_ADDRESS'
-        auth_password: '$EMAIL_PASSWORD'
+        send_resolved: true
