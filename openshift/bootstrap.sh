@@ -54,10 +54,6 @@ oc import-image prom/prometheus:v2.17.2 \
     --confirm \
     --scheduled=true
 
-oc import-image prom/alertmanager:v0.21.0 \
-    --confirm \
-    --scheduled=true
-
 oc import-image grafana/grafana:6.7.3 \
     --confirm \
     --scheduled=true
@@ -75,13 +71,11 @@ oc import-image sakuli-dashboard \
    --all=true
 
 oc delete configmap prometheus-config
-oc create configmap prometheus-config --from-file=prometheus-config.yml --from-file=alert-rules.yml
+oc create configmap prometheus-config --from-file=prometheus-config.yml
 oc delete configmap grafana-datasource
 oc create configmap grafana-datasource --from-file=grafana-datasource.yml
 oc delete configmap grafana-dashboard
 oc create configmap grafana-dashboard --from-file=grafana-dashboard.json --from-file=grafana-dashboard-config.yml
-oc delete configmap alertmanager-config
-oc create configmap alertmanager-config --from-file=alertmanager-config.yml
 
 SOURCE_SECRET="sakuli-dashboard-test-source-secret"
 oc create secret generic "${SOURCE_SECRET}" \
