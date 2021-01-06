@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Use Node.js 12.x
-        uses: actions/setup-node@v1.4.2
+        uses: actions/setup-node@v2.1.4
         with:
-          node-version: '12'
+          node-version: '14'
       - name: install dependencies
         run: npm install
       - name: build dashboard
@@ -29,12 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Build Docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2.2.1
         with:
-          repository: taconsol/sakuli-dashboard
-          tags: latest
+          context: .
+          file: ./Dockerfile
+          tags: taconsol/sakuli-dashboard:latest
           push: false
       - name: test Docker image
         run: |
