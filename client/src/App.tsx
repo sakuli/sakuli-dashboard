@@ -1,12 +1,9 @@
 import React from 'react';
 import DashboardComponent from "./components/dashboard.component";
-import {useLocale} from "./hooks/use-locale";
+import { useLocale } from "./hooks/use-locale";
 import Container from 'react-bootstrap/Container';
 import DashboardHeaderComponent from "./components/dashboard-header.component";
-import {useLayout} from "./hooks/use-layout";
-
-
-export type LayoutMode = "row" | "column";
+import { useLayout } from "./hooks/use-layout";
 
 const App: React.FC = () => {
 

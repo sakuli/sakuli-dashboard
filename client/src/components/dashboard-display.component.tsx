@@ -1,19 +1,19 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import IFrameComponent from "./iframe.component";
 import {
     BackendError,
     DashboardActionResponse,
     Display,
     isBackendError,
-    isDashboardActionResponse
+    isDashboardActionResponse,
+    LayoutMode
 } from "@sakuli-dashboard/api";
-import {reloadUrl} from "../functions/reload-url.function";
-import {invokeAction} from "../services/dashboard-backend.service";
-import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-available.function";
-import {LayoutMode} from "../App";
+import { reloadUrl } from "../functions/reload-url.function";
+import { invokeAction } from "../services/dashboard-backend.service";
+import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
 import ErrorMessageBanner from "./error-message-banner.component";
-import {urlAvailable} from "../functions/url-available.function";
-import {sleep} from "../functions/sleep.function";
+import { urlAvailable } from "../functions/url-available.function";
+import { sleep } from "../functions/sleep.function";
 import placeholder from '../static/placeholder.png';
 import Image from "react-bootstrap/Image";
 import DashboardDisplayHeaderComponent from "./dashboard-display-header.component";

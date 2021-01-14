@@ -3,10 +3,10 @@ import React from "react";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faThLarge, faThList} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThLarge, faThList } from "@fortawesome/free-solid-svg-icons";
 import FullscreenButtonComponent from "./fullscreen-button.component";
-import {LayoutMode} from "../App";
+import { LayoutMode } from "@sakuli-dashboard/api";
 
 interface DashboardHeaderProps {
     locale: string

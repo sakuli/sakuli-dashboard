@@ -1,5 +1,5 @@
-import {useCallback, useState} from "react";
-import {LayoutMode} from "../App";
+import { useCallback, useState } from "react";
+import { LayoutMode } from "@sakuli-dashboard/api";
 
 export const useLayout = () => {
     const [currentLayout, setLayout] = useState<LayoutMode>((localStorage.getItem("dashboard-layout")?? "column") as LayoutMode);

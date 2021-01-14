@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardDisplaysComponent from "./dashboard-displays.component";
-import {getDashboardConfig} from "../services/dashboard-backend.service";
-import {Display} from "@sakuli-dashboard/api";
-import {LayoutMode} from "../App";
-import {BackendError, isBackendError, isDashboardConfigResponse} from "@sakuli-dashboard/api/dist";
+import { getDashboardConfig } from "../services/dashboard-backend.service";
+import { Display, LayoutMode } from "@sakuli-dashboard/api";
+import { BackendError, isBackendError, isDashboardConfigResponse } from "@sakuli-dashboard/api/dist";
 import DashboardPlaceholderComponent from "./dashboard-placeholder.component";
 
 interface DashboardProps {

@@ -1,7 +1,6 @@
 import React from 'react';
 import DashboardDisplayComponent from "./dashboard-display.component";
-import {Display} from "@sakuli-dashboard/api";
-import {LayoutMode} from "../App";
+import { Display, LayoutMode } from "@sakuli-dashboard/api";
 
 interface DisplaysProps {
     displays: Display[];
