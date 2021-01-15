@@ -1,8 +1,8 @@
-import ActionButton from "./action-button.component";
-import FullscreenButtonComponent from "./fullscreen-button.component";
+import ActionButton from "./action-button";
+import FullscreenButton from "./fullscreen-button";
 import React, { useRef } from "react";
-import {Display} from "@sakuli-dashboard/api";
-import InfoPopoverComponent from "./info-popover.component";
+import { Display } from "@sakuli-dashboard/api";
+import InfoPopover from "./info-popover";
 
 interface DashboardDisplayHeaderProps {
     locale: string
@@ -13,7 +13,7 @@ interface DashboardDisplayHeaderProps {
     pageIsAvailable: boolean
 }
 
-const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (props:DashboardDisplayHeaderProps) => {
+const DashboardDisplayHeader: React.FC<DashboardDisplayHeaderProps> = (props:DashboardDisplayHeaderProps) => {
     const displayHeaderId = `display-header-${props.display.index}`;
     const displayHeaderRef: React.RefObject<HTMLDivElement> = useRef(null);
 
@@ -22,7 +22,7 @@ const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (
             <div className={"col-5 pl-1 align-self-center"}>
                 <div className={"row flex-nowrap"}>
                     <div className={"col-1 align-self-center"}>
-                        <InfoPopoverComponent
+                        <InfoPopover
                           messages={props.display.messages}
                           displayIndex={props.display.index}
                           target={displayHeaderRef}
@@ -45,9 +45,9 @@ const DashboardDisplayHeaderComponent: React.FC<DashboardDisplayHeaderProps> = (
                 }
             </div>
             <div className={"col-5 pr-1 align-self-center"}>
-                <FullscreenButtonComponent target={props.displayContainerRef}/>
+                <FullscreenButton target={props.displayContainerRef}/>
             </div>
         </div>
     );
 }
-export default DashboardDisplayHeaderComponent;
+export default DashboardDisplayHeader;

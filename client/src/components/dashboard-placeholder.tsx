@@ -1,14 +1,14 @@
 import Image from "react-bootstrap/Image";
 import background from "../static/bg.png";
-import ErrorMessageBanner from "./error-message-banner.component";
+import ErrorMessageBanner from "./error-message-banner";
 import React from "react";
-import {BackendError} from "@sakuli-dashboard/api/dist";
+import { BackendError } from "@sakuli-dashboard/api/dist";
 
 interface DashboardPlaceholderProps {
     backendError: BackendError | undefined
 }
 
-const DashboardPlaceholderComponent: React.FC<DashboardPlaceholderProps> = (props: DashboardPlaceholderProps) => {
+const DashboardPlaceholder: React.FC<DashboardPlaceholderProps> = (props: DashboardPlaceholderProps) => {
     return (
         <>
             <div className={"row mt-3"}>
@@ -23,4 +23,4 @@ const DashboardPlaceholderComponent: React.FC<DashboardPlaceholderProps> = (prop
         </>
     )
 }
-export default DashboardPlaceholderComponent;
+export default DashboardPlaceholder;

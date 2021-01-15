@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import DashboardDisplaysComponent from "./dashboard-displays.component";
+import DashboardDisplays from "./dashboard-displays";
 import { getDashboardConfig } from "../services/dashboard-backend.service";
 import { Display, LayoutMode } from "@sakuli-dashboard/api";
 import { BackendError, isBackendError, isDashboardConfigResponse } from "@sakuli-dashboard/api/dist";
-import DashboardPlaceholderComponent from "./dashboard-placeholder.component";
+import DashboardPlaceholder from "./dashboard-placeholder";
 
 interface DashboardProps {
     layout: LayoutMode;
     locale: string;
 }
 
-const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => {
+const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
 
     const [displays, setDisplays] = useState<Display[]>([]);
     const [backendError, setBackendError] = useState<BackendError>();
@@ -28,12 +28,12 @@ const DashboardComponent: React.FC<DashboardProps> = (props: DashboardProps) => 
 
     if (displays.length > 0) {
         return (
-            <DashboardDisplaysComponent displays={displays} layout={props.layout} locale={props.locale}/>
+            <DashboardDisplays displays={displays} layout={props.layout} locale={props.locale}/>
         );
     } else {
         return (
-            <DashboardPlaceholderComponent backendError={backendError}/>
+            <DashboardPlaceholder backendError={backendError}/>
         );
     }
 };
-export default DashboardComponent;
+export default Dashboard;

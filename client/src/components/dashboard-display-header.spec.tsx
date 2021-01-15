@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardDisplayHeaderComponent from "./dashboard-display-header.component";
+import DashboardDisplayHeader from "./dashboard-display-header";
 import { Display, Messages } from "@sakuli-dashboard/api";
 import { render } from '@testing-library/react';
 
@@ -43,7 +43,7 @@ describe("dashboard display component", () => {
 
     // WHEN
     const { getByTestId } = render(
-      <DashboardDisplayHeaderComponent
+      <DashboardDisplayHeader
         locale={"en"}
         display={display}
         displayContainerRef={displayContainerRef}
@@ -78,7 +78,7 @@ describe("dashboard display component", () => {
 
     // WHEN
     const { queryByTestId } = render(
-      <DashboardDisplayHeaderComponent
+      <DashboardDisplayHeader
         locale={"en"}
         display={display}
         displayContainerRef={displayContainerRef}

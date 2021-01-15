@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {faCompressAlt, faExpandAlt} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import { faCompressAlt, faExpandAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from 'react-bootstrap/Button';
 
 interface FullscreenButtonProps {
     target: React.RefObject<HTMLElement>
 }
 
-const FullscreenButtonComponent: React.FC<FullscreenButtonProps> = (props: FullscreenButtonProps) => {
+const FullscreenButton: React.FC<FullscreenButtonProps> = (props: FullscreenButtonProps) => {
     const [isFullscreen, setFullscreen] = useState(false);
 
     const toggleFullscreen = async (target: React.RefObject<HTMLElement>) => {
@@ -48,4 +48,4 @@ const FullscreenButtonComponent: React.FC<FullscreenButtonProps> = (props: Fulls
         </Button>
     );
 };
-export default FullscreenButtonComponent;
+export default FullscreenButton;

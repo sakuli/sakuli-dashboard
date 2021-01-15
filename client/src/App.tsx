@@ -1,8 +1,8 @@
 import React from 'react';
-import DashboardComponent from "./components/dashboard.component";
+import Dashboard from "./components/dashboard";
 import { useLocale } from "./hooks/use-locale";
 import Container from 'react-bootstrap/Container';
-import DashboardHeaderComponent from "./components/dashboard-header.component";
+import DashboardHeader from "./components/dashboard-header";
 import { useLayout } from "./hooks/use-layout";
 
 const App: React.FC = () => {
@@ -13,14 +13,14 @@ const App: React.FC = () => {
 
     return (
         <div className={"vertical-scroll"} ref={appContainerRef}>
-            <DashboardHeaderComponent
+            <DashboardHeader
                 appContainerRef={appContainerRef}
                 currentLayout={currentLayout}
                 locale={locale}
                 handleOnClick={setLayout}
             />
             <Container fluid={true}>
-                <DashboardComponent layout={currentLayout} locale={locale}/>
+                <Dashboard layout={currentLayout} locale={locale}/>
             </Container>
         </div>
     );
