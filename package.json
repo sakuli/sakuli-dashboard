@@ -25,7 +25,7 @@
     "clean": "lerna clean -y && npm run clean:artifacts",
     "clean:artifacts": "rm -rf dist && lerna exec -- rm -rf dist/ tsconfig.tsbuildinfo",
     "start": "cd server && npm start",
-    "start:dev": "lerna run start:dev --stream"
+    "start:dev": "lerna run start:dev --parallel"
   },
   "devDependencies": {
     "lerna": "^3.19.0",
