@@ -3,14 +3,14 @@ import DashboardDisplayHeader from "./dashboard-display-header";
 import { Display, Messages } from "@sakuli-dashboard/api";
 import { render } from '@testing-library/react';
 
-jest.mock("./action-button.component", () => {
+jest.mock("./action-button", () => {
   return () => {
     return (
       <button data-testid={"action-button"}>Action Button</button>
     )
   }
 });
-jest.mock("./fullscreen-button.component", () => {
+jest.mock("./fullscreen-button", () => {
   return () => {
     return (
       <button data-testid={"fullscreen-button"}>Fullscreen Button</button>
