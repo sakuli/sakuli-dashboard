@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DashboardDisplays from "./dashboard-displays";
 import { getDashboardConfig } from "../services/dashboard-backend.service";
-import { Display } from "@sakuli-dashboard/api";
-import { BackendError, isBackendError, isDashboardConfigResponse } from "@sakuli-dashboard/api/dist";
+import { BackendError, Display, isBackendError, isDashboardConfigResponse } from "@sakuli-dashboard/api";
 import DashboardPlaceholder from "./dashboard-placeholder";
 import { useLocale } from "../hooks/use-locale";
 import { useLayout } from "../hooks/use-layout";
@@ -22,6 +21,7 @@ const Dashboard: React.FC = () => {
             const response = await getDashboardConfig()
             if (isDashboardConfigResponse(response)) {
                 setDisplays(response.displays)
+                setLayout(response.layout)
             } else if (isBackendError(response)) {
                 setBackendError(response);
             }
