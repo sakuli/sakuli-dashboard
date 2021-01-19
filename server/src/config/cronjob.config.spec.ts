@@ -27,6 +27,21 @@ describe("cronjob config", () => {
       expect(typeGuardResult).toBeFalsy();
     });
 
+    it("should not identify as cronjobConfig when random field is added to all fields", () => {
+      //GIVEN
+      const cronjob = {
+        schedule: "* * * * * *",
+        actionIdentifier: "id",
+        someCrazyProperty: 42
+      }
+
+      //WHEN
+      const typeGuardResult = isCronjobConfig(cronjob);
+
+      //THEN
+      expect(typeGuardResult).toBeFalsy();
+    });
+
     it("should identify as cronjobConfig when all fields are set", () => {
       //GIVEN
       const cronjob = {
