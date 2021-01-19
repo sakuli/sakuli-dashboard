@@ -30,7 +30,8 @@ export DASHBOARD_CONFIG=$(cat <<EOF
       },
       "url": "https://grafana-pink-coffee.paas.consol.de/d/A7K5C_cGz/circit-sakuli-poc?orgId=1&from=now-6h&to=now&theme=light&kiosk=tv"
     }
-  ]
+  ],
+  "defaultLayout": "row"
 }
 EOF
 )

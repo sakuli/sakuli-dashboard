@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardDisplay from "./dashboard-display";
 import { Display, LayoutMode } from "@sakuli-dashboard/api";
 
-interface DisplaysProps {
+export interface DisplaysProps {
     displays: Display[];
     layout: LayoutMode;
     locale: string;

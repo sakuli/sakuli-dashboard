@@ -1,16 +1,21 @@
 import { DashboardConfig } from "../config/dashboard.config";
 import { handleGetDashboard } from "./handle-get-dashboard";
 import { HttpStatusCode } from "@sakuli-dashboard/api/dist/HttpStatusCode";
+import { mockPartial } from "sneer";
+import { Display } from "@sakuli-dashboard/api";
 
 describe('handle get dashboard', () => {
     it("should resolve with dashboard config", () => {
 
         //GIVEN
-        const dashboardConfig: DashboardConfig = {
+        const dashboardConfig: DashboardConfig = mockPartial<DashboardConfig>({
             defaultLayout: "column",
-            pollingInterval: 400,
-            url: "http://foo.bar"
-        }
+            displays: [
+                mockPartial<Display>({
+                    url: "http://foobar.com"
+                })
+            ]
+        })
 
         const req = jest.fn()
 

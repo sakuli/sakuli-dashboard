@@ -2,7 +2,7 @@ import { Display, LayoutMode } from ".";
 
 export interface DashboardConfigResponse {
   displays: Display[]
-  layout?: LayoutMode
+  defaultLayout?: LayoutMode
 }
 
 export function isDashboardConfigResponse(response: any): response is DashboardConfigResponse {

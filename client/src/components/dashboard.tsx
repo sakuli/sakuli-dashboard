@@ -21,8 +21,8 @@ const Dashboard: React.FC = () => {
             const response = await getDashboardConfig()
             if (isDashboardConfigResponse(response)) {
                 setDisplays(response.displays)
-                if(!fromLocalStorage && response.layout){
-                    setLayout(response.layout)
+                if(!fromLocalStorage && response.defaultLayout){
+                    setLayout(response.defaultLayout)
                 }
             } else if (isBackendError(response)) {
                 setBackendError(response);
