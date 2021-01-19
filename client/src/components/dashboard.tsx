@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
 
     const [displays, setDisplays] = useState<Display[]>([]);
     const [backendError, setBackendError] = useState<BackendError>();
-    const [currentLayout, setLayout] = useLayout()
+    const [currentLayout, setLayout, fromLocalStorage] = useLayout()
     const locale = useLocale();
     let appContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -21,7 +21,9 @@ const Dashboard: React.FC = () => {
             const response = await getDashboardConfig()
             if (isDashboardConfigResponse(response)) {
                 setDisplays(response.displays)
-                setLayout(response.layout)
+                if(!fromLocalStorage && response.layout){
+                    setLayout(response.layout)
+                }
             } else if (isBackendError(response)) {
                 setBackendError(response);
             }

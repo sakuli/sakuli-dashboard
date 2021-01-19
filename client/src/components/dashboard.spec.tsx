@@ -48,6 +48,7 @@ describe("dashboard", () => {
 
     afterEach(() => {
         jest.restoreAllMocks();
+        localStorage.removeItem("dashboard-layout")
     });
 
     describe("display dashboards rendering", () => {
@@ -59,6 +60,50 @@ describe("dashboard", () => {
             //THEN
             await waitFor(() => screen.getByTestId("dashboard-displays"))
             expect(DashboardDisplays).toHaveBeenLastCalledWith(expect.objectContaining(dashboardConfigResponse), expect.anything())
+        })
+
+        it("should not set layout from backend if undefined", async () => {
+
+            //GIVEN
+            const dashboardConfigResponse: DashboardConfigResponse = {
+                displays: [
+                    {
+                        actionIdentifier: "42",
+                        index: 1,
+                        messages: {
+                            "de": {
+                                description: "foo",
+                                infoText: "foobar"
+                            }
+                        },
+                        url: "http://consol.de",
+                        height: "42",
+                        width: "42"
+                    }
+                ]
+            };
+            jest.spyOn(global, 'fetch').mockResolvedValue(new Response(JSON.stringify(dashboardConfigResponse)));
+
+            //WHEN
+            render(<Dashboard/>);
+
+            //THEN
+            await waitFor(() => screen.getByTestId("dashboard-displays"))
+            expect(DashboardDisplays).toHaveBeenLastCalledWith(expect.objectContaining({...dashboardConfigResponse, layout: "column"}), expect.anything())
+
+        })
+
+        it("should not set layout from backend if current layout comes from storage", async () => {
+
+            //GIVEN
+            localStorage.setItem("dashboard-layout", "row")
+
+            //WHEN
+            render(<Dashboard/>);
+
+            //THEN
+            await waitFor(() => screen.getByTestId("dashboard-displays"))
+            expect(DashboardDisplays).toHaveBeenLastCalledWith(expect.objectContaining({...dashboardConfigResponse, layout: "row"}), expect.anything())
         })
 
         it("should pass locale", async () => {
