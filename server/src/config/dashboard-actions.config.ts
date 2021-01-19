@@ -10,3 +10,31 @@ export interface ClusterAction {
     action: V1Pod
     displayUpdate?: DisplayUpdate
 }
+
+export function isDashboardActionsConfig(json: any): json is DashboardActionsConfig {
+    function containsOneField() {
+        return Object.keys(json).length === 1 && json.constructor === Object;
+    }
+
+    return !!(containsOneField() && (json as DashboardActionsConfig).actions)
+}
+
+export function isClusterAction(json: any): json is ClusterAction {
+    function containsFieldCount(n: number) {
+        return Object.keys(json).length === n && json.constructor === Object;
+    }
+
+    function containsMandatoryFields() {
+        return !!((json as ClusterAction).actionIdentifier && (json as ClusterAction).action);
+    }
+
+    function containsOnlyMandatoryFields() {
+        return containsFieldCount(2) && containsMandatoryFields();
+    }
+
+    function containsAllFields() {
+        return !!(containsFieldCount(3) && containsMandatoryFields() && (json as ClusterAction).displayUpdate);
+    }
+
+    return containsOnlyMandatoryFields() || containsAllFields();
+}
