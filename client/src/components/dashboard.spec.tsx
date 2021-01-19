@@ -16,6 +16,25 @@ jest.mock("./dashboard-placeholder")
 
 describe("dashboard", () => {
 
+    beforeEach(() => {
+        (DashboardDisplays as jest.Mock).mockImplementation(() => {
+            return(
+                <div data-testid={"dashboard-displays"}/>
+            )
+        });
+
+        (DashboardPlaceholder as jest.Mock).mockImplementation(() => {
+            return(
+                <div data-testid={"dashboard-placeholder"}/>
+            )
+        })
+    })
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+        localStorage.removeItem("dashboard-layout")
+    });
+
     describe("display dashboards rendering", () => {
 
         const dashboardConfigResponse: DashboardConfigResponse = {
@@ -39,19 +58,7 @@ describe("dashboard", () => {
 
         beforeEach(() => {
             jest.spyOn(global, 'fetch').mockResolvedValue(new Response(JSON.stringify(dashboardConfigResponse)));
-
-            (DashboardDisplays as jest.Mock).mockImplementation(() => {
-                return(
-                    <div data-testid={"dashboard-displays"}/>
-                )
-            })
         });
-
-        afterEach(() => {
-            jest.restoreAllMocks();
-            localStorage.removeItem("dashboard-layout")
-        });
-
 
         it("should use data from backend", async () => {
 
@@ -126,16 +133,6 @@ describe("dashboard", () => {
 
         beforeEach(() => {
             jest.spyOn(global, 'fetch').mockResolvedValue(new Response(JSON.stringify(backendError)));
-
-            (DashboardPlaceholder as jest.Mock).mockImplementation(() => {
-                return(
-                    <div data-testid={"dashboard-placeholder"}/>
-                )
-            })
-        });
-
-        afterEach(() => {
-            jest.restoreAllMocks();
         });
 
         it("should render error screen", async () => {
