@@ -6,7 +6,7 @@ import { healthCheckService } from "./service/health-check.service";
 import { Configuration, getConfiguration } from "./functions/get-configuration.function";
 import { configureCronjob } from "./service/cronjob.service";
 import { logger } from "./functions/logger";
-import createBackendError from "./functions/create-backend-error.function";
+import { handleGetDashboard } from "./handler/handle-get-dashboard";
 
 const app = express();
 
@@ -21,15 +21,7 @@ try{
   logger().error("Could not get configuration:", error)
 }
 
-app.get('/api/dashboard', (req, res) => {
-  if(configuration) {
-    res.send(configuration.dashboardConfig);
-  } else {
-    const errorMessage = "Dashboard config not defined.";
-    logger().error(errorMessage);
-    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(createBackendError(errorMessage));
-  }
-});
+app.get('/api/dashboard', handleGetDashboard(configuration?.dashboardConfig));
 
 app.post('/api/dashboard/action', (req, res) => {
   executeAction(req.body)
