@@ -9,5 +9,7 @@ export const useLayout = () => {
         localStorage.setItem("dashboard-layout", layout)
     }, []);
 
-    return [currentLayout, enhanceSetLayout] as const;
+    const fromLocalStorage = !!localStorage.getItem("dashboard-layout")
+
+    return [currentLayout, enhanceSetLayout, fromLocalStorage] as const;
 }

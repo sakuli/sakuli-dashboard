@@ -14,6 +14,7 @@ describe("use layout", () => {
 
         //THEN
         expect(result.current[0]).toBe(expectedLayout)
+        expect(result.current[2]).toBeFalsy()
     })
 
     test('should return stored layout', () => {
@@ -27,6 +28,7 @@ describe("use layout", () => {
 
         //THEN
         expect(result.current[0]).toBe(expectedLayout)
+        expect(result.current[2]).toBeTruthy()
     })
 
     test('should set layout to storage', () => {
@@ -43,5 +45,6 @@ describe("use layout", () => {
         //THEN
         const layoutHook2 = renderHook(() => useLayout())
         expect(layoutHook2.result.current[0]).toBe(expectedLayout)
+        expect(layoutHook2.result.current[2]).toBeTruthy()
     })
 })
