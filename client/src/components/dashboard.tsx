@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
                 setBackendError(response);
             }
         })();
-    }, []);
+    }, [setLayout, fromLocalStorage]);
 
     function renderDisplays(){
         if (displays.length > 0) {
