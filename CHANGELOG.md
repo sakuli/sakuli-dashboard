@@ -7,6 +7,9 @@
 ### Fix
 - [Info popover not shown in fullscreen](https://github.com/sakuli/sakuli-dashboard/issues/41)
 
+### Enhancement
+- [Validate parsed config](https://github.com/sakuli/sakuli-dashboard/issues/68)
+
 ## v2.0.1
 ### Features
 - [add shm size to container](https://github.com/sakuli/pink-coffee/issues/33)
