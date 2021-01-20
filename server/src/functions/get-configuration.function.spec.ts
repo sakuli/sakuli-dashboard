@@ -128,4 +128,49 @@ describe('getConfiguration', () => {
             cronjobConfig: expectedCronjobConfig
         });
     });
+
+    test.each([
+        [
+            "DASHBOARD_CONFIG",
+            () => process.env.DASHBOARD_CONFIG = '{"someCrazyProperty": "42"}',
+            () => process.env.CLUSTER_CONFIG = '{}',
+            () => process.env.ACTION_CONFIG = '{}',
+            () => process.env.CRONJOB_CONFIG = '{}'
+        ],
+        [
+            "CLUSTER_CONFIG",
+            () => process.env.DASHBOARD_CONFIG = '{}',
+            () => process.env.CLUSTER_CONFIG = '{"someCrazyProperty": "42"}',
+            () => process.env.ACTION_CONFIG = '{}',
+            () => process.env.CRONJOB_CONFIG = '{}'
+        ],
+        [
+            "ACTION_CONFIG",
+            () => process.env.DASHBOARD_CONFIG = '{}',
+            () => process.env.CLUSTER_CONFIG = '{}',
+            () => process.env.ACTION_CONFIG = '{"someCrazyProperty": "42"}',
+            () => process.env.CRONJOB_CONFIG = '{}'
+        ],
+        [
+            "CRONJOB_CONFIG",
+            () => process.env.DASHBOARD_CONFIG = '{}',
+            () => process.env.CLUSTER_CONFIG = '{}',
+            () => process.env.ACTION_CONFIG = '{}',
+            () => process.env.CRONJOB_CONFIG = '{"someCrazyProperty": "42"}'
+        ]
+    ])("should throw if %s contains random field",
+      (invalidVariable, setDashboardConfig, setClusterConfig, setDashboardActionConfig, setCronjobConfig) => {
+          //GIVEN
+          const { getConfiguration } = require("./get-configuration.function")
+
+          setDashboardConfig();
+          setClusterConfig();
+          setDashboardActionConfig();
+          setCronjobConfig();
+
+          //WHEN
+          expect(getConfiguration)
+            //THEN
+            .toThrow(`Invalid configuration: ${invalidVariable} does not match the specification`)
+      });
 });

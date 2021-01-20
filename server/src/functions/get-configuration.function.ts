@@ -1,8 +1,8 @@
-import { K8sClusterConfig } from "../config/k8s-cluster.config";
+import { isK8sClusterConfig, K8sClusterConfig } from "../config/k8s-cluster.config";
 import { DashboardConfig } from "../config/dashboard.config";
-import { DashboardActionsConfig } from "../config/dashboard-actions.config";
+import { DashboardActionsConfig, isDashboardActionsConfig } from "../config/dashboard-actions.config";
 import createBackendError from "./create-backend-error.function";
-import { CronjobConfig } from "../config/cronjob.config";
+import { CronjobConfig, isCronjobConfig } from "../config/cronjob.config";
 
 type ConfigTypes = DashboardActionsConfig | K8sClusterConfig | DashboardConfig | CronjobConfig;
 let configuration: Configuration;
@@ -22,6 +22,7 @@ export function getConfiguration(){
             cronjobConfig: getOptionalConfig<CronjobConfig>(process.env.CRONJOB_CONFIG, "CRONJOB_CONFIG")
         }
     }
+    validateConfiguration();
     return configuration;
 }
 
@@ -50,5 +51,20 @@ function parseEnvironmentVariable<T extends ConfigTypes>(environmentVariable: st
         return <T>JSON.parse(environmentVariable);
     } catch (e) {
         throw createInvalidConfigError(`Could not parse environment variable ${variableName}.`);
+    }
+}
+
+function validateConfiguration() {
+    if(!isDashboardActionsConfig(configuration.dashboardConfig)) {
+        throw createInvalidConfigError(`DASHBOARD_CONFIG does not match the specification`)
+    }
+    if(!configuration.actionConfig && !isDashboardActionsConfig(configuration.actionConfig)) {
+        throw createInvalidConfigError(`ACTION_CONFIG does not match the specification`)
+    }
+    if(!configuration.k8sClusterConfig && !isK8sClusterConfig(configuration.k8sClusterConfig)){
+        throw createInvalidConfigError(`CLUSTER_CONFIG does not match the specification`)
+    }
+    if(!configuration.cronjobConfig && !isCronjobConfig(configuration.cronjobConfig)) {
+        throw createInvalidConfigError(`CRONJOB_CONFIG does not match the specification`)
     }
 }
