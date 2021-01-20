@@ -3,6 +3,8 @@
 ## v2.1.0 (next)
 ### General
 - [add CHANGELOG.md to repo](https://github.com/sakuli/sakuli-dashboard/issues/74)
+
+### Features
 - [Make default layout configurable](https://github.com/sakuli/sakuli-dashboard/issues/79)
 
 ### Fix
