@@ -16,7 +16,11 @@ export function isDashboardActionsConfig(json: any): json is DashboardActionsCon
         return Object.keys(json).length === 1 && json.constructor === Object;
     }
 
-    return !!(containsOneField() && (json as DashboardActionsConfig).actions)
+    function containsDashboardActionsConfigField() {
+        return !!((json as DashboardActionsConfig).actions);
+    }
+
+    return containsOneField() && containsDashboardActionsConfigField();
 }
 
 export function isClusterAction(json: any): json is ClusterAction {
@@ -28,13 +32,13 @@ export function isClusterAction(json: any): json is ClusterAction {
         return !!((json as ClusterAction).actionIdentifier && (json as ClusterAction).action);
     }
 
-    function containsOnlyMandatoryFields() {
+    function containsOnlyMandatoryClusterActionFields() {
         return containsFieldCount(2) && containsMandatoryFields();
     }
 
-    function containsAllFields() {
+    function containsAllClusterActionFields() {
         return !!(containsFieldCount(3) && containsMandatoryFields() && (json as ClusterAction).displayUpdate);
     }
 
-    return containsOnlyMandatoryFields() || containsAllFields();
+    return containsOnlyMandatoryClusterActionFields() || containsAllClusterActionFields();
 }

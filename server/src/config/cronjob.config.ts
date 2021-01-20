@@ -9,5 +9,12 @@ export function isCronjobConfig(json: any): json is CronjobConfig {
         return Object.keys(json).length === 2 && json.constructor === Object;
     }
 
-    return !!(containsTwoFields() && (json as CronjobConfig).schedule && (json as CronjobConfig).actionIdentifier);
+    function containsCronjobConfigFields() {
+        return !!(
+          (json as CronjobConfig).schedule &&
+          (json as CronjobConfig).actionIdentifier
+        )
+    }
+
+    return containsTwoFields() && containsCronjobConfigFields();
 }
