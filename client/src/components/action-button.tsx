@@ -1,6 +1,6 @@
 import React from 'react';
-import {faPlayCircle} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from 'react-bootstrap/Button';
 
 interface ActionButtonProps {
@@ -9,7 +9,7 @@ interface ActionButtonProps {
     pageIsAvailable: boolean
 }
 
-const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonProps) => {
+const ActionButton: React.FC<ActionButtonProps> = (props: ActionButtonProps) => {
 
     const loadingLabel = (
         <>
@@ -47,4 +47,4 @@ const ActionButtonComponent: React.FC<ActionButtonProps> = (props: ActionButtonP
         </Button>
     );
 };
-export default ActionButtonComponent;
+export default ActionButton;

@@ -3,10 +3,10 @@ import React from "react";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faThLarge, faThList} from "@fortawesome/free-solid-svg-icons";
-import FullscreenButtonComponent from "./fullscreen-button.component";
-import {LayoutMode} from "../App";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThLarge, faThList } from "@fortawesome/free-solid-svg-icons";
+import FullscreenButton from "./fullscreen-button";
+import { LayoutMode } from "@sakuli-dashboard/api";
 
 interface DashboardHeaderProps {
     locale: string
@@ -15,7 +15,7 @@ interface DashboardHeaderProps {
     appContainerRef: React.RefObject<HTMLDivElement>
 }
 
-const DashboardHeaderComponent: React.FC<DashboardHeaderProps> = (props: DashboardHeaderProps) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = (props: DashboardHeaderProps) => {
     const getLanguageIcon = (lang: string) => {
         switch (lang) {
             case "de":
@@ -52,7 +52,7 @@ const DashboardHeaderComponent: React.FC<DashboardHeaderProps> = (props: Dashboa
                     <FontAwesomeIcon icon={faThLarge}/>
                 </Button>
             </ButtonGroup>
-            <FullscreenButtonComponent target={props.appContainerRef}/>
+            <FullscreenButton target={props.appContainerRef}/>
         </div>
 
     );
@@ -67,4 +67,4 @@ const DashboardHeaderComponent: React.FC<DashboardHeaderProps> = (props: Dashboa
         </Navbar>
     );
 }
-export default DashboardHeaderComponent;
+export default DashboardHeader;
