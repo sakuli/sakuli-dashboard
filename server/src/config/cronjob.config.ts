@@ -5,16 +5,11 @@ export interface CronjobConfig extends DashboardActionRequest {
 }
 
 export function isCronjobConfig(json: any): json is CronjobConfig {
-    function containsTwoFields() {
-        return Object.keys(json).length === 2 && json.constructor === Object;
+    if (!json) {
+        return false;
     }
 
-    function containsCronjobConfigFields() {
-        return !!(
-          (json as CronjobConfig).schedule &&
-          (json as CronjobConfig).actionIdentifier
-        )
-    }
-
-    return containsTwoFields() && containsCronjobConfigFields();
+    return Object.keys(json).length === 2 &&
+        typeof json.schedule === "string" &&
+        typeof json.actionIdentifier === "string";
 }
