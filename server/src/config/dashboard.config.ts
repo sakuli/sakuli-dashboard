@@ -1,6 +1,4 @@
-import { Display, LayoutMode } from "@sakuli-dashboard/api";
+import { DashboardConfigResponse } from "@sakuli-dashboard/api";
 
-export interface DashboardConfig {
-    displays: Display[]
-    defaultLayout: LayoutMode
+export interface DashboardConfig extends DashboardConfigResponse {
 }
