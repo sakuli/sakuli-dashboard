@@ -2,7 +2,7 @@ import Image from "react-bootstrap/Image";
 import background from "../static/bg.png";
 import ErrorMessageBanner from "./error-message-banner";
 import React from "react";
-import { BackendError } from "@sakuli-dashboard/api/dist";
+import { BackendError } from "@sakuli-dashboard/api";
 
 interface DashboardPlaceholderProps {
     backendError: BackendError | undefined
