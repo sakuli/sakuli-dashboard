@@ -1,22 +1,22 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import IFrameComponent from "./iframe.component";
+import React, { useCallback, useEffect, useState } from 'react';
+import IframeDisplay from "./iframe-display";
 import {
     BackendError,
     DashboardActionResponse,
     Display,
     isBackendError,
-    isDashboardActionResponse
+    isDashboardActionResponse,
+    LayoutMode
 } from "@sakuli-dashboard/api";
-import {reloadUrl} from "../functions/reload-url.function";
-import {invokeAction} from "../services/dashboard-backend.service";
-import {waitUntilPageIsAvailable} from "../functions/wait-until-page-is-available.function";
-import {LayoutMode} from "../App";
-import ErrorMessageBanner from "./error-message-banner.component";
-import {urlAvailable} from "../functions/url-available.function";
-import {sleep} from "../functions/sleep.function";
+import { reloadUrl } from "../functions/reload-url.function";
+import { invokeAction } from "../services/dashboard-backend.service";
+import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
+import ErrorMessageBanner from "./error-message-banner";
+import { urlAvailable } from "../functions/url-available.function";
+import { sleep } from "../functions/sleep.function";
 import placeholder from '../static/placeholder.png';
 import Image from "react-bootstrap/Image";
-import DashboardDisplayHeaderComponent from "./dashboard-display-header.component";
+import DashboardDisplayHeader from "./dashboard-display-header";
 
 interface DisplayProps {
     display: Display;
@@ -24,7 +24,7 @@ interface DisplayProps {
     locale: string;
 }
 
-const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) => {
+const DashboardDisplay: React.FC<DisplayProps> = (props: DisplayProps) => {
 
     let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -77,7 +77,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     const renderDisplay = (
         <div className={"row my-2 justify-content-center"}>
-            {pageIsAvailable ? <IFrameComponent display={display}/> : displayPlaceholder}
+            {pageIsAvailable ? <IframeDisplay display={display}/> : displayPlaceholder}
         </div>
     );
 
@@ -91,7 +91,7 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
 
     return (
         <div className={props.layout === "row" ? "col-6 mt-4" : "col-12 mt-4"} ref={displayContainerRef}>
-                <DashboardDisplayHeaderComponent
+                <DashboardDisplayHeader
                     display={display}
                     displayContainerRef={displayContainerRef}
                     locale={props.locale}
@@ -103,4 +103,4 @@ const DashboardDisplayComponent: React.FC<DisplayProps> = (props: DisplayProps) 
         </div>
     )
 };
-export default DashboardDisplayComponent;
+export default DashboardDisplay;

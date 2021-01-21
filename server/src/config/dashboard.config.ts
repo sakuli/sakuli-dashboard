@@ -1,3 +1,4 @@
-import { DashboardActionResponse } from "@sakuli-dashboard/api";
+import { DashboardConfigResponse } from "@sakuli-dashboard/api";
 
-export interface DashboardConfig extends DashboardActionResponse{}
+export interface DashboardConfig extends DashboardConfigResponse {
+}

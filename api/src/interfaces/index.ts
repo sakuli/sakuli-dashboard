@@ -7,3 +7,4 @@ export * from './health-check-request.interface';
 export * from './health-check-response.interface';
 export * from './backend-error.interface';
 export * from './messages.interface';
+export * from './layout-mode.interface'

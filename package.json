@@ -22,9 +22,10 @@
     "test": "lerna run test",
     "build": "lerna run build",
     "bootstrap": "lerna bootstrap",
-    "clean": "find . -maxdepth 2 -name node_modules -type d | xargs -r rm -r && find . -name dist -type d | xargs -r rm -r",
+    "clean": "lerna clean -y && npm run clean:artifacts",
+    "clean:artifacts": "rm -rf dist && lerna exec -- rm -rf dist/ tsconfig.tsbuildinfo",
     "start": "cd server && npm start",
-    "start:dev": "lerna run start:dev --stream"
+    "start:dev": "lerna run start:dev --parallel"
   },
   "devDependencies": {
     "lerna": "^3.19.0",

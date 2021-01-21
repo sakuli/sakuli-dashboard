@@ -1,8 +1,8 @@
 import React from "react";
 import Tippy from "@tippyjs/react";
 import 'tippy.js/dist/tippy.css';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Messages } from "@sakuli-dashboard/api";
 
 interface InfoPopoverProps {
@@ -12,7 +12,7 @@ interface InfoPopoverProps {
   locale: string;
 }
 
-const InfoPopoverComponent: React.FC<InfoPopoverProps> = (props:InfoPopoverProps) => {
+const InfoPopover: React.FC<InfoPopoverProps> = (props:InfoPopoverProps) => {
 
   return (
     <Tippy appendTo={ props.target.current || document.body} content={props.messages?.[props.locale]?.infoText}>
@@ -22,4 +22,4 @@ const InfoPopoverComponent: React.FC<InfoPopoverProps> = (props:InfoPopoverProps
     </Tippy>
   );
 }
-export default InfoPopoverComponent;
+export default InfoPopover;
