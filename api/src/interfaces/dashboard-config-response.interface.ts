@@ -1,4 +1,5 @@
-import { Display, isDisplay, isLayoutMode, LayoutMode } from ".";
+import { Display, isLayoutMode, LayoutMode } from ".";
+import { validateDisplays } from "../functions";
 
 export interface DashboardConfigResponse {
     displays: Display[]
@@ -6,28 +7,16 @@ export interface DashboardConfigResponse {
 }
 
 export function isDashboardConfigResponse(response: any): response is DashboardConfigResponse {
-    function validateDisplays() {
-        if (!response.displays || !Array.isArray(response.displays)) {
-            return false;
-        }
-        for (let display of response.displays) {
-            if (!isDisplay(display)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     if (!response) {
         return false;
     }
 
     if (Object.keys(response).length === 1) {
-        return validateDisplays();
+        return validateDisplays(response.displays);
     }
 
     if (Object.keys(response).length === 2) {
-        return validateDisplays() && isLayoutMode(response.defaultLayout);
+        return validateDisplays(response.displays) && isLayoutMode(response.defaultLayout);
     }
 
     return false;
