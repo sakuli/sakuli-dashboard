@@ -1,5 +1,5 @@
 import { V1Pod } from "@kubernetes/client-node";
-import { DisplayUpdate } from '@sakuli-dashboard/api';
+import { DisplayUpdate, isDisplayUpdate } from '@sakuli-dashboard/api';
 
 export interface DashboardActionsConfig{
     actions: ClusterAction[]
@@ -12,33 +12,37 @@ export interface ClusterAction {
 }
 
 export function isDashboardActionsConfig(json: any): json is DashboardActionsConfig {
-    function containsOneField() {
-        return Object.keys(json).length === 1 && json.constructor === Object;
+    if (!json) {
+        return false;
     }
 
-    function containsDashboardActionsConfigField() {
-        return !!((json as DashboardActionsConfig).actions);
+    if (Object.keys(json).length === 1 && Array.isArray(json.actions)) {
+        for (let action of json.actions) {
+            if (!isClusterAction(action)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    return containsOneField() && containsDashboardActionsConfigField();
+    return false;
 }
 
 export function isClusterAction(json: any): json is ClusterAction {
-    function containsFieldCount(n: number) {
-        return Object.keys(json).length === n && json.constructor === Object;
+    if (!json) {
+        return false;
     }
 
-    function containsMandatoryFields() {
-        return !!((json as ClusterAction).actionIdentifier && (json as ClusterAction).action);
+    if (Object.keys(json).length === 2) {
+        return typeof json.actionIdentifier === "string" &&
+            typeof json.action === "object"
     }
 
-    function containsOnlyMandatoryClusterActionFields() {
-        return containsFieldCount(2) && containsMandatoryFields();
+    if (Object.keys(json).length === 3) {
+        return typeof json.actionIdentifier === "string" &&
+            typeof json.action === "object" &&
+            isDisplayUpdate(json.displayUpdate);
     }
 
-    function containsAllClusterActionFields() {
-        return !!(containsFieldCount(3) && containsMandatoryFields() && (json as ClusterAction).displayUpdate);
-    }
-
-    return containsOnlyMandatoryClusterActionFields() || containsAllClusterActionFields();
+    return false;
 }

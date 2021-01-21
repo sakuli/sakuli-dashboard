@@ -8,7 +8,7 @@ export function isDisplayUpdate(json: any): json is DisplayUpdate {
         return false;
     }
 
-    if (Object.keys(json).length === 0) {
+    if (Object.keys(json).length === 0 && typeof json === "object") {
         return true;
     }
 
