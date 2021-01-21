@@ -1,8 +1,7 @@
 import { DashboardConfig } from "../config/dashboard.config";
 import { handleGetDashboard } from "./handle-get-dashboard";
-import { HttpStatusCode } from "@sakuli-dashboard/api/dist/HttpStatusCode";
 import { mockPartial } from "sneer";
-import { Display } from "@sakuli-dashboard/api";
+import { Display, HttpStatusCode } from "@sakuli-dashboard/api";
 
 describe('handle get dashboard', () => {
     it("should resolve with dashboard config", () => {
