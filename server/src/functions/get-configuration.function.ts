@@ -1,5 +1,5 @@
 import { isK8sClusterConfig, K8sClusterConfig } from "../config/k8s-cluster.config";
-import { DashboardConfig } from "../config/dashboard.config";
+import { DashboardConfig, isDashboardConfig } from "../config/dashboard.config";
 import { DashboardActionsConfig, isDashboardActionsConfig } from "../config/dashboard-actions.config";
 import createBackendError from "./create-backend-error.function";
 import { CronjobConfig, isCronjobConfig } from "../config/cronjob.config";
@@ -55,10 +55,10 @@ function parseEnvironmentVariable<T extends ConfigTypes>(environmentVariable: st
 }
 
 function validateConfiguration() {
-    if(!isDashboardActionsConfig(configuration.dashboardConfig)) {
+    if (!isDashboardConfig(configuration.dashboardConfig)) {
         throw createInvalidConfigError(`DASHBOARD_CONFIG does not match the specification`)
     }
-    if(!configuration.actionConfig && !isDashboardActionsConfig(configuration.actionConfig)) {
+    if (!configuration.actionConfig && !isDashboardActionsConfig(configuration.actionConfig)) {
         throw createInvalidConfigError(`ACTION_CONFIG does not match the specification`)
     }
     if(!configuration.k8sClusterConfig && !isK8sClusterConfig(configuration.k8sClusterConfig)){
