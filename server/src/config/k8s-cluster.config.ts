@@ -7,17 +7,12 @@ export interface K8sClusterConfig{
 }
 
 export function isK8sClusterConfig(json: any): json is K8sClusterConfig {
-    function containsThreeFields() {
-        return Object.keys(json).length === 3 && json.constructor === Object;
+    if (!json) {
+        return false;
     }
 
-    function containsK8sClusterConfigFields() {
-        return !!(
-          (json as K8sClusterConfig).cluster &&
-          (json as K8sClusterConfig).user &&
-          (json as K8sClusterConfig).namespace
-        )
-    }
-
-    return containsThreeFields() && containsK8sClusterConfigFields()
+    return Object.keys(json).length === 3 &&
+        typeof json.cluster === "object" &&
+        typeof json.user === "object" &&
+        typeof json.namespace === "string";
 }
