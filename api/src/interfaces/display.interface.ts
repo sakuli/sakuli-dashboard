@@ -1,4 +1,4 @@
-import {isMessages, Messages} from "./messages.interface";
+import { isMessages, Messages } from "./messages.interface";
 
 export interface Display {
     index: number
@@ -27,10 +27,10 @@ export function isDisplay(json: any): json is Display {
     }
 
     return Object.keys(json).length === 6 &&
-        json.index &&
+        typeof json.index === "number" &&
         validateMessages() &&
-        json.url &&
-        json.width &&
-        json.height &&
-        json.actionIdentifier;
+        typeof json.url === "string" &&
+        typeof json.width === "string" &&
+        typeof json.height === "string" &&
+        typeof json.actionIdentifier === "string";
 }
