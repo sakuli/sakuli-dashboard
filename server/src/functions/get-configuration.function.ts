@@ -58,13 +58,13 @@ function validateConfiguration() {
     if (!isDashboardConfig(configuration.dashboardConfig)) {
         throw createInvalidConfigError(`DASHBOARD_CONFIG does not match the specification`)
     }
-    if (!configuration.actionConfig && !isDashboardActionsConfig(configuration.actionConfig)) {
+    if (configuration.actionConfig && !isDashboardActionsConfig(configuration.actionConfig)) {
         throw createInvalidConfigError(`ACTION_CONFIG does not match the specification`)
     }
-    if(!configuration.k8sClusterConfig && !isK8sClusterConfig(configuration.k8sClusterConfig)){
+    if (configuration.k8sClusterConfig && !isK8sClusterConfig(configuration.k8sClusterConfig)) {
         throw createInvalidConfigError(`CLUSTER_CONFIG does not match the specification`)
     }
-    if(!configuration.cronjobConfig && !isCronjobConfig(configuration.cronjobConfig)) {
+    if (configuration.cronjobConfig && !isCronjobConfig(configuration.cronjobConfig)) {
         throw createInvalidConfigError(`CRONJOB_CONFIG does not match the specification`)
     }
 }
