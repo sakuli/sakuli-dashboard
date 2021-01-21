@@ -1,6 +1,6 @@
 import { DashboardConfig } from "../config/dashboard.config";
 import { logger } from "../functions/logger";
-import { HttpStatusCode } from "@sakuli-dashboard/api/dist/HttpStatusCode";
+import { HttpStatusCode } from "@sakuli-dashboard/api";
 import createBackendError from "../functions/create-backend-error.function";
 
 export function handleGetDashboard(dashboardConfiguration?: DashboardConfig){
