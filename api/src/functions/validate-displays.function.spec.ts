@@ -6,6 +6,11 @@ jest.mock("../interfaces", () => ({
 }));
 
 describe("validate displays", () => {
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    })
+
     it("should return false if displays are undefined", () => {
         // GIVEN
         const displays = undefined;
