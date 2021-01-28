@@ -53,7 +53,7 @@ describe("dashboard", () => {
                     width: "42"
                 }
             ],
-            defaultLayout: "foobar"
+            defaultLayout: "column"
         };
 
         const expectedProps: DisplaysProps  = {
@@ -72,7 +72,7 @@ describe("dashboard", () => {
                     width: "42"
                 }
             ],
-            layout: "foobar",
+            layout: "column",
             locale: "en"
         };
 
