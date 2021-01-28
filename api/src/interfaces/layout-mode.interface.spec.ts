@@ -46,7 +46,7 @@ describe("layout mode", () => {
             expect(typeGuardResult).toBeTruthy();
         });
 
-        it("should not identify as LayoutMode when set as column", () => {
+        it("should identify as LayoutMode when set as column", () => {
             // GIVEN
             const layoutMode = "column";
 

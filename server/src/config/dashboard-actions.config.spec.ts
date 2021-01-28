@@ -50,7 +50,7 @@ describe("dashboard action config", () => {
       expect(typeGuardResult).toBeFalsy();
     });
 
-    it("should not identify as dashboardActionsConfig when set correctly", () => {
+    it("should identify as dashboardActionsConfig when set correctly", () => {
       // GIVEN
       const dashboardActionsConfig = {
         actions: [{actionIdentifier: "id-42", action: {}}]

@@ -35,7 +35,7 @@ describe("display update", () => {
             expect(typeGuardResult).toBeFalsy();
         });
 
-        it("should not identify as DisplayUpdate when only url is set", () => {
+        it("should identify as DisplayUpdate when only url is set", () => {
             // GIVEN
             const displayUpdate = {url: "https://sakuli.io"};
 
@@ -46,7 +46,7 @@ describe("display update", () => {
             expect(typeGuardResult).toBeTruthy();
         });
 
-        it("should not identify as DisplayUpdate when only pollingInterval is set", () => {
+        it("should identify as DisplayUpdate when only pollingInterval is set", () => {
             // GIVEN
             const displayUpdate = {pollingInterval: 42};
 
@@ -57,7 +57,7 @@ describe("display update", () => {
             expect(typeGuardResult).toBeTruthy();
         });
 
-        it("should not identify as DisplayUpdate when both optional fields are set", () => {
+        it("should identify as DisplayUpdate when both optional fields are set", () => {
             // GIVEN
             const displayUpdate = {url: "https://sakuli.io", pollingInterval: 42};
 
