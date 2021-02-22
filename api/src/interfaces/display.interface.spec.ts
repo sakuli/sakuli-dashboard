@@ -1,4 +1,4 @@
-import { Display, isDisplay } from "./display.interface";
+import { isDisplay } from "./display.interface";
 
 describe("display interface", () => {
     describe("type guard", () => {
@@ -74,21 +74,12 @@ describe("display interface", () => {
             expect(typeGuardResult).toBeFalsy();
         });
 
-        it("should identify as Display when only mandatory fields are set correctly", () => {
-            // GIVEN
-            const display: Display = {
+        it.each([
+            ["no optional properties are", {
                 index: 1,
                 url: "https://sakuli.io",
-            };
+            }],
 
-            // WHEN
-            const typeGuardResult = isDisplay(display);
-
-            // THEN
-            expect(typeGuardResult).toBeTruthy();
-        });
-
-        it.each([
             ["messages is", {
                 index: 0,
                 messages: {en: {description: "description", infoText: "info"}},
