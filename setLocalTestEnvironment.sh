@@ -45,7 +45,7 @@ export ACTION_CONFIG=$(cat <<EOF
             }
          },
          "displayUpdate":{
-            "reloadDelay":2000
+            "pollingInterval":2000
          }
       }
    ]
