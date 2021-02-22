@@ -9,6 +9,7 @@
 
 ### Fix
 - [Info popover not shown in fullscreen](https://github.com/sakuli/sakuli-dashboard/issues/41)
+- [display config validation is too restrictive](https://github.com/sakuli/sakuli-dashboard/issues/83)
 
 ### Enhancement
 - [Validate parsed config](https://github.com/sakuli/sakuli-dashboard/issues/68)
