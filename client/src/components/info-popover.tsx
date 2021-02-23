@@ -7,7 +7,7 @@ import { Messages } from "@sakuli-dashboard/api";
 
 interface InfoPopoverProps {
   target: React.RefObject<HTMLElement>;
-  messages: Record<string, Messages>;
+  messages?: Record<string, Messages>;
   displayIndex: number;
   locale: string;
 }

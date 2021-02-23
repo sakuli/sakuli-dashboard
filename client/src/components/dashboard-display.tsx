@@ -53,21 +53,23 @@ const DashboardDisplay: React.FC<DisplayProps> = (props: DisplayProps) => {
     }, [display]);
 
     const handleOnClick = useCallback(async () => {
-        setIsLoading(true);
-        const request = {
-            actionIdentifier: display.actionIdentifier
-        };
+        if(display.actionIdentifier){
+            setIsLoading(true);
+            const request = {
+                actionIdentifier: display.actionIdentifier
+            };
 
-        const response = await invokeAction(request);
+            const response = await invokeAction(request);
 
-        if (isDashboardActionResponse(response)) {
-            handleResponse(response)
-        } else if (isBackendError(response)) {
-            setBackendError(response);
-            setIsLoading(false);
-        }else{
-            setBackendError({message: `Could not identify backend response: '${JSON.stringify(response)}'`});
-            setIsLoading(false);
+            if (isDashboardActionResponse(response)) {
+                handleResponse(response)
+            } else if (isBackendError(response)) {
+                setBackendError(response);
+                setIsLoading(false);
+            }else{
+                setBackendError({message: `Could not identify backend response: '${JSON.stringify(response)}'`});
+                setIsLoading(false);
+            }
         }
     }, [display, handleResponse]);
 
