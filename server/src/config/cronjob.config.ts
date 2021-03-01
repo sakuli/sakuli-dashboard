@@ -1,7 +1,6 @@
-import { DashboardActionRequest } from "@sakuli-dashboard/api";
-
-export interface CronjobConfig extends DashboardActionRequest {
-    schedule: string
+export interface CronjobConfig{
+    schedule: string,
+    actionIdentifier: string
 }
 
 export function isCronjobConfig(json: any): json is CronjobConfig {
