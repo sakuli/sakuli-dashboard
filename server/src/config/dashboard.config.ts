@@ -1,6 +1,8 @@
-import { DashboardConfigResponse, isLayoutMode, validateDisplays } from "@sakuli-dashboard/api";
+import { Display, isLayoutMode, LayoutMode, validateDisplays } from "@sakuli-dashboard/api";
 
-export interface DashboardConfig extends DashboardConfigResponse {
+export interface DashboardConfig {
+    displays: Display[]
+    defaultLayout?: LayoutMode
 }
 
 export function isDashboardConfig(json: any): json is DashboardConfig {
