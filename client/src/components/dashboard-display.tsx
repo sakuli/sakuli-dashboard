@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import IframeDisplay from "./iframe-display";
 import {
     BackendError,
     DashboardActionResponse,
@@ -11,12 +10,10 @@ import {
 import { reloadUrl } from "../functions/reload-url.function";
 import { invokeAction } from "../services/dashboard-backend.service";
 import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
-import ErrorMessageBanner from "./error-message-banner";
 import { urlAvailable } from "../functions/url-available.function";
 import { sleep } from "../functions/sleep.function";
-import placeholder from '../static/placeholder.png';
-import Image from "react-bootstrap/Image";
 import DashboardDisplayHeader from "./dashboard-display-header";
+import { DashboardDisplayBody } from "./DashboardDisplayBody";
 
 interface DisplayProps {
     display: Display;
@@ -73,35 +70,20 @@ const DashboardDisplay: React.FC<DisplayProps> = (props: DisplayProps) => {
         }
     }, [display, handleResponse]);
 
-    const displayPlaceholder = (
-        <Image alt="placeholder" src={placeholder} fluid={true}/>
-    );
-
-    const renderDisplay = (
-        <div className={"row my-2 justify-content-center"}>
-            {pageIsAvailable ? <IframeDisplay display={display}/> : displayPlaceholder}
-        </div>
-    );
-
-    const renderErrorMessage = (errorMessage: string) => {
-        return (
-            <div className={"row justify-content-center"}>
-                <ErrorMessageBanner errorMessage={errorMessage}/>
-            </div>
-        )
-    };
-
     return (
         <div className={props.layout === "row" ? "col-6 mt-4" : "col-12 mt-4"} ref={displayContainerRef}>
-                <DashboardDisplayHeader
-                    display={display}
-                    displayContainerRef={displayContainerRef}
-                    locale={props.locale}
-                    onClick={handleOnClick}
-                    isLoading={isLoading}
-                    pageIsAvailable={pageIsAvailable}
-                />
-                {backendError ? renderErrorMessage(backendError.message) : renderDisplay}
+            <DashboardDisplayHeader
+                display={display}
+                displayContainerRef={displayContainerRef}
+                locale={props.locale}
+                onClick={handleOnClick}
+                isLoading={isLoading}
+                pageIsAvailable={pageIsAvailable}
+            />
+            <DashboardDisplayBody
+                display={display}
+                pageIsAvailable={pageIsAvailable}
+                backendError={backendError}/>
         </div>
     )
 };
