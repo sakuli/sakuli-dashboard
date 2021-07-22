@@ -1,7 +1,8 @@
-import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
+import { CoreV1Api, Log, V1Pod } from "@kubernetes/client-node";
 import createBackendError from "../functions/create-backend-error.function";
 import { getConfiguration } from "../functions/get-configuration.function";
 import { logger } from "../functions/logger";
+import { Writable } from "stream";
 
 const k8s = require('@kubernetes/client-node');
 
@@ -11,11 +12,15 @@ function createK8sConfigError(message: string){
     throw createBackendError(errorMessage)
 }
 
-async function createK8sClient(): Promise<CoreV1Api> {
+function getKubeConfig(){
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     const k8sCubeConfig = new k8s.KubeConfig();
     k8sCubeConfig.loadFromClusterAndUser(clusterConfig!.cluster, clusterConfig!.user);
-    return k8sCubeConfig.makeApiClient(k8s.CoreV1Api);
+    return k8sCubeConfig
+}
+
+async function createK8sClient(): Promise<CoreV1Api> {
+        return getKubeConfig().makeApiClient(k8s.CoreV1Api);
 }
 
 export async function apply(pod: V1Pod) {
@@ -87,7 +92,7 @@ export async function deletePod(pod:V1Pod): Promise<void> {
     }
 }
 
-export async function getLogs(pod: V1Pod){
+export async function writeLogsToStream(pod: V1Pod, stream: Writable, done: (err?: Error) => void){
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     if(!clusterConfig){
         throw createK8sConfigError("Could not get logs due to missing cluster config");
@@ -101,10 +106,10 @@ export async function getLogs(pod: V1Pod){
     const podName = pod.metadata.name;
 
     try {
-        const k8sApi = await createK8sClient();
         logger().debug(`Get pod logs of ${podName} in namespace ${clusterConfig.namespace}`);
-        const { body } = await k8sApi.readNamespacedPodLog(podName, clusterConfig.namespace);
-        return body
+        const kubeConfig = getKubeConfig();
+        const log = new Log(kubeConfig)
+        await log.log(clusterConfig.namespace, podName, pod.spec!.containers[0].name, stream, done, {follow: false})
     } catch (error) {
         logger().error(`Could not get logs for pod ${podName}: ${JSON.stringify(error)}`);
         throw createBackendError("Could not get logs from cluster");

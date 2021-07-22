@@ -1,14 +1,13 @@
-import { DashboardActionRequest } from "@sakuli-dashboard/api";
 import { PodRegistry } from "../registries/pod.registry";
-import { getLogs as getK8sLogs } from "./k8s.service"
-import { logger } from "../functions/logger";
+import { writeLogsToStream as getK8sLogs } from "./k8s.service"
+import { Writable } from "stream";
 
-export async function getLogs(dashboardAction: DashboardActionRequest): Promise<string> {
+export async function writeLogsToStream(actionIdentifier: string, stream: Writable, done: (err?: Error) => void) {
     for (const activePod of PodRegistry.getActivePods()) {
-        if(activePod.actionIdentifier === dashboardAction.actionIdentifier){
-            return getK8sLogs(activePod.pod);
+        if(activePod.actionIdentifier === actionIdentifier){
+            await getK8sLogs(activePod.pod, stream, done);
+            return
         }
     }
-    logger().debug("There is no active pod for actionIdentifier" + dashboardAction.actionIdentifier)
-    return ""
+    done();
 }
