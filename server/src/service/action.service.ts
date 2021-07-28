@@ -5,6 +5,7 @@ import { getConfiguration } from "../functions/get-configuration.function";
 import { V1Pod } from "@kubernetes/client-node";
 import { apply, deletePod, getPodStatus } from "./k8s.service";
 import { logger } from "../functions/logger";
+import { PodRegistry } from "../registries/pod.registry";
 
 function podCouldNotBeStarted(reason: string) {
     return `Pod could not be started because of: ${reason}`;
@@ -27,8 +28,11 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
         .find(action => action.actionIdentifier === dashboardAction.actionIdentifier);
 
     async function applyPod(podToApply: V1Pod) {
-        const httpResponse = await apply(podToApply);
-        validateHttpResponse(httpResponse);
+        const {response, body} = await apply(podToApply);
+        validateHttpResponse(response);
+        PodRegistry.registerPod({
+            actionIdentifier: dashboardAction.actionIdentifier, pod: body
+        })
     }
 
     if (actionToPerform?.action.metadata) {
@@ -37,6 +41,9 @@ export async function executeAction(dashboardAction: DashboardActionRequest): Pr
         if(!actionPod){
             await applyPod(actionToPerform.action)
         }else if(await podIsDead(actionPod)) {
+            PodRegistry.deletePod({
+                actionIdentifier: dashboardAction.actionIdentifier, pod: actionPod
+            })
             await deletePod(actionToPerform.action);
             await applyPod(actionToPerform.action);
         }

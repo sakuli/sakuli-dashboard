@@ -115,5 +115,51 @@ describe("display interface", () => {
             // THEN
             expect(typeGuardResult).toBeTruthy();
         });
+
+        describe("display type", () => {
+
+            it.each([
+                ["type and url are", {
+                    index: 1
+                }],
+                ["type is website and url is", {
+                    index: 1,
+                    type: "website"
+                }],
+                ["type is logs and actionIdentifier is", {
+                    index: 1,
+                    type: "logs"
+                }]
+            ])("should not identify as Display if %s not set", (_, display) => {
+                // WHEN
+                const typeGuardResult = isDisplay(display);
+
+                // THEN
+                expect(typeGuardResult).toBeFalsy();
+            });
+
+            it.each([
+                ["type is not set but url", {
+                    index: 1,
+                    url: "42"
+                }],
+                ["type is logs and actionIdentifier", {
+                    index: 1,
+                    type: "logs",
+                    actionIdentifier: "42"
+                }],
+                ["type is website and url", {
+                    index: 1,
+                    type: "website",
+                    url: "42"
+                }]
+            ])("should identify as Display if %s is set", (_, display) => {
+                // WHEN
+                const typeGuardResult = isDisplay(display);
+
+                // THEN
+                expect(typeGuardResult).toBeTruthy();
+            });
+        })
     })
 })

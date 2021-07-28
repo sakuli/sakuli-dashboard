@@ -31,3 +31,8 @@ export function getDashboardConfig(): Promise<DashboardConfigResponse | BackendE
     return fetch('/api/dashboard')
             .then(r => r.json());
 }
+
+export function getLogsOfAction(actionIdentifier: string): Promise<string> {
+    return fetch("/api/dashboard/action/logs/" + actionIdentifier)
+        .then(r => r.text());
+}

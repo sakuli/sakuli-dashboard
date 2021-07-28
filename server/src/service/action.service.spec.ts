@@ -16,7 +16,7 @@ describe("action service", () =>{
 
     const getConfigurationMock = getConfiguration as any as jest.Mock<Configuration>
     const podStatusMock = getPodStatus as any as jest.Mock<Promise<V1Pod|undefined>>
-    const applyMock = apply as any as jest.Mock<Promise<http.IncomingMessage>>
+    const applyMock = apply as any as jest.Mock<Promise<{response: http.IncomingMessage; body: V1Pod}>>
 
     const dashboardActionRequest = {
         actionIdentifier: "7890eab9-6c5e-4e40-b39c-163900ea4834"
@@ -129,8 +129,11 @@ describe("action service", () =>{
         })
 
         applyMock.mockImplementation(() => {
-            return Promise.resolve(mockPartial<http.IncomingMessage>({
-                statusCode: 201
+            return Promise.resolve(mockPartial<{response: http.IncomingMessage; body: V1Pod}>({
+                body: mockPartial<V1Pod>({}),
+                response: mockPartial<http.IncomingMessage>(
+                    {statusCode: 201}
+                )
             }))
         })
 
@@ -180,8 +183,11 @@ describe("action service", () =>{
             })
 
             applyMock.mockImplementation((_: V1Pod) => {
-                return Promise.resolve(mockPartial<http.IncomingMessage>({
-                    statusCode: 201
+                return Promise.resolve(mockPartial<{response: http.IncomingMessage; body: V1Pod}>({
+                    body: mockPartial<V1Pod>({}),
+                    response: mockPartial<http.IncomingMessage>(
+                        {statusCode: 201}
+                    )
                 }))
             })
 
@@ -224,8 +230,11 @@ describe("action service", () =>{
             })
 
             applyMock.mockImplementation(() => {
-                return Promise.resolve(mockPartial<http.IncomingMessage>({
-                    statusCode: 201
+                return Promise.resolve(mockPartial<{response: http.IncomingMessage; body: V1Pod}>({
+                    body: mockPartial<V1Pod>({}),
+                    response: mockPartial<http.IncomingMessage>(
+                        {statusCode: 201}
+                    )
                 }))
             })
 

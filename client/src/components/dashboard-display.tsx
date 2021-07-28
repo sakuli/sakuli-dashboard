@@ -1,22 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import IframeDisplay from "./iframe-display";
-import {
-    BackendError,
-    DashboardActionResponse,
-    Display,
-    isBackendError,
-    isDashboardActionResponse,
-    LayoutMode
-} from "@sakuli-dashboard/api";
-import { reloadUrl } from "../functions/reload-url.function";
-import { invokeAction } from "../services/dashboard-backend.service";
-import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
-import ErrorMessageBanner from "./error-message-banner";
-import { urlAvailable } from "../functions/url-available.function";
-import { sleep } from "../functions/sleep.function";
-import placeholder from '../static/placeholder.png';
-import Image from "react-bootstrap/Image";
-import DashboardDisplayHeader from "./dashboard-display-header";
+import React from 'react';
+import { Display, LayoutMode } from "@sakuli-dashboard/api";
+import { WebsiteDisplay } from "./WebsiteDisplay";
+import { LogDisplay } from "./LogDisplay";
 
 interface DisplayProps {
     display: Display;
@@ -28,81 +13,28 @@ const DashboardDisplay: React.FC<DisplayProps> = (props: DisplayProps) => {
 
     let displayContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
 
-    const [display, setDisplay] = useState(props.display);
-    const [isLoading, setIsLoading] = useState(false);
-    const [backendError, setBackendError] = useState<BackendError>();
-    const [pageIsAvailable, setPageIsAvailable] = useState(false);
-    const [lastPolling, setLastPolling] = useState(Date.now());
-    const pollingInterval = 2000;
-
-    useEffect(() => {
-        urlAvailable(display.url)
-            .then(isUrlAvailable => setPageIsAvailable(isUrlAvailable))
-            .then(() => sleep(pollingInterval))
-            .then(() => setLastPolling(Date.now() - pollingInterval));
-    }, [lastPolling, display.url]);
-
-    const handleResponse = useCallback((resp: DashboardActionResponse) => {
-        const newUrl = resp.url || reloadUrl(display.url);
-
-        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
-            .then(() => {
-                setDisplay({...display, url: newUrl});
-                setIsLoading(false);
-            })
-    }, [display]);
-
-    const handleOnClick = useCallback(async () => {
-        if(display.actionIdentifier){
-            setIsLoading(true);
-            const request = {
-                actionIdentifier: display.actionIdentifier
-            };
-
-            const response = await invokeAction(request);
-
-            if (isDashboardActionResponse(response)) {
-                handleResponse(response)
-            } else if (isBackendError(response)) {
-                setBackendError(response);
-                setIsLoading(false);
-            }else{
-                setBackendError({message: `Could not identify backend response: '${JSON.stringify(response)}'`});
-                setIsLoading(false);
-            }
+    function renderDisplay() {
+        if(props.display.type === "logs"){
+            return <LogDisplay
+                display={props.display}
+                locale={props.locale}
+                displayContainerRef={displayContainerRef}
+            />
         }
-    }, [display, handleResponse]);
 
-    const displayPlaceholder = (
-        <Image alt="placeholder" src={placeholder} fluid={true}/>
-    );
-
-    const renderDisplay = (
-        <div className={"row my-2 justify-content-center"}>
-            {pageIsAvailable ? <IframeDisplay display={display}/> : displayPlaceholder}
-        </div>
-    );
-
-    const renderErrorMessage = (errorMessage: string) => {
-        return (
-            <div className={"row justify-content-center"}>
-                <ErrorMessageBanner errorMessage={errorMessage}/>
-            </div>
-        )
-    };
+        return <WebsiteDisplay
+            display={props.display}
+            layout={props.layout}
+            locale={props.locale}
+            displayContainerRef={displayContainerRef}
+        />
+    }
 
     return (
         <div className={props.layout === "row" ? "col-6 mt-4" : "col-12 mt-4"} ref={displayContainerRef}>
-                <DashboardDisplayHeader
-                    display={display}
-                    displayContainerRef={displayContainerRef}
-                    locale={props.locale}
-                    onClick={handleOnClick}
-                    isLoading={isLoading}
-                    pageIsAvailable={pageIsAvailable}
-                />
-                {backendError ? renderErrorMessage(backendError.message) : renderDisplay}
+            {renderDisplay()}
         </div>
     )
-};
+}
+
 export default DashboardDisplay;

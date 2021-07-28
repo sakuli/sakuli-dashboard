@@ -7,6 +7,7 @@ import { Configuration, getConfiguration } from "./functions/get-configuration.f
 import { configureCronjob } from "./service/cronjob.service";
 import { logger } from "./functions/logger";
 import { handleGetDashboard } from "./handler/handle-get-dashboard";
+import { writeLogsToStream } from "./service/logs.service";
 
 const app = express();
 
@@ -32,6 +33,19 @@ app.post('/api/dashboard/action', (req, res) => {
 app.post('/api/dashboard/health-check', (req, res) => {
   healthCheckService().checkUrl(req.body)
       .then(status => res.status(200).send({status: status}));
+});
+
+app.get('/api/dashboard/action/logs/:actionIdentifier', (req, res ) => {
+  const done = (err?: Error) => {
+    if(err){
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send()
+    } else{
+      res.end()
+    }
+  }
+
+  writeLogsToStream(req.params.actionIdentifier, res, done)
+      .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send());
 });
 
 configureCronjob(configuration?.cronjobConfig);

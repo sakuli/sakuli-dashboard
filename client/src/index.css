@@ -26,3 +26,8 @@ button:focus {
 .iframe-height {
   max-height: 95vh;
 }
+
+.log-window{
+  height: 95vh;
+  width: auto;
+}

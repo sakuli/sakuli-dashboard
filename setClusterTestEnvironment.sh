@@ -18,6 +18,7 @@ export DASHBOARD_CONFIG=$(cat <<EOF
     },
     {
       "index": 2,
+      "type": "website",
       "messages": {
         "de": {
           "description": "Monitoring Daten: Erkennen von Mustern, Alerting und Screenshot Darstellung von Fehlern.",
@@ -29,6 +30,21 @@ export DASHBOARD_CONFIG=$(cat <<EOF
         }
       },
       "url": "https://grafana-pink-coffee.paas.consol.de/d/A7K5C_cGz/circit-sakuli-poc?orgId=1&from=now-6h&to=now&theme=light&kiosk=tv"
+    },
+    {
+      "index": 3,
+      "type": "logs",
+      "messages": {
+        "de": {
+          "description": "Monitoring Daten: Erkennen von Mustern, Alerting und Screenshot Darstellung von Fehlern.",
+          "infoText": "Hier sehen Sie Monitoring Daten in einem Grafana Dashboard, die Sakuli an ein OMD System weitergeleitet hat. Bei Fehlern können Sie die Maus über diese bewegen um einen Fehlerscreenshot einzublenden."
+        },
+        "en": {
+          "description": "Monitoring Data: Recognize Patterns, Alerting and Display Error Screenshots.",
+          "infoText": "This is a Grafana Dashboard showing monitoring data which Sakuli provided to OMD. In case of an error during the Sakuli test, a screenshot will be sent with the monitoring data which then will be shown here."
+        }
+      },
+      "actionIdentifier": "7890eab9-6c5e-4e40-b39c-163900ea4834"
     }
   ],
   "defaultLayout": "row"
@@ -101,7 +117,7 @@ export CLUSTER_CONFIG=$(cat <<EOF
   },
   "user": {
     "name": "taadmin",
-    "token": "aFjvWAQr03VuF6dkIgVMFNVjHVew6tCZfJqeqADNYGA"
+    "token": "8uaEfsoGnkxAyvKvf1560N-wApkCK3MSrPOfLMCsNc8"
   },
   "namespace": "pink-coffee"
 }

@@ -1,17 +1,16 @@
 import React from "react";
 import Iframe from "react-iframe";
-import { Display } from "@sakuli-dashboard/api";
 import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed';
 
 interface IframeComponentProps {
-    display: Display
+    url: string
 }
 
-const IframeDisplay: React.FC<IframeComponentProps> = ({display}) => {
+const IframeDisplay: React.FC<IframeComponentProps> = (props) => {
 
     return (
         <ResponsiveEmbed className={"iframe-height"}>
-            <Iframe url={display.url}/>
+            <Iframe url={props.url}/>
         </ResponsiveEmbed>
     );
 

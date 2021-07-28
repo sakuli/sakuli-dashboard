@@ -1,8 +1,8 @@
-import { CoreV1Api, V1Pod } from "@kubernetes/client-node";
-import * as http from "http";
+import { CoreV1Api, Log, V1Pod } from "@kubernetes/client-node";
 import createBackendError from "../functions/create-backend-error.function";
 import { getConfiguration } from "../functions/get-configuration.function";
 import { logger } from "../functions/logger";
+import { Writable } from "stream";
 
 const k8s = require('@kubernetes/client-node');
 
@@ -12,14 +12,18 @@ function createK8sConfigError(message: string){
     throw createBackendError(errorMessage)
 }
 
-async function createK8sClient(): Promise<CoreV1Api> {
+function getKubeConfig(){
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     const k8sCubeConfig = new k8s.KubeConfig();
     k8sCubeConfig.loadFromClusterAndUser(clusterConfig!.cluster, clusterConfig!.user);
-    return k8sCubeConfig.makeApiClient(k8s.CoreV1Api);
+    return k8sCubeConfig
 }
 
-export async function apply(pod: V1Pod): Promise<http.IncomingMessage>{
+async function createK8sClient(): Promise<CoreV1Api> {
+        return getKubeConfig().makeApiClient(k8s.CoreV1Api);
+}
+
+export async function apply(pod: V1Pod) {
     const clusterConfig = getConfiguration()?.k8sClusterConfig
     if(!clusterConfig){
         throw createK8sConfigError("Could not apply pod config to cluster");
@@ -27,9 +31,9 @@ export async function apply(pod: V1Pod): Promise<http.IncomingMessage>{
     try {
         const k8sApi = await createK8sClient();
         logger().info(`Creating pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace}`);
-        const {response} = await k8sApi.createNamespacedPod(clusterConfig.namespace, pod);
+        const {response, body} = await k8sApi.createNamespacedPod(clusterConfig.namespace, pod);
         logger().debug(`Pod ${pod.metadata?.name} in namespace ${clusterConfig.namespace} created`);
-        return response;
+        return {response, body};
     } catch (error) {
         logger().error(`Could not apply pod configuration because of: ${JSON.stringify(error)}`);
         throw createBackendError('Could not apply pod configuration on cluster');
@@ -85,5 +89,29 @@ export async function deletePod(pod:V1Pod): Promise<void> {
     } catch (error) {
         logger().error(`Could not delete pod ${podName}: ${JSON.stringify(error)}`);
         throw createBackendError("Could not delete pod on cluster");
+    }
+}
+
+export async function writeLogsToStream(pod: V1Pod, stream: Writable, done: (err?: Error) => void){
+    const clusterConfig = getConfiguration()?.k8sClusterConfig
+    if(!clusterConfig){
+        throw createK8sConfigError("Could not get logs due to missing cluster config");
+    }
+
+    if(!pod.metadata?.name) {
+        logger().error(`Could not get logs due to missing pod name. Requested pod: ${JSON.stringify(pod)}`)
+        throw createBackendError("Could not get logs due to missing pod name");
+    }
+
+    const podName = pod.metadata.name;
+
+    try {
+        logger().debug(`Get pod logs of ${podName} in namespace ${clusterConfig.namespace}`);
+        const kubeConfig = getKubeConfig();
+        const log = new Log(kubeConfig)
+        await log.log(clusterConfig.namespace, podName, pod.spec!.containers[0].name, stream, done, {follow: false})
+    } catch (error) {
+        logger().error(`Could not get logs for pod ${podName}: ${JSON.stringify(error)}`);
+        throw createBackendError("Could not get logs from cluster");
     }
 }

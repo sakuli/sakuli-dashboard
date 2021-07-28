@@ -1,3 +1,5 @@
+
+
 jest.mock("../functions/get-configuration.function")
 jest.mock("@kubernetes/client-node")
 
@@ -46,18 +48,18 @@ describe("k8s service", () => {
         it("should create pod", async () => {
 
             //GIVEN
-            const expectedResponse = mockPartial<http.IncomingMessage>({
-                statusCode: 201
+            const expectedResponse = mockPartial<{response: http.IncomingMessage; body: V1Pod}>({
+                body: mockPartial<V1Pod>({}),
+                response: mockPartial<http.IncomingMessage>(
+                    {statusCode: 201}
+                )
             })
 
             const createNamespacePodMock = jest.fn().mockImplementation(async (): Promise<{
                 response: http.IncomingMessage;
                 body: V1Pod;
             }> => {
-                return {
-                    response: expectedResponse,
-                    body: mockPartial<V1Pod>({})
-                }
+                return expectedResponse
             })
 
             KubeConfigMock.mockImplementation(() => {
