@@ -6,6 +6,7 @@
 
 ### Features
 - [Make default layout configurable](https://github.com/sakuli/sakuli-dashboard/issues/79)
+- [Show logs in screen](https://github.com/sakuli/sakuli-dashboard/issues/86)
 
 ### Fix
 - [Info popover not shown in fullscreen](https://github.com/sakuli/sakuli-dashboard/issues/41)
