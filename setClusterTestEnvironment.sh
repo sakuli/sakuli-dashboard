@@ -131,3 +131,12 @@ export CRONJOB_CONFIG=$(cat <<EOF
 }
 EOF
 )
+
+#export AUTHENTICATION_CONFIG=$(cat <<EOF
+#{
+#  "users": {
+#    "awesome": "dude"
+#  }
+#}
+#EOF
+#)
