@@ -9,6 +9,7 @@ import { logger } from "./functions/logger";
 import { handleGetDashboard } from "./handler/handle-get-dashboard";
 import { writeLogsToStream } from "./service/logs.service";
 import * as basicAuth from 'express-basic-auth'
+import { getAuthorizer } from "./middleware/getAuthorizer";
 
 const app = express();
 
@@ -24,7 +25,10 @@ try{
 }
 
 if(configuration?.authenticationConfig){
-  app.use(basicAuth.default(configuration.authenticationConfig))
+  app.use(basicAuth.default({
+        authorizer: getAuthorizer(configuration.authenticationConfig),
+        authorizeAsync: true
+      }))
 }
 
 app.get('/api/dashboard', handleGetDashboard(configuration?.dashboardConfig));
