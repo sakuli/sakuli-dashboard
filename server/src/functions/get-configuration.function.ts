@@ -4,6 +4,7 @@ import { DashboardActionsConfig, isDashboardActionsConfig } from "../config/dash
 import createBackendError from "./create-backend-error.function";
 import { CronjobConfig, isCronjobConfig } from "../config/cronjob.config";
 import { IUsersOptions } from "express-basic-auth";
+import { AuthenticationConfig, isAuthenticationConfig } from "../config/authenticationConfig";
 
 type ConfigTypes = DashboardActionsConfig | K8sClusterConfig | DashboardConfig | CronjobConfig | IUsersOptions;
 let configuration: Configuration;
@@ -13,7 +14,7 @@ export interface Configuration {
     k8sClusterConfig?: K8sClusterConfig,
     actionConfig?: DashboardActionsConfig,
     cronjobConfig?: CronjobConfig
-    authenticationConfig?: IUsersOptions
+    authenticationConfig?: AuthenticationConfig
 }
 export function getConfiguration(){
     if(!configuration){
@@ -22,7 +23,7 @@ export function getConfiguration(){
             k8sClusterConfig: getOptionalConfig<K8sClusterConfig>(process.env.CLUSTER_CONFIG, "CLUSTER_CONFIG"),
             actionConfig: getOptionalConfig<DashboardActionsConfig>(process.env.ACTION_CONFIG, "ACTION_CONFIG"),
             cronjobConfig: getOptionalConfig<CronjobConfig>(process.env.CRONJOB_CONFIG, "CRONJOB_CONFIG"),
-            authenticationConfig: getOptionalConfig<IUsersOptions>(process.env.AUTHENTICATION_CONFIG, "AUTHENTICATION_CONFIG")
+            authenticationConfig: getOptionalConfig<AuthenticationConfig>(process.env.AUTHENTICATION_CONFIG, "AUTHENTICATION_CONFIG")
         }
     }
     validateConfiguration();
@@ -69,5 +70,8 @@ function validateConfiguration() {
     }
     if (configuration.cronjobConfig && !isCronjobConfig(configuration.cronjobConfig)) {
         throw createInvalidConfigError(`CRONJOB_CONFIG does not match the specification`)
+    }
+    if (configuration.authenticationConfig && !isAuthenticationConfig(configuration.authenticationConfig)) {
+        throw createInvalidConfigError(`AUTHENTICATION_CONFIG does not match the specification`)
     }
 }
