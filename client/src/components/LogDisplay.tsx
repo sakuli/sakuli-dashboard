@@ -26,7 +26,7 @@ export const LogDisplay: React.FC<LogDisplayProps> = (props: LogDisplayProps) =>
             .then((receivedLogs) => setLogs(receivedLogs))
             .then(() => sleep(pollingInterval))
             .then(() => setLastPolling(Date.now() - pollingInterval));
-    }, [lastPolling, props.display.actionIdentifier]);
+    }, [lastPolling, props.display.actionIdentifier, props.loginInformation?.jwtToken]);
 
     function renderInfoPopover(){
         return <InfoPopover
