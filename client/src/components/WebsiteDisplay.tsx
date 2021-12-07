@@ -5,7 +5,8 @@ import {
     Display,
     isBackendError,
     isDashboardActionResponse,
-    LayoutMode
+    LayoutMode,
+    LoginResponse
 } from "@sakuli-dashboard/api";
 import { urlAvailable } from "../functions/url-available.function";
 import { sleep } from "../functions/sleep.function";
@@ -23,6 +24,7 @@ interface WebsiteDisplayProps {
     layout: LayoutMode;
     locale: string;
     displayContainerRef: React.RefObject<HTMLDivElement>
+    loginInformation?: LoginResponse
 }
 
 export const WebsiteDisplay: React.FC<WebsiteDisplayProps> = (props: WebsiteDisplayProps) => {
@@ -36,21 +38,21 @@ export const WebsiteDisplay: React.FC<WebsiteDisplayProps> = (props: WebsiteDisp
     const pollingInterval = 2000;
 
     useEffect(() => {
-        urlAvailable(display.url!)
+        urlAvailable(display.url!, props.loginInformation?.jwtToken)
             .then(isUrlAvailable => setPageIsAvailable(isUrlAvailable))
             .then(() => sleep(pollingInterval))
             .then(() => setLastPolling(Date.now() - pollingInterval));
-    }, [lastPolling, display.url]);
+    }, [lastPolling, display.url, props.loginInformation]);
 
     const handleResponse = useCallback((resp: DashboardActionResponse) => {
         const newUrl = resp.url || reloadUrl(display.url!);
 
-        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000)
+        waitUntilPageIsAvailable(newUrl, resp.pollingInterval || 1000, props.loginInformation?.jwtToken)
             .then(() => {
                 setDisplay({...display, url: newUrl});
                 setIsLoading(false);
             })
-    }, [display]);
+    }, [display, props.loginInformation]);
 
     const handleOnClick = useCallback(async () => {
         if(display.actionIdentifier){
@@ -59,7 +61,7 @@ export const WebsiteDisplay: React.FC<WebsiteDisplayProps> = (props: WebsiteDisp
                 actionIdentifier: display.actionIdentifier
             };
 
-            const response = await invokeAction(request);
+            const response = await invokeAction(request, props.loginInformation?.jwtToken);
 
             if (isDashboardActionResponse(response)) {
                 handleResponse(response)
@@ -71,7 +73,7 @@ export const WebsiteDisplay: React.FC<WebsiteDisplayProps> = (props: WebsiteDisp
                 setIsLoading(false);
             }
         }
-    }, [display, handleResponse]);
+    }, [display, handleResponse, props.loginInformation]);
 
 
     function renderInfoPopover(){

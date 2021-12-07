@@ -1,15 +1,15 @@
 export interface LoginResponse {
     jwtToken: string,
-    jwtTokenExpiration: number,
+    jwtTokenTTL: number,
     jwtRefreshToken: string
-    jwtRefreshTokenExpiration: number,
+    jwtRefreshTokenTTL: number,
 }
 
 export function isLoginResponse(json: any): json is LoginResponse {
     return json &&
         json.length === 4 &&
         typeof json.jwtToken === "string" &&
-        typeof json.jwtTokenExpiration === "number" &&
+        typeof json.jwtTokenTTL === "number" &&
         typeof json.jwtRefreshToken === "string" &&
-        typeof json.jwtRefreshTokenExpiration === "number"
+        typeof json.jwtRefreshTokenTTL === "number"
 }
