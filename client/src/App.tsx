@@ -19,7 +19,11 @@ const App: React.FC = () => {
     useInterval(
         () => {
            refreshLoginInformation(loginInformation!.jwtRefreshToken)
-               .then(loginResponse => setLoginInformation(loginResponse))
+               .then(loginResponse => {
+                   if(loginResponse){
+                       setLoginInformation(loginResponse)
+                   }
+               })
         },
         loginInformation ? loginInformation.jwtTokenTTL * 1000 / 4 : null,
     )
