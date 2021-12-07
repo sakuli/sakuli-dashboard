@@ -132,11 +132,16 @@ export CRONJOB_CONFIG=$(cat <<EOF
 EOF
 )
 
+#credentials:
+# awesome:dude
+# Authorization: Basic YXdlc29tZTpkdWRl
 #export AUTHENTICATION_CONFIG=$(cat <<EOF
 #{
 #  "users": {
-#    "awesome": "dude"
-#  }
+#    "awesome": "\$argon2i\$v=19\$m=4096,t=3,p=1\$4UeAY4g93dU0mEx8fcS5fQ\$oMxbMHhs5fW8H2aP13vRGk2ENuZGNbCAdXeT16a3gRA"
+#  },
+#  "jwtTokenSecret": "a32541b9-76b4-4fa3-b2c0-6d9ef03c2a63",
+#  "jwtRefreshTokenSecret": "4804c6d5-74b0-4032-8442-51d1f7d7257c"
 #}
 #EOF
 #)

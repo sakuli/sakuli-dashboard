@@ -1,15 +1,14 @@
 import express from 'express'
 import { join } from 'path'
 import { executeAction } from "./service/action.service";
-import { HttpStatusCode } from "@sakuli-dashboard/api";
+import { HttpStatusCode, SecurityConfigResponse } from "@sakuli-dashboard/api";
 import { healthCheckService } from "./service/health-check.service";
 import { Configuration, getConfiguration } from "./functions/get-configuration.function";
 import { configureCronjob } from "./service/cronjob.service";
 import { logger } from "./functions/logger";
 import { handleGetDashboard } from "./handler/handle-get-dashboard";
 import { writeLogsToStream } from "./service/logs.service";
-import * as basicAuth from 'express-basic-auth'
-import { getAuthorizer } from "./middleware/getAuthorizer";
+import { enableAuthentication } from "./security/enableAuthentication";
 
 const app = express();
 
@@ -25,10 +24,7 @@ try{
 }
 
 if(configuration?.authenticationConfig){
-  app.use(basicAuth.default({
-        authorizer: getAuthorizer(configuration.authenticationConfig),
-        authorizeAsync: true
-      }))
+  enableAuthentication(app, configuration.authenticationConfig);
 }
 
 app.get('/api/dashboard', handleGetDashboard(configuration?.dashboardConfig));
@@ -54,8 +50,15 @@ app.get('/api/dashboard/action/logs/:actionIdentifier', (req, res ) => {
   }
 
   writeLogsToStream(req.params.actionIdentifier, res, done)
-      .catch(error => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send());
+      .catch(_ => res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send());
 });
+
+app.get('/api/security', (req, res) => {
+  const securityConfig: SecurityConfigResponse = {
+    authorizationEnabled: configuration?.authenticationConfig !== undefined
+  }
+  res.status(HttpStatusCode.OK).send(securityConfig);
+})
 
 configureCronjob(configuration?.cronjobConfig);
 
