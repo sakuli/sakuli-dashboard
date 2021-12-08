@@ -25,13 +25,14 @@ as a patch release.
 ## Dashboard configuration
 _Interface implementation_ can be found in `server/src/config`. 
 
-| Environment variable | description                                                                       | interface implementation      |
-|----------------------|-----------------------------------------------------------------------------------|-------------------------------|
-| DASHBOARD_CONFIG     | configures the displays (ordering, url, actions, etc.) shown in the dashboard     | `dashboard.config.ts`         |
-| ACTION_CONFIG        | available actions to perform on the k8s cluster and corresponding display updates | `dashboard-actions.config.ts` |
-| CLUSTER_CONFIG       | configures the cluster access (cluster address, access token, etc.)               | `k8s-cluster.config.ts`       |
-| CRONJOB_CONFIG       | configures a cronjob to start a specific action                                   | `cronjob.config.ts`           |
-| SAKULI_LICENSE_KEY   | XL-License to start the dashboard container                                       |                               |
+| Environment variable  | description                                                                       | interface implementation      |
+|-----------------------|-----------------------------------------------------------------------------------|-------------------------------|
+| DASHBOARD_CONFIG      | configures the displays (ordering, url, actions, etc.) shown in the dashboard     | `dashboard.config.ts`         |
+| ACTION_CONFIG         | available actions to perform on the k8s cluster and corresponding display updates | `dashboard-actions.config.ts` |
+| CLUSTER_CONFIG        | configures the cluster access (cluster address, access token, etc.)               | `k8s-cluster.config.ts`       |
+| CRONJOB_CONFIG        | configures a cronjob to start a specific action                                   | `cronjob.config.ts`           |
+| AUTHENTICATION_CONFIG | configures the authentication of the dashboard                                    | `authenticationConfig.ts`     |
+| SAKULI_LICENSE_KEY    | XL-License to start the dashboard container                                       |                               |
 
 To use an available action in a display configuration, the corresponding `actionIdentifier` defined in `ACTION_CONFIG` must be used.
 
