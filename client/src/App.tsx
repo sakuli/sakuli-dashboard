@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Dashboard from "./components/dashboard";
 import { getSecurityConfig, performLogin, refreshLoginInformation } from "./services/dashboard-backend.service";
 import { LoginResponse, } from "@sakuli-dashboard/api";
-import Login from "./components/Login";
 import { useInterval } from 'usehooks-ts'
 import { loadLoginInformation, persistLoginInformation } from "./services/localStorageService";
+import Router from "./components/Router";
 
 const App: React.FC = () => {
 
@@ -58,15 +57,10 @@ const App: React.FC = () => {
         return loggedIn
     }
 
-    function renderApp() {
-        if(loggedIn){
-            return <Dashboard loginInformation={loginInformation}/>;
-        }else{
-            return <Login performLogin={loginHandler}/>
-        }
-    }
-
-    return renderApp();
+    return <Router
+            performLogin={loginHandler}
+            loggedIn={loggedIn}
+            loginInformation={loginInformation}/>;
 };
 
 export default App;
