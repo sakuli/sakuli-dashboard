@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Dashboard from "./components/dashboard";
 import { getSecurityConfig, performLogin, refreshLoginInformation } from "./services/dashboard-backend.service";
 import { LoginResponse, } from "@sakuli-dashboard/api";
@@ -10,6 +10,15 @@ const App: React.FC = () => {
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const [loginInformation, setLoginInformation] = useState<LoginResponse>();
 
+    const refreshToken = useCallback((currentLoginInformation?: LoginResponse) => {(async () => {
+        if(currentLoginInformation){
+            await performRefresh(currentLoginInformation);
+        }
+        else{
+            setLoggedIn(false)
+        }
+    })()}, [])
+
     useEffect(() => {
             (async () => {
                 const securityConfigResponse = await getSecurityConfig();
@@ -18,7 +27,7 @@ const App: React.FC = () => {
                     await refreshToken(getStoredLoginInformation());
                 }
             })();
-        }, []);
+        }, [refreshToken]);
 
     useEffect(() => {
         if(loginInformation){
@@ -37,15 +46,6 @@ const App: React.FC = () => {
             return JSON.parse(storedLoginInformation)
         }
         return undefined
-    }
-
-    async function refreshToken(currentLoginInformation?: LoginResponse) {
-        if(currentLoginInformation){
-            await performRefresh(currentLoginInformation);
-        }
-        else{
-            setLoggedIn(false)
-        }
     }
 
     async function performRefresh (currentLoginInformation: LoginResponse) {
