@@ -4,6 +4,7 @@ import { getSecurityConfig, performLogin, refreshLoginInformation } from "./serv
 import { LoginResponse, } from "@sakuli-dashboard/api";
 import Login from "./components/Login";
 import { useInterval } from 'usehooks-ts'
+import { loadLoginInformation, persistLoginInformation } from "./services/localStorageService";
 
 const App: React.FC = () => {
 
@@ -24,14 +25,14 @@ const App: React.FC = () => {
                 const securityConfigResponse = await getSecurityConfig();
                 setLoggedIn(!securityConfigResponse.authorizationEnabled)
                 if(securityConfigResponse.authorizationEnabled){
-                    await refreshToken(getStoredLoginInformation());
+                    await refreshToken(loadLoginInformation());
                 }
             })();
         }, [refreshToken]);
 
     useEffect(() => {
         if(loginInformation){
-            localStorage.setItem("loginInformation", JSON.stringify(loginInformation));
+            persistLoginInformation(loginInformation);
         }
     }, [loginInformation]);
 
@@ -39,14 +40,6 @@ const App: React.FC = () => {
         () => {(async () => refreshToken(loginInformation))()},
         loginInformation ? loginInformation.jwtTokenTTL * 1000 / 4 : null,
     )
-
-    function getStoredLoginInformation(): LoginResponse | undefined {
-        const storedLoginInformation = localStorage.getItem("loginInformation");
-        if(storedLoginInformation != null){
-            return JSON.parse(storedLoginInformation)
-        }
-        return undefined
-    }
 
     async function performRefresh (currentLoginInformation: LoginResponse) {
         const refreshedLoginInformation = await refreshLoginInformation(currentLoginInformation.jwtRefreshToken);
