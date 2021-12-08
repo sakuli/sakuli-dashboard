@@ -6,7 +6,7 @@ import { LoginResponse } from "@sakuli-dashboard/api";
 export interface RouterProps {
     performLogin: (username: string, password: string) => Promise<boolean>;
     loggedIn: boolean
-    loginInformation: LoginResponse
+    loginInformation?: LoginResponse
 }
 
 
