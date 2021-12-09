@@ -7,7 +7,7 @@ export function getAuthorizer(authenticationConfig: IUsersOptions){
         for (const user in users) {
             if(safeCompare(username, user)){
                 const passwordHash = users[user];
-                cb(null, await verify(passwordHash, password))
+                return cb(null, await verify(passwordHash, password))
             }
         }
 
