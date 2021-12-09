@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getSecurityConfig, performLogin, refreshLoginInformation } from "./services/dashboard-backend.service";
 import { LoginResponse, } from "@sakuli-dashboard/api";
 import { useInterval } from 'usehooks-ts'
-import { loadLoginInformation, persistLoginInformation } from "./services/localStorageService";
-import Router from "./components/Router";
+import { loadLoginInformation, persistLoginInformation } from "./services/local-storage-service";
+import Router from "./components/router";
 
 const App: React.FC = () => {
 

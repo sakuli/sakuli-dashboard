@@ -1,6 +1,6 @@
 import React from "react";
 import Dashboard from "./dashboard";
-import Login from "./Login";
+import Login from "./login";
 import { LoginResponse } from "@sakuli-dashboard/api";
 
 export interface RouterProps {

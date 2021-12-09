@@ -8,7 +8,7 @@ import { configureCronjob } from "./service/cronjob.service";
 import { logger } from "./functions/logger";
 import { handleGetDashboard } from "./handler/handle-get-dashboard";
 import { writeLogsToStream } from "./service/logs.service";
-import { enableAuthentication } from "./security/enableAuthentication";
+import { enableAuthentication } from "./security/enable-authentication";
 
 const app = express();
 

@@ -14,7 +14,7 @@ import { reloadUrl } from "../functions/reload-url.function";
 import { waitUntilPageIsAvailable } from "../functions/wait-until-page-is-available.function";
 import { invokeAction } from "../services/dashboard-backend.service";
 import DashboardDisplayHeader from "./dashboard-display-header";
-import { WebsiteDisplayBody } from "./WebsiteDisplayBody";
+import { WebsiteDisplayBody } from "./website-display-body";
 import InfoPopover from "./info-popover";
 import ActionButton from "./action-button";
 import FullscreenButton from "./fullscreen-button";

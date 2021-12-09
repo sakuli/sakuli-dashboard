@@ -1,7 +1,7 @@
 import React from 'react';
 import { Display, LayoutMode, LoginResponse } from "@sakuli-dashboard/api";
-import { WebsiteDisplay } from "./WebsiteDisplay";
-import { LogDisplay } from "./LogDisplay";
+import { WebsiteDisplay } from "./website-display";
+import { LogDisplay } from "./log-display";
 
 interface DisplayProps {
     display: Display;

@@ -3,7 +3,7 @@ import { DashboardConfig, isDashboardConfig } from "../config/dashboard.config";
 import { DashboardActionsConfig, isDashboardActionsConfig } from "../config/dashboard-actions.config";
 import createBackendError from "./create-backend-error.function";
 import { CronjobConfig, isCronjobConfig } from "../config/cronjob.config";
-import { AuthenticationConfig, isAuthenticationConfig } from "../config/authenticationConfig";
+import { AuthenticationConfig, isAuthenticationConfig } from "../config/authentication.config";
 
 type ConfigTypes = DashboardActionsConfig | K8sClusterConfig | DashboardConfig | CronjobConfig | AuthenticationConfig;
 let configuration: Configuration;

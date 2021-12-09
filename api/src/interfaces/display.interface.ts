@@ -1,5 +1,5 @@
 import { isMessages, Messages } from "./messages.interface";
-import { DisplayType, isDisplayType } from "./displayType.interface";
+import { DisplayType, isDisplayType } from "./display-type.interface";
 
 export interface Display {
     index: number

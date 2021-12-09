@@ -1,8 +1,8 @@
 import { Express } from "express";
-import { AuthenticationConfig } from "../config/authenticationConfig";
+import { AuthenticationConfig } from "../config/authentication.config";
 import * as basicAuth from "express-basic-auth";
-import { getAuthorizer } from "../middleware/getAuthorizer";
-import { handleTokenCreation } from "../handler/loginHandler";
+import { getAuthorizer } from "../middleware/get-authorizer";
+import { handleTokenCreation } from "../handler/login-handler";
 import jwt from "express-jwt";
 
 export function enableAuthentication(app: Express, authenticationConfig: AuthenticationConfig) {

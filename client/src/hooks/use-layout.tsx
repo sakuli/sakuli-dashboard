@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { LayoutMode } from "@sakuli-dashboard/api";
-import { loadLayoutMode, persistLayoutMode } from "../services/localStorageService";
+import { loadLayoutMode, persistLayoutMode } from "../services/local-storage-service";
 
 export const useLayout = () => {
     const [currentLayout, setLayout] = useState<LayoutMode>((loadLayoutMode() ?? "column") as LayoutMode);

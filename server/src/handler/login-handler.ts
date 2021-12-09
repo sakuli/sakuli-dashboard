@@ -1,5 +1,5 @@
-import { AuthenticationConfig } from "../config/authenticationConfig";
-import { generateToken } from "../security/TokenGenerator";
+import { AuthenticationConfig } from "../config/authentication.config";
+import { generateToken } from "../security/token-generator";
 
 export function handleTokenCreation(authenticationConfig: AuthenticationConfig){
     return (req: any, res: any) => {
