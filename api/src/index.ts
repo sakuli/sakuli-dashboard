@@ -1,3 +1,3 @@
 export * from './functions';
 export * from './interfaces';
-export * from './HttpStatusCode';
+export * from './http-status-code';

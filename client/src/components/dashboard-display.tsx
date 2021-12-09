@@ -1,12 +1,13 @@
 import React from 'react';
-import { Display, LayoutMode } from "@sakuli-dashboard/api";
-import { WebsiteDisplay } from "./WebsiteDisplay";
-import { LogDisplay } from "./LogDisplay";
+import { Display, LayoutMode, LoginResponse } from "@sakuli-dashboard/api";
+import { WebsiteDisplay } from "./website-display";
+import { LogDisplay } from "./log-display";
 
 interface DisplayProps {
     display: Display;
     layout: LayoutMode;
     locale: string;
+    loginInformation?: LoginResponse;
 }
 
 const DashboardDisplay: React.FC<DisplayProps> = (props: DisplayProps) => {
@@ -19,6 +20,7 @@ const DashboardDisplay: React.FC<DisplayProps> = (props: DisplayProps) => {
                 display={props.display}
                 locale={props.locale}
                 displayContainerRef={displayContainerRef}
+                loginInformation={props.loginInformation}
             />
         }
 
@@ -27,6 +29,7 @@ const DashboardDisplay: React.FC<DisplayProps> = (props: DisplayProps) => {
             layout={props.layout}
             locale={props.locale}
             displayContainerRef={displayContainerRef}
+            loginInformation={props.loginInformation}
         />
     }
 

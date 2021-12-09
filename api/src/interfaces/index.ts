@@ -8,3 +8,5 @@ export * from './health-check-response.interface';
 export * from './backend-error.interface';
 export * from './messages.interface';
 export * from './layout-mode.interface'
+export * from './security-config-response.interface'
+export * from './login-response.interface'

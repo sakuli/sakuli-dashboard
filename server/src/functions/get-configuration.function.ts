@@ -3,8 +3,9 @@ import { DashboardConfig, isDashboardConfig } from "../config/dashboard.config";
 import { DashboardActionsConfig, isDashboardActionsConfig } from "../config/dashboard-actions.config";
 import createBackendError from "./create-backend-error.function";
 import { CronjobConfig, isCronjobConfig } from "../config/cronjob.config";
+import { AuthenticationConfig, isAuthenticationConfig } from "../config/authentication.config";
 
-type ConfigTypes = DashboardActionsConfig | K8sClusterConfig | DashboardConfig | CronjobConfig;
+type ConfigTypes = DashboardActionsConfig | K8sClusterConfig | DashboardConfig | CronjobConfig | AuthenticationConfig;
 let configuration: Configuration;
 
 export interface Configuration {
@@ -12,6 +13,7 @@ export interface Configuration {
     k8sClusterConfig?: K8sClusterConfig,
     actionConfig?: DashboardActionsConfig,
     cronjobConfig?: CronjobConfig
+    authenticationConfig?: AuthenticationConfig
 }
 export function getConfiguration(){
     if(!configuration){
@@ -19,7 +21,8 @@ export function getConfiguration(){
             dashboardConfig: getMandatoryConfig<DashboardConfig>(process.env.DASHBOARD_CONFIG, "DASHBOARD_CONFIG"),
             k8sClusterConfig: getOptionalConfig<K8sClusterConfig>(process.env.CLUSTER_CONFIG, "CLUSTER_CONFIG"),
             actionConfig: getOptionalConfig<DashboardActionsConfig>(process.env.ACTION_CONFIG, "ACTION_CONFIG"),
-            cronjobConfig: getOptionalConfig<CronjobConfig>(process.env.CRONJOB_CONFIG, "CRONJOB_CONFIG")
+            cronjobConfig: getOptionalConfig<CronjobConfig>(process.env.CRONJOB_CONFIG, "CRONJOB_CONFIG"),
+            authenticationConfig: getOptionalConfig<AuthenticationConfig>(process.env.AUTHENTICATION_CONFIG, "AUTHENTICATION_CONFIG")
         }
     }
     validateConfiguration();
@@ -66,5 +69,8 @@ function validateConfiguration() {
     }
     if (configuration.cronjobConfig && !isCronjobConfig(configuration.cronjobConfig)) {
         throw createInvalidConfigError(`CRONJOB_CONFIG does not match the specification`)
+    }
+    if (configuration.authenticationConfig && !isAuthenticationConfig(configuration.authenticationConfig)) {
+        throw createInvalidConfigError(`AUTHENTICATION_CONFIG does not match the specification`)
     }
 }

@@ -1,4 +1,4 @@
-import { isDisplayType } from "./displayType.interface";
+import { isDisplayType } from "./display-type.interface";
 
 
 describe("display type", () => {
