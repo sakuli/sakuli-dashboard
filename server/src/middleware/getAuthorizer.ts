@@ -11,6 +11,6 @@ export function getAuthorizer(authenticationConfig: IUsersOptions){
             }
         }
 
-        cb(null,false);
+        return cb(null,false);
     }
 }
