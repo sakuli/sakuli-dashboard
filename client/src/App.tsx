@@ -24,7 +24,7 @@ const App: React.FC = () => {
                 const securityConfigResponse = await getSecurityConfig();
                 setLoggedIn(!securityConfigResponse.authorizationEnabled)
                 if(securityConfigResponse.authorizationEnabled){
-                    await refreshToken(loadLoginInformation());
+                    refreshToken(loadLoginInformation());
                 }
             })();
         }, [refreshToken]);
