@@ -1,10 +1,15 @@
 # Sakuli dashboard change log
 
-## v2.1.0 (next)
+## v2.2.0 (next)
+### General
+- [Open Source](https://github.com/sakuli/sakuli-dashboard/issues/90)
+
+### Features
+- [Add Authentication](https://github.com/sakuli/sakuli-dashboard/issues/88)
+
+## v2.1.0
 ### General
 - [add CHANGELOG.md to repo](https://github.com/sakuli/sakuli-dashboard/issues/74)
-- [Add Authentication](https://github.com/sakuli/sakuli-dashboard/issues/88)
-- [Open Source](https://github.com/sakuli/sakuli-dashboard/issues/90)
 
 ### Features
 - [Make default layout configurable](https://github.com/sakuli/sakuli-dashboard/issues/79)
