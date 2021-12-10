@@ -32,6 +32,5 @@ _Interface implementation_ can be found in `server/src/config`.
 | CLUSTER_CONFIG        | configures the cluster access (cluster address, access token, etc.)               | `k8s-cluster.config.ts`       |
 | CRONJOB_CONFIG        | configures a cronjob to start a specific action                                   | `cronjob.config.ts`           |
 | AUTHENTICATION_CONFIG | configures the authentication of the dashboard                                    | `authenticationConfig.ts`     |
-| SAKULI_LICENSE_KEY    | XL-License to start the dashboard container                                       |                               |
 
 To use an available action in a display configuration, the corresponding `actionIdentifier` defined in `ACTION_CONFIG` must be used.
