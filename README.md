@@ -21,7 +21,6 @@ A k8s API is necessary in order to perform e2e-tests.
 Versioning is based on [SemVer](https://semver.org/) with the addition that config changes are also released and tagged
 as a patch release.
 
-(#dashboard-configuration)
 ## Dashboard configuration
 _Interface implementation_ can be found in `server/src/config`. 
 
@@ -32,6 +31,5 @@ _Interface implementation_ can be found in `server/src/config`.
 | CLUSTER_CONFIG        | configures the cluster access (cluster address, access token, etc.)               | `k8s-cluster.config.ts`       |
 | CRONJOB_CONFIG        | configures a cronjob to start a specific action                                   | `cronjob.config.ts`           |
 | AUTHENTICATION_CONFIG | configures the authentication of the dashboard                                    | `authenticationConfig.ts`     |
-| SAKULI_LICENSE_KEY    | XL-License to start the dashboard container                                       |                               |
 
 To use an available action in a display configuration, the corresponding `actionIdentifier` defined in `ACTION_CONFIG` must be used.
