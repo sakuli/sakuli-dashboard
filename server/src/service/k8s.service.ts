@@ -56,7 +56,7 @@ export async function getPodStatus(pod: V1Pod) {
         logger().debug(`Get pod status of ${podName} in namespace ${clusterConfig.namespace}`);
         const { body } = await k8sApi.readNamespacedPodStatus(podName, clusterConfig.namespace);
         return body
-    } catch (error) {
+    } catch (error: any) {
         if(error.response?.statusCode === 404){ // pod not found on cluster
             logger().debug(`Pod ${podName} does not exist on cluster.`)
             return undefined;
