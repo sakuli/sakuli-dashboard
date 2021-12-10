@@ -3,7 +3,6 @@
   "version": "2.1.0",
   "description": "A small and simple dashboard application to show sakuli VNC-views and monitoring metrics.",
   "main": "dist/index.js",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/sakuli/sakuli-dashboard.git"
