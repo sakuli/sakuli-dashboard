@@ -1,4 +1,4 @@
-FROM node:14-buster-slim AS builder
+FROM node:16-buster-slim AS builder
 WORKDIR /build/
 COPY ./api /build/api
 COPY ./client /build/client
@@ -10,7 +10,7 @@ RUN npm install --unsafe-perm
 RUN npm run build --unsafe-perm
 RUN npm prune --production
 
-FROM node:14-buster-slim
+FROM node:16-buster-slim
 WORKDIR /prod/
 EXPOSE 8080
 RUN apt-get update && \
