@@ -1,6 +1,6 @@
 # Sakuli dashboard change log
 
-## v2.2.0 (next)
+## v2.2.0
 ### General
 - [Open Source](https://github.com/sakuli/sakuli-dashboard/issues/90)
 
